@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-    <meta property="og:title" content="Reverse Engineering Fake Phishing SiCepat App " />
+    <meta property="og:title" content="How a Small Security Flaw Can Lead to Massive Data Leaks" />
     <meta property="og:description" content="Everything Online Is Vulnerable. This is how Attackers Exploit SQLi to Expose Your Personal Information " />
     <meta property="og:url" content="https://w333zard.my.id" />
     <meta
@@ -14,7 +14,7 @@
       content="https://i.pinimg.com/736x/c9/c3/47/c9c347f07d38aa9c2ad85e73db0a4719.jpg"
     />
 
-    <title>Reverse Engineering Fake Phishing SiCepat App </title>
+    <title>How a Small Security Flaw Can Lead to Massive Data Leaks</title>
     <script src="assets/js/vendors/color-modes.js"></script>
     <!-- Favicon icon-->
     <link rel="shortcut icon" type="image/x-icon" href="assets/imgs/template/favicon.svg">
@@ -37,6 +37,15 @@
 
 <body>
     <!-- prettier-ignore -->
+    <!--Preloader-->
+    <div id="preloader">
+        <div class="loader-cover">
+            <div class="loader-container">
+                <div class="loader-icon"></div>
+            </div>
+        </div>
+    </div>
+    <!--Preloader-end -->
 
     <!-- Navbar -->
     <header>
@@ -208,10 +217,10 @@
                 <div class="row">
                     <div class="col-lg-10 mx-lg-auto mb-8">
                         <div class="text-center">
-                            <a href="#" class="btn btn-gradient d-inline-block text-uppercase"> Reverse Engineering </a>
-                            <h3 class="ds-3 mt-3 mb-3 text-dark">Reverse Engineering Fake Phishing SiCepat App </h3>
+                            <a href="#" class="btn btn-gradient d-inline-block text-uppercase"> Offensive Security </a>
+                            <h3 class="ds-3 mt-3 mb-3 text-dark">How a Small Security Flaw Can Lead to Massive Data Leaks</h3>
                             <p class="text-300 fs-5 mb-0">
-                                A brief security awareness & story about why you shouldn't trust stranger. 
+                                Everything Online Is Vulnerable. This is how Attackers Exploit SQLi to Expose Your Personal Information 
                             </p>
                         </div>
                     </div>
@@ -220,116 +229,21 @@
                             <div class="col-lg-9">
                                 <h5>Introduction</h5>
                                 <p style="text-align: justify;" >Dalam era di mana informasi sensitif yang kita punya seringkali dihadapkan pada risiko kebocoran data, pengetahuan tentang security awareness menjadi penting. Belakangan ini, aplikasi penipuan online semakin umum terjadi. Pada kesempatan kali ini, saya ingin membagikan hasil analisis reverse engineering terhadap aplikasi paket kurir SiCepat palsu. Dengan memahami cara kerja aplikasi palsu, kita dapat meningkatkan kesadaran akan pentingnya memvalidasi sumber aplikasi sebelum menginstalnya. </p>
+                                <p style="text-align: justify;"></p>
                                 <p style="text-align: justify;">
                                     Kejadian ini terjadi pada awal tahun 2023 yang memanfaatkan modus penipuan baru berkedok file ekstensi gambar palsu yang dikirim pelaku ke korban. Pelaku mengakui dirinya sebagai kurir paket, dan ingin konfirmasi kepada korban bahwa paket pesanannya telah sampai dengan mengirimkan foto berekstensi .apk melalui WhatsApp.</p>
-                                <div class="d-flex align-items-center my-4">
+                                <div class="d-flex align-items-center my-6">
                                     <img class="" src="assets/imgs/blog/blog-1/img1.png" alt="" />
                                 </div>
-                                <p>File didapat langsung dari korban yang mengalami kejadian ini. Singkatnya, korban diminta untuk memeriksa keberadaan lokasi paket pesanan melalui apk yang dikirim pelaku. Namun, dalam hal ini korban mengaku tidak memesan paket pada waktu itu. Selain itu, korban juga tidak mengenal nomor yang mengirimkan pesan tersebut.</p>
-                                <h5>Informasi Aplikasi</h5>
-                                <p style="text-align: justify;">Sebenarnya aplikasi SiCepat yang asli tersedia di PlayStore yang dikembangkan oleh PT. SiCepat Ekspress Indonesia. Namun pada kasus ini pelaku membuat aplikasi web view yang serupa dengan tampilan official website SiCepat. Lanjut, hal pertama yang saya lakukan adalah mengunduh file tersebut dan mencari informasi dasar dari file tersebut. Berikut adalah informasi yang didapat.</p>
-
-                                <div class="d-flex align-items-center my-4">
-                                    <img class="" src="assets/imgs/blog/blog-1/img2.png" alt="" />
-                                </div>
-
-                                <p style="text-align: justify;">
-                                    Hal yg saya lakukan ini adalah untuk memverifikasi integritas dan membandingkan apakah file yang dimiliki sama dengan file yang asli. Jika terdapat perbedaan nilai hash, artinya salah satu dari file tersebut mengalami modifikasi. Modifikasi dalam hal ini bisa jadi salah satu dari file tersebut palsu, dan berpotensi menyebabkan serangan keamanan.
-                                </p>
-
-                                <h5>Basic dari file Ekstensi APK</h5>
-                                <p style="text-align: justify;">File APK (Android Package Kit) adalah file arsip yang berisi semua source code yang diperlukan untuk menjalankan aplikasi Android. Setiap APK memiliki berkas yang disebut AndroidManifest.xml. Berkas ini berisi informasi penting tentang aplikasi, seperti nama paket, versi, permissions, ataupun aktivitas-aktivitas yang dimiliki aplikasi. </p>
-                                <p style="text-align: justify;">File APK sebenarnya dibuat menggunakan format arsip ZIP, yang berarti Anda dapat membuka dan mengekstraknya seperti arsip ZIP biasa. Walaupun kita bisa mengekstraknya, tetapi hasil unzip tersebut tidak akan berbentuk human-readable code karena seluruh file tersebut sudah dicompile dan dipaketkan menjadi 1 file APK. Dari situ, kita bisa memainkan proses yang biasa disebut dengan Dekompilasi.</p>
-
-                                <h5>Melakukan Dekompilasi</h5>
-                                <p style="text-align: justify;">Dekompilasi merupakan proses mengembalikan file APK kembali menjadi source code semula, sebelum file tersebut dicompile dan disatukan menjadi 1 file APK. Singkatnya jika proses compile berjalan maju, maka proses dekompilasi ini berjalan mundur. Setelah melakukan decompile, saya mendapat 8 folder dan 1 file AndroidManifest.xml seperti pada gambar di bawah.</p>
-
-                                <div class="d-flex align-items-center my-4">
-                                    <img class="" src="assets/imgs/blog/blog-1/img3.png" alt="" />
-                                </div>
-
-                                <p style="text-align: justify;">Berdasarkan gambar di atas, kita bisa lihat dengan jelas file MainActivity.java dan AndroidManifest. Kelas MainActivity biasanya merupakan aktivitas pertama yang dijalankan aplikasi ketika pengguna membuka aplikasi, seperti halnya main class pada sebuah program. Dengan membaca kedua kelas tersebut, kita bisa mengetahui gambaran umum dari aplikasi ini tanpa membaca keseluruhan kelas satu per satu.</p>
-
-                                <h5>Static Analysis</h5>
-                                <p style="text-align: justify;">Static analysis digunakan untuk menganalisis program tanpa harus menjalankan program tersebut. Salah satu proses yang terlibat adalah seperti yang sudah saya lakukan pada bagian sebelumnya, yaitu dekompilasi. Tujuannya adalah untuk memahami, menganalisis, dan mendeteksi kerentanan pada program, sebelum akhirnya dilakukan proses yang dinamakan Dynamic Analysis. Pertama, saya akan bongkar dan menganalisis AndroidManifest nya terlebih dahulu </p>
-
-                                <div class="d-flex align-items-center my-4">
-                                    <img class="" src="assets/imgs/blog/blog-1/img4.png" alt="" />
-                                </div>
-
-                                <p style="text-align: justify;">Berdasarkan Android Manifest, Aplikasi SiCepat palsu ini meminta user untuk mengizinkan akses ke 4 hal seperti pada gambar di atas. Dari sini kita perlu curiga karena untuk apa aplikasi kurir membutuhkan akses ke SMS, sedangkan aplikasi SiCepat versi aslinya saja tidak membutuhkan akses ke perizinan tersebut. </p>
-
-                                <div class="d-flex align-items-center my-4">
-                                    <img style="height: 500px;" src="assets/imgs/blog/blog-1/img5.jpeg" alt="" />
-                                </div>
-                                <p style="text-align: justify;">Selain itu, dalam AndroidManifest juga tertulis receiver android untuk menangani peristiwa yang terjadi baik saat aplikasi sedang berjalan maupun tidak. Receiver ini terdapat pada kelas ReceiveSMS dan SendSMS. Oleh karena itu, kita perlu mengecek kedua kelas tersebut.</p>
-
-                                <div class="d-flex align-items-center my-4">
-                                    <img class="" src="assets/imgs/blog/blog-1/img6.png" alt="" />
-                                </div>
-
-                                <p style="text-align: justify;">Intinya program ini melakukan pencurian data SMS ketika korban menginstall aplikasi tersebut. SMS akan dikirimkan melalui API Bot Telegram yang diduga milik pelaku. Baris ke 36 dan 38 merupakan titik awal terjadinya pencurian data karena akan melakukan permintaan koneksi ke URL yang sudah didefinisikan. Hal yang sama juga terjadi pada kelas SendSMS. Namun ketika saya coba mengakses url API Bot telegram itu, saya mendapatkan kode 401: Unauthorized. </p>
-                                <div class="d-flex align-items-center my-4">
-                                    <img class="" src="assets/imgs/blog/blog-1/img5.png" alt="" />
-                                </div>
-
-                                <div class="d-flex align-items-center my-4">
-                                    <img class="" src="assets/imgs/blog/blog-1/img7.png" alt="" />
-                                </div>
-                                <p style="text-align: justify;">Asumsi saya adalah pelaku lupa mengatur botnya secara publik agar bisa diakses pengguna lain (korban) sehingga pesan SMS yang didapatkan bisa dikirim ke alamat API tersebut (namun ternyata tidak). Atau mungkin juga berkaitan dengan token API yang sudah expired, mengingat kejadian ini sudah lama terjadi dan baru saya analisis sejak postingan ini ditulis.</p>
-                                
-
-                                <h5>Dynamic Analysis</h5>
-                                <p style="text-align: justify;">Setelah puas dengan informasi dan logika program yang didapat dari hasil Static Analysis, selanjutnya saya melakukan Dynamic Analysis. Berbeda dengan static analysis, jenis proses ini melibatkan eksekusi program saat melakukan analisis. Saya menginstall aplikasi SiCepat palsu ini pada Android Emulator dengan bantuan Genymotion. Perangkat yang digunakan pada emulator adalah Google Pixel dengan Android versi 11. Setelah selesai set up perangkat emulator, selanjutnya adalah menginstall aplikasi ke emulator.</p>
-                                <div class="d-flex align-items-center my-4">
-                                    <img class="" src="assets/imgs/blog/blog-1/img8.png" alt="" />
-                                </div>
-
-                                <p style="text-align: justify;">Saya dapat peringatan ketika hendak menginstall aplikasi tersebut. Namun saya tidak peduli dengan peringatan ini, karena device yg digunakan hanyalah emulator. Ketika selesai diinstall, aplikasi SiCepat palsu ini tidak visible pada App Drawer atau list aplikasi pada home screen, hmm menarik.. </p>
-                                <p style="text-align: justify;">Namun ketika dicek pada App List Settings, aplikasi ini terdaftar disana. Berikut adalah tampilan aplikasi ketika dibuka. Tampilan ini sama persis dengan web official SiCepat, tetapi dalam versi mobile web view. Pelaku melakukan ini untuk meyakinkan korban bahwa aplikasi ini asli </p>
-                                <div class="d-flex align-items-center my-4">
-                                    <img class="" src="assets/imgs/blog/blog-1/img9.png" alt="" />
-                                </div>
-
-                                <p style="text-align: justify;">Untuk memastikan bahwa aplikasi ini benar-benar mencuri data SMS, saya mengizinkan akses SMS pada aplikasi palsu ini. Lalu saya mulai dynamic analysis dengan mengkonfigurasi Genymotion agar bisa terhubung ke proxy BurpSuite. Tujuannya adalah untuk melakukan intercepting request terhadap traffic yang keluar-masuk device emulator. </p>
-                                <div class="d-flex align-items-center my-4">
-                                    <img class="" src="assets/imgs/blog/blog-1/img10.png" alt="" />
-                                </div>
-
-                                <p style="text-align: justify;">Karena permission SMS sudah diizinkan, langsung saja saya coba untuk menerima SMS dummy pada emulator. Untungnya Genymotion menyediakan fitur semacam ini. </p>
-                                <div class="d-flex align-items-center my-4">
-                                    <img class="" src="assets/imgs/blog/blog-1/img11.png" alt="" />
-                                </div>
-
-                                <p style="text-align: justify;">Dan ternyata benar. Aplikasi ini benar-benar mencuri data SMS. Ketika emulator menerima pesan SMS dari +994459204720, BurpSuite langsung menerima GET request pada API bot telegram tepat pada waktu yang sama ketika emulator menerima SMS. Header request dan response ketika emulator menerima SMS adalah sebagai berikut.</p>
-                                <div class="d-flex align-items-center my-4">
-                                    <img class="" src="assets/imgs/blog/blog-1/img12.png" alt="" />
-                                </div>
-
-                                <p style="text-align: justify;">Setiap SMS yang masuk akan langsung dikirim ke API Telegram, sedangkan data yang dikirimkan ke API adalah pesan SMS dan nomor pengirim SMS. Pada static analysis sempat disinggung bahwa response code API yang diterima adalah 401, hal ini sama persis ketika dilakukan dynamic analysis. Walupun saya menutup aplikasi SiCepat palsu, tetap saja jika ada SMS yang masuk ke device akan dikirimkan ke API tersebut. </p>
-
-
-                                <!-- CONCLUSION -->
+                                <h5 class="fs-5 fw-medium">Data Protection</h5>
+                                <p class="text-300">Implement strong security measures to protect user data. Use encryption, secure authentication methods, and regular security audits to safeguard sensitive information.</p>
+                                <h5 class="fs-5 fw-medium">Transparent Policies</h5>
+                                <p class="text-300">Be transparent about your data collection and usage policies. Provide users with clear information about how their data is used and give them control over their privacy settings.</p>
+                                <h5 class="fs-5 fw-medium">Regular Updates</h5>
+                                <p class="text-300">Keep your app updated with the latest security patches and improvements. Regular updates not only enhance security but also show users that you are actively maintaining and improving the app.</p>
                                 <div class="border-linear-3 rounded-4 p-lg-6 p-md-4 p-3 mt-6">
                                     <h4>Conclusion</h4>
-                                    <p class="text-300 mt-4">Setelah saya cek HTTP History di BurpSuite, tidak ada traffic lain yang mencurigakan selain GET request ke API Bot Telegram. Hasil dari static analysis juga menunjukkan hanya ada request ke API Telegram saja jika dilihat pada source code yang ada. Saya telah melakukan hal ini beberapa kali dan memang hanya traffic itu satu-satunya jalan untuk mengirimkan SMS dari korban ke pelaku.</p>
-                                
-                                    <H6>Lalu bagaimana pelaku bisa mendapat pesan SMS dari korban jika response yang didapat saja 401: Unauthorized?</H6>
-                                    <p class="text-300 mt-4">Karena peristiwa ini terjadi pada awal tahun 2023, sedangkan saya baru analisis sejak tulisan ini di posting, jadi bisa saja sejak awal ketika kejadian ini terjadi, token API Telegram milik pelaku masih worked dan belum expired. Jika benar seperti itu, kemungkinan besar pelaku bisa mendapatkan tiap SMS yang masuk pada device korban.</p>
-
-                                    <h6>Apa yang terjadi jika pelaku mendapat tiap SMS yang masuk pada device korban?</h6>
-                                    <p class="text-300 mt-4">Pelaku bisa saja login ke tiap akun e-commerce, sosial media, game, atau aplikasi lainnya. Jika ia tahu username dari akun yang Anda miliki, pelaku hanya perlu melakukan Forgot Password, dan kode OTP akan dikirim ke device korban. Karena device sudah dibajak, maka pelaku bisa dapat kode OTP tersebut, lalu akan mengganti password akun Anda dan berhasil membajak akun Anda.</p>
-                                    <p class="text-300 mt-4">Dalam situasi terburuk, seperti yang beredar pada berita, korban memang bisa berpotensi kehilangan jutaan uang karena kasus ini. Misalnya jika pelaku ingin mendapat akun rekening dari korban, pelaku tinggal login ke akun media sosial yang dimiliki korban dan mengumpulkan informasi yang terhubung pada sosial media tersebut. Contohnya Account payment, billing information, atau sejenisnya yang biasanya berisi nomor kartu.</p>
-                                    <p class="text-300 mt-4">Jika sudah dapat nomor kartu, pelaku bisa masuk ke akun m-banking korban dan langsung memilih opsi lupa password. Karena nomor kartu sudah didapat, pelaku hanya perlu menunggu kode OTP yang masuk pada device korban. Lalu pelaku akan dapat OTP tersebut karena device sudah terinfeksi, dan akhirnya akun m-banking korban telah diretas. Kurang lebih begitu gambaran umum tentang cara korban memanfaatkan SMS untuk melakukan account takeover.</p>
-
-                                    <h6>Jika sudah terinstall tetapi perizinan aplikasi di turn off, apakah tetap berbahaya?</h6>
-                                    <p class="text-300 mt-4">Berdasarkan analisis dinamis yang saya lakukan, jika perizinan dimatikan maka tidak ada permintaan koneksi untuk mengirimkan SMS ke pelaku. Jadi, pelaku tidak akan bisa mencuri data korban jika aplikasi palsu ini tidak diberi izin untuk mengakses SMS. Meskipun demikian tetap saja kita perlu aware terhadap keamanan data pribadi dengan tidak menginstall aplikasi seperti ini.</p>
-
-                                    <h6>Apakah pelaku hanya bisa mencuri SMS yang diterima korban dari nomor lain? atau bisa juga sebaliknya menerima SMS yang dikirim korban ke nomor lain?</h6>
-                                    <p class="text-300 mt-4">Pelaku bisa mencuri SMS yang diterima korban dari nomor lain, hal ini sudah terbukti dengan step by step yang sudah dijelaskan pada postingan ini. Namun tidak menutup kemungkinan kalau pelaku juga bisa bertindak sebaliknya, yaitu menerima SMS yang dikirim korban ke nomor lain. </p>
-                                    <p class="text-300 mt-4">
-                                        Sayangnya, emulator yang saya gunakan tidak bisa mengirim SMS ke nomor lain. Meskipun begitu, hasil dekompilasi pada static analysis menemukan kelas SendSMS yang isi dan cara kerjanya hampir mirip dengan kelas ReceiveSMS.</p>
-
+                                    <p class="text-300 mt-4">Creating a seamless mobile experience requires a user-centric approach, performance optimization, responsive design, user engagement strategies, and robust security measures. By focusing on these key areas, you can build a mobile app that not only meets user expectations but also stands out in the competitive app market. Remember, a great mobile experience can turn users into loyal advocates, driving the success of your app.</p>
                                 </div>
                             </div>
                             <div class="col-lg-3 col-md-6 col-8">
@@ -340,7 +254,7 @@
                                     </div>
                                     <div class="d-flex align-items-center mb-3">
                                         <i class="ri-calendar-schedule-line fs-6"></i>
-                                        <span class="ms-2 fs-6">June 26, 2023</span>
+                                        <span class="ms-2 fs-6">Nov 21, 2024</span>
                                     </div>
                                     <div class="d-flex align-items-center mb-3">
                                         <i class="ri-user-line fs-6"></i>
@@ -374,7 +288,7 @@
             </div>
         </section>
         <!-- blog list -->
-        <!-- <section class="section-blog-list">
+        <section class="section-blog-list">
             <div class="container border-top pt-80 pb-80">
                 <div class="row">
                     <div class="d-md-flex align-items-center">
@@ -445,7 +359,7 @@
                     </div>
                 </div>
             </div>
-        </section> -->
+        </section>
 
     </main>
     <!-- prettier-ignore -->
