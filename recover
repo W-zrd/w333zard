@@ -1,0 +1,511 @@
+<!doctype html>
+<html lang="en" data-bs-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <meta property="og:title" content="How a Small Security Flaw Can Lead to Massive Data Breach" />
+    <meta property="og:description" content="Everything Online Is Vulnerable. This is how Attackers Exploit SQLi to Expose Your Personal Information " />
+    <meta property="og:url" content="https://w333zard.my.id" />
+    <meta
+      property="og:image"
+      content="https://i.pinimg.com/736x/c9/c3/47/c9c347f07d38aa9c2ad85e73db0a4719.jpg"
+    />
+
+    <title>How a Small Security Flaw Can Lead to Massive Data Breach</title>
+    <script src="assets/js/vendors/color-modes.js"></script>
+    <!-- Favicon icon-->
+    <link rel="shortcut icon" type="image/x-icon" href="assets/imgs/template/favicon.svg">
+    <!-- Libs CSS -->
+    <link rel="stylesheet" href="assets/css/vendors/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/vendors/swiper-bundle.min.css">
+    <link rel="stylesheet" href="assets/css/vendors/aos.css">
+    <link rel="stylesheet" href="assets/css/vendors/odometer.css">
+    <link rel="stylesheet" href="assets/css/vendors/carouselTicker.css">
+    <link rel="stylesheet" href="assets/css/vendors/magnific-popup.css">
+    <link rel="stylesheet" href="assets/fonts/remixicon/remixicon.css">
+    <link rel="stylesheet" href="assets/fonts/satoshi/satoshi.css">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Playfair+Display:wght@400..900&family=Urbanist:wght@100..900&display=swap" rel="stylesheet">
+   
+    <!-- In your HTML head -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <!-- Initialize -->
+    <script>
+        hljs.highlightAll();
+    </script>
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/Wzrd.css">
+
+
+</head>
+
+<body>
+    <!-- prettier-ignore -->
+
+    <!-- Navbar -->
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light w-100 flex-nowrap z-999 p-0">
+            <a href="#" class="navbar-menu p-4 text-center square-100 menu-tigger icon_80 icon-shape d-none d-md-flex" data-bs-target=".offCanvas__info" aria-controls="offCanvas__info">
+                <i class="ri-menu-2-line"></i>
+            </a>
+            <div class="container py-3 px-0">
+                <a class="navbar-brand d-flex main-logo align-items-center ms-lg-0 ms-md-5 ms-3" href="index.html">
+                    <img src="assets/imgs/template/favicon.svg" alt="zelio" />
+                    <span class="fs-4 ms-2">w333zard</span>
+                </a>
+                <div class="d-none d-lg-flex">
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="index.html">Home</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="index.html#skills">Skills</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="index.html#portfolio">Portfolio</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="index.html#blog">Blog</a>
+                            </li>
+                            
+                            <li class="nav-item">
+                                <a class="nav-link" href="index.html#projects">Projects</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="index.html#contact">Contact</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="navbar-social d-flex align-items-center pe-5 pe-lg-0 me-5 me-lg-0">
+                    <div class="d-md-flex d-none gap-3">
+                        <a href="https://www.instagram.com/rfdhaikal.wizz/">
+                            <i class="ri-instagram-fill"></i>
+                        </a>
+                        <a href="https://medium.com/@w333zard">
+                            <i class="ri-medium-fill"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/rfdhaikal/">
+                            <i class="ri-linkedin-fill"></i>
+                        </a>
+                        <a href="https://github.com/W-zrd">
+                            <i class="ri-github-fill"></i>
+                        </a>
+                    </div>
+                    <div class="burger-icon burger-icon-white border rounded-3">
+                        <span class="burger-icon-top"></span>
+                        <span class="burger-icon-mid"></span>
+                        <span class="burger-icon-bottom"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="dark-light-switcher pe-10 pe-lg-0 pe-0 ps-md-5 ps-0 ps-lg-4 pe-lg-4 d-flex justify-content-center align-items-center icon_80 @@classList">
+                <i class="ri-sun-fill text-warning"></i>
+                <i class="ri-contrast-2-line text-white"></i>
+            </div>
+
+        </nav>
+        <!-- offCanvas-menu -->
+        <div class="offCanvas__info">
+            <div class="offCanvas__close-icon menu-close">
+                <button><i class="ri-close-line"></i></button>
+            </div>
+            <div class="offCanvas__logo mb-5">
+                <h3 class="mb-0">Get in touch</h3>
+            </div>
+            <div class="offCanvas__side-info mb-30">
+                <div class="contact-list mb-30">
+                    <p class="fs-6 fw-medium text-200 mb-5">I'm always excited to take on new projects and collaborate with innovative minds.</p>
+                    <div class="mb-3">
+                        <span class="text-400 fs-5">LinkedIn</span>
+                        <p class="mb-0">https://www.linkedin.com/in/rfdhaikal/</p>
+                    </div>
+                    <div class="mb-3">
+                        <span class="text-400 fs-5">Email</span>
+                        <p class="mb-0">rfdhaikal.wizz@proton.me</p>
+                    </div>
+                    <div class="mb-3">
+                        <span class="text-400 fs-5">GitHub</span>
+                        <p class="mb-0">https://github.com/W-zrd</p>
+                    </div>
+                </div>
+
+                <div class="contact-list">
+                    <p class="text-400 fs-5 mb-2">Social</p>
+                    <div class="d-md-flex d-none gap-3">
+                        <a href="https://www.instagram.com/rfdhaikal.wizz/">
+                            <i class="ri-instagram-fill fs-18"></i>
+                        </a>
+                        <a href="https://medium.com/@w333zard">
+                            <i class="ri-medium-fill fs-18"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/rfdhaikal/">
+                            <i class="ri-linkedin-fill fs-18"></i>
+                        </a>
+                        <a href="https://github.com/W-zrd">
+                            <i class="ri-github-fill fs-18"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="offCanvas__overly"></div>
+        <div class="mobile-header-active mobile-header-wrapper-style perfect-scrollbar button-bg-2">
+            <div class="mobile-header-wrapper-inner">
+                <div class="mobile-header-logo">
+                    <a class="d-flex main-logo align-items-center d-inline-flex" href="index.html">
+                        <img src="assets/imgs/footer-1/logo.svg" alt="zelio" />
+                        <span class="fs-4 ms-2 text-dark">w333zard</span>
+                    </a>
+                    <div class="burger-icon burger-icon-white border rounded-3">
+                        <span class="burger-icon-top"></span>
+                        <span class="burger-icon-mid"></span>
+                        <span class="burger-icon-bottom"></span>
+                    </div>
+                </div>
+                <div class="mobile-header-content-area">
+                    <div class="perfect-scroll">
+                        <div class="mobile-menu-wrap mobile-header-border">
+                            <nav>
+                                <ul class="mobile-menu font-heading ps-0">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" href="index.html">Home</a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="index.html#skills">Skills</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="index.html#portfolio">Portfolio</a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="index.html#blog">Blog</a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="index.html#projects">Projects</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="index.html#contact">Contact</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </header>
+
+    <main>
+        <!-- prettier-ignore -->
+        <!-- blog details -->
+        <section class="section-details pt-60 pb-100">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-10 mx-lg-auto mb-8">
+                        <div class="text-center">
+                            <a href="#" class="btn btn-gradient d-inline-block text-uppercase"> Web Exploitation </a>
+                            <h3 class="ds-3 mt-3 mb-3 text-dark">How a Small Security Flaw Can Lead to Massive Data Breach</h3>
+                            <p class="text-300 fs-5 mb-0">
+                                Everything Online Is Vulnerable. This is how Attackers Exploit SQLi to Expose Your Personal Information 
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-lg-10 mx-lg-auto mt-8">
+                        <div class="row">
+                            <div class="col-lg-9">
+                                <h4>Introduction</h4>
+                                <p style="text-align: justify;" >Every time you create an account online, make a purchase, or sign up for a service, you're trusting companies with pieces of your personal information. Your name, address, phone number, and sometimes even more sensitive details like financial information become part of their digital records. They don't know that nothing is secure when they enter the internet, even the safest system could break.</p>
+                                <p style="text-align: justify;">
+                                    In my recent bug hunting activity, I discovered several critical vulnerabilities that could exposed thousands of students' personal data in X University. What's concerning about this vulnerability is that it wasn't hidden in some obscure corner of the system. It was sitting in plain sight, in a place where users regularly interact with the website. Through an SQL injection technique, any attacker with basic knowledge could have potentially accessed the university's entire database.
+                                </p>
+                                <p style="text-align: justify; font-size: 17px;"><strong>Anyway</strong> if u tired reading the whole article and its concept, u can skip to <u style="color: blueviolet;"><strong><a href="#poc" style="color: blueviolet;">Proof of Concept</a></strong></u> to see me in action, But if u want to directly <strong>see some Facts</strong>, just jump to the <u style="color: blueviolet;"><strong><a href="#findings" style="color: blueviolet;">Findings</a></strong></u> section!</p>
+
+                                <h4>How does the Database works?</h4>
+                                <p style="text-align: justify;">Before we dive into what I discovered, let's understand how websites handle user inputs when they interact with the system. Every time you fill out a form online like username and password, the website takes these inputs and prepares it to be sent to its database, which is stored on secure servers.</p>
+                                <div class="d-flex align-items-center my-4">
+                                    <img class="" src="assets/imgs/blog/blog-2/input-flow.png" alt="" />
+                                </div>
+                                <p style="text-align: justify;">Every website you use relies on databases to store information. These databases are organized into tables, similar to spreadsheets. One table might contain user information with columns for usernames, passwords, email, and other personal details. Another table might store your activity history, preferences, or other data specific to the service. For example, when you log in, the query might look something like this :</p>
+                                <pre><code>SELECT * FROM logins WHERE username='admin' AND password = 'p@ssw0rd'</code></pre>
+
+                                <p style="text-align: justify;">The database then processes this request, searches through its records, and sends back an answer. If it finds a match, you're logged in. If not, you get an error message saying your login details are incorrect.</p>
+                                <h4>SQL Injection Attack Flow</h4>
+                                <p style="text-align: justify;">Now here's where things can go wrong. Many websites trust that users will only type normal usernames and passwords into forms. But what if someone types in special characters and commands that are part of the SQL language itself? This is where SQL Injection becomes possible. It's like if you were filling out a login form, and instead of just writing your account credential, you could somehow add extra instructions that trick the system into showing you everyone else's account information too.</p>
+                                <div class="d-flex align-items-center my-4">
+                                    <img class="" src="assets/imgs/blog/blog-2/sanitazion.png" alt="" />
+                                </div>
+                                
+                                <p style="text-align: justify;">The image illustrates two scenarios of how a web application handles a search query containing malicious input. In the properly sanitized version, the search system treats the input as literal text to search for. When the query reaches the database, all the special characters and SQL syntax are escaped and treated as regular text that should be matched against the database entries.</p>
+                                <p style="text-align: justify;">As a result, the system looks for records containing the exact phrase <code>' OR '1'='1</code>, and naturally finds no matches since this isn't a normal piece of text that would exist in legitimate records. This is the correct and secure behavior. The system is treating user input as data, not as code. However, the bottom scenario reveals a dangerous vulnerability where the input isn't properly sanitized.</p>
+                                
+                                <p style="text-align: justify;">When the same search term <code>' OR '1'='1</code> is processed by this vulnerable system, something different happens. The DB interprets this input as part of the SQL query's logic rather than as search text. The quotation marks in the input break out of the intended query structure, and the <code>OR '1'='1'</code> portion adds a new condition that is always <code>TRUE</code>. The impact of this vulnerability is instead of finding no results, the search returns multiple "Search Result" entries.</p>
+                                <div class="d-flex align-items-center my-4">
+                                    <img class="" src="assets/imgs/blog/blog-2/failed-sanitazion.png" alt="" />
+                                </div>
+
+                                <p style="text-align: justify;">This happens because the condition <code>'1'='1'</code> is always <code>TRUE</code> in SQL logic, telling the database to return all records regardless of what they contain, and since the second part is always <code>TRUE</code>, you get everything. What makes this more dangerous is that an attacker who discovers this behavior can modify their injection payload to do much more than just return all search results. This means they could steal usernames, passwords, email addresses, and any other sensitive information stored there. Even worse, since <strong>many people reuse passwords</strong> across different websites, a breach at one site could lead to compromised accounts on other platforms.</p>
+                                <p style="text-align: justify;">The vulnerability I discovered was exactly this type of security flaw. The website wasn't properly checking and cleaning up what users typed into one of its forms before sending that information to the database. This meant that anyone who understood SQL Injection could potentially manipulate the website's database queries to expose sensitive user information. </p>
+                                
+                                <h4 id="poc">Proof of Concept</h4>
+                                <p style="text-align: justify;">Before diving into the technical details of this discovery, I want to emphasize that what you're about to read describes a security vulnerability that has been fully patched, so you can't exploit the same way i tried in this blog. Okay, the first step was understanding what I was dealing with. Every website has different technology stack. I discovered that the X university's web  was running on Oracle database.</p>
+                                <p style="text-align: justify;">Next, I started with the search functionality. My testing progression went like this: First, I entered a normal search:</p>
+                                <pre><code class="language-sql">search_term: mahasiswa</code></pre>
+
+                                <p style="text-align: justify;">This returned expected results about student resources. Then, I tried a simple test payload:</p>
+                                <pre><code>search_term: ' OR '1'='1</code></pre>
+
+                                <div class="d-flex align-items-center my-4">
+                                    <img class="" src="assets/imgs/blog/blog-2/poc1.png" alt="" />
+                                </div>
+                                <p style="text-align: justify;">Something unexpected happened. Instead of seeing a few relevant results , it returned more results from A to Z. To confirm this wasn't a false positive, I tried another test:</p>
+                                <pre><code>search_term: ' AND '1'='2</code></pre>
+
+                                <p style="text-align: justify;">This time, I got zero results because <code>'1'='2'</code> is always <code>FALSE</code>. The different responses to these inputs confirmed that the application was directly embedding my search terms into its SQL queries without proper sanitization. After confirming the vulnerability through manual testing, I moved to an automation tool using SQLMap. I began by capturing search request from the university's website using BurpSuite Interceptor. This request was saved to a file named <code>request.txt</code>.</p>
+                                <p style="text-align: justify;">Since I already knew the system used Oracle from our reconnaissance, I specified <code>--dbms=Oracle</code> to ensure our tests efficient. Next, the sqlmap command I used was crafted and ended up with this:</p>
+                                <pre><code class="language-js">sqlmap -r request.txt --batch -p sSearch --random-agent --dbms=Oracle --technique U --level 5 --dbs</code></pre>
+
+                                <div class="d-flex align-items-center my-4">
+                                    <img class="" src="assets/imgs/blog/blog-2/poc2.png" alt="" />
+                                </div>
+                                <p style="text-align: justify;">When I ran this command, the results were concerning. Sqlmap was able to mapping out the structure of the X university's database. I immediately halted the testing at this point. Finding the database schemas was enough to confirm the severity of the vulnerability without risking any damage to the systems.</p>
+                                <p style="text-align: justify;">The X university's security team later confirmed that the vulnerability has been completely patched. They implemented proper input validation, query parameterization, and additional security layers to prevent any such SQL injection attacks in the future. This is why I can now share these technical details.</p>
+
+                                <h4 id="findings">Findings</h4>
+                                <div class="d-flex align-items-center my-2">
+                                    <img class="" src="assets/imgs/blog/blog-2/findings1.png" alt="" />
+                                </div>
+                                <p style="text-align: justify;">Perhaps the most alarming discovery was that <strong> some DB tables stored passwords in PLAIN TEXT</strong> meaning they weren't even encrypted or hashed. When I verified these credentials on the website, they worked perfectly, confirming that these were actual, active passwords.</p>
+                                
+                                <div class="d-flex align-items-center my-2">
+                                    <img class="" src="assets/imgs/blog/blog-2/findings2.png" alt="" />
+                                </div>
+                                <p style="text-align: justify;">In modern security practices, passwords should always be stored using strong hashing algorithms, making them unreadable even if someone gains database access. The fact that I could see these passwords in clear text means that <strong>anyone who gained access to this database could potentially log into users' accounts</strong>.</p>
+
+                                <p style="text-align: justify;">The ability to spawn an SQL shell and execute <code>SELECT</code> queries is especially troubling. While I didn't attempt destructive queries (<code>INSERT</code>, <code>UPDATE</code>, <code>DELETE</code>) for ethical reasons, the possibility of threat actors to not only view sensitive data but potentially modify or destroy it poses a severe risk.</p>
+                                <div class="d-flex align-items-center my-2">
+                                    <img class="" src="assets/imgs/blog/blog-2/findings4.png" alt="" />
+                                </div>
+
+                                <p style="text-align: justify;"><strong>One of the most concerning discoveries</strong> was that some of these plaintext passwords worked on other web platforms (password reuse). When students use the same password across multiple services, a breach in one system can lead to compromised accounts everywhere.</p>
+                                <p style="text-align: justify;">The discovery of password reuse among students reveals a critical need for better security awareness. <strong>Your account password should be unique</strong> and never used for other services. Why? Because even if other platforms properly secure your password, using the same password across services means a breach anywhere becomes a breach everywhere.</p>
+                                <div class="d-flex align-items-center my-3">
+                                    <img class="" src="assets/imgs/blog/blog-2/findings5.png" alt="" />
+                                </div>
+
+                                <p style="text-align: justify;">As we conclude this journey, I want to leave you with some important reflections.  When I discovered this findings, <strong>I had access to sensitive information</strong> that could have affected real people's lives: ID cards that determine futures, financial data that impacts livelihoods, and personal information that could be exploited for malicious purposes. I want to be clear, <strong>I never used this access for personal gain or malicious purposes</strong>. They were used to fix problems and raise awareness about the importance of data privacy.</p>
+
+                                <!-- CONCLUSION -->
+                                <div class="border-linear-3 rounded-4 p-lg-6 p-md-4 p-3 mt-6">
+                                    <h4>Conclusion</h4>
+                                    <p style="text-align: justify;">While we often read about data breaches affecting large companies, this case demonstrates that privacy risks <strong> exist in places we trust the most</strong>, which is our educational institutions. This was a university system containing the personal information of thousands of students, faculty, and staff. </p>
+                                    <p style="text-align: justify;">People who walk the same halls I do every day. People who trust the institution with their sensitive data, future prospects, and digital security. The vulnerability I discovered <strong>could have exposed</strong> their grades, personal information, and even their passwords which, as I found, many reused across different platforms.</p>
+                                    <p style="text-align: justify;">But this story isn't meant to spread fear. Instead, it should serve for change in how we think about our digital privacy. Every time you create an account, share personal information, or reuse a password, <strong>you're making decisions that affect your privacy and security</strong>. The vulnerability in this university's system has been fixed, but somewhere, right now, similar vulnerabilities exist in other systems holding your personal information.</p>
+
+                                    <p style="text-align: justify;">The good news is that <strong>you have the power to protect yourself</strong>. Use unique passwords for every account. Be mindful of what information you share and where you share it. <span style="color: #ff255f; font-weight: 600;">Privacy isn't about having something to hide. It's about having something to protect.</span> And in our interconnected world, we all have something worth protecting.</p>
+                                    <p style="text-align: justify; color: white; font-size: 17px;">- w333zard.</p>
+
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6 col-8">
+                                <div class="border-linear-3 rounded-4 p-lg-6 p-md-4 p-3 mt-lg-0 mt-4">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <i class="ri-time-line fs-6"></i>
+                                        <span class="ms-2 fs-6">5 mins to read</span>
+                                    </div>
+                                    <div class="d-flex align-items-center mb-3">
+                                        <i class="ri-calendar-schedule-line fs-6"></i>
+                                        <span class="ms-2 fs-6">June 26, 2023</span>
+                                    </div>
+                                    <div class="d-flex align-items-center mb-3">
+                                        <i class="ri-user-line fs-6"></i>
+                                        <span class="ms-2 fs-6">By <a class="fw-bold" href="#">w333zard</a></span>
+                                    </div>
+                                </div>
+                                <div class="border-linear-3 rounded-4 p-lg-6 p-md-4 p-3 mt-4">
+                                    <span class="text-uppercase fs-7">Share</span> <br />
+                                    <div class="d-flex gap-3 pt-3">
+                                        <a href="#" class="text-decoration-none">
+                                            <i class="ri-facebook-circle-fill fs-18"></i>
+                                        </a>
+                                        <a href="#" class="text-decoration-none">
+                                            <i class="ri-twitter-x-fill fs-18"></i>
+                                        </a>
+                                        <a href="#" class="text-decoration-none">
+                                            <i class="ri-instagram-fill fs-5"></i>
+                                        </a>
+                                        <a href="#" class="text-decoration-none">
+                                            <i class="ri-pinterest-fill fs-5"></i>
+                                        </a>
+                                        <a href="#" class="text-decoration-none">
+                                            <i class="ri-google-fill fs-5"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- blog list -->
+        <!-- <section class="section-blog-list">
+            <div class="container border-top pt-80 pb-80">
+                <div class="row">
+                    <div class="d-md-flex align-items-center">
+                        <h1 class="text-300">Related posts</h1>
+                        <a href="#" class="btn btn-gradient ms-auto">
+                            View more
+                            <i class="ri-arrow-right-line"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="row mt-8">
+                    <div class="col-lg-4">
+                        <div class="blog-card rounded-4 mb-lg-3 mb-md-5 mb-3">
+                            <div class="blog-card__image position-relative">
+                                <div class="zoom-img rounded-3 overflow-hidden">
+                                    <img class="w-100" src="assets/imgs/blog/blog-1/img-1.png" alt="">
+                                    <a class="position-absolute bottom-0 start-0 m-3 text-white-keep btn btn-gradient fw-medium rounded-3 px-3 py-2" href="blog-details.html">App Design</a>
+                                    <a href="blog-details.html" class="blog-card__link position-absolute top-50 start-50 translate-middle icon-md icon-shape bg-linear-1 rounded-circle">
+                                        <i class="ri-arrow-right-up-line text-dark"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="blog-card__content position-relative text-center mt-4">
+                                <span class="blog-card__date fs-7">March 28, 2023 • 3 min read</span>
+                                <h5 class="blog-card__title">5 UI/UX Trends to Watch in 2024</h5>
+                                <p class="blog-card__description fs-6">Stay ahead of the curve with these emerging trends in UI/UX design.</p>
+                                <a href="blog-details.html" class="link-overlay position-absolute top-0 start-0 w-100 h-100"></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="blog-card rounded-4 mb-lg-3 mb-md-5 mb-3">
+                            <div class="blog-card__image position-relative">
+                                <div class="zoom-img rounded-3 overflow-hidden">
+                                    <img class="w-100" src="assets/imgs/blog/blog-1/img-2.png" alt="">
+                                    <a class="position-absolute bottom-0 start-0 m-3 text-white-keep btn btn-gradient fw-medium rounded-3 px-3 py-2" href="blog-details.html">App Design</a>
+                                    <a href="blog-details.html" class="blog-card__link position-absolute top-50 start-50 translate-middle icon-md icon-shape bg-linear-1 rounded-circle">
+                                        <i class="ri-arrow-right-up-line text-dark"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="blog-card__content position-relative text-center mt-4">
+                                <span class="blog-card__date fs-7">March 28, 2023 • 3 min read</span>
+                                <h5 class="blog-card__title">The Importance of User Research</h5>
+                                <p class="blog-card__description fs-6">Stay ahead of the curve with these emerging trends in UI/UX design.</p>
+                                <a href="blog-details.html" class="link-overlay position-absolute top-0 start-0 w-100 h-100"></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="blog-card rounded-4 mb-lg-3 mb-md-5 mb-3">
+                            <div class="blog-card__image position-relative">
+                                <div class="zoom-img rounded-3 overflow-hidden">
+                                    <img class="w-100" src="assets/imgs/blog/blog-1/img-3.png" alt="">
+                                    <a class="position-absolute bottom-0 start-0 m-3 text-white-keep btn btn-gradient fw-medium rounded-3 px-3 py-2" href="blog-details.html">App Design</a>
+                                    <a href="blog-details.html" class="blog-card__link position-absolute top-50 start-50 translate-middle icon-md icon-shape bg-linear-1 rounded-circle">
+                                        <i class="ri-arrow-right-up-line text-dark"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="blog-card__content position-relative text-center mt-4">
+                                <span class="blog-card__date fs-7">March 28, 2023 • 3 min read</span>
+                                <h5 class="blog-card__title">The Role of Color Psychology</h5>
+                                <p class="blog-card__description fs-6">Stay ahead of the curve with these emerging trends in UI/UX design.</p>
+                                <a href="blog-details.html" class="link-overlay position-absolute top-0 start-0 w-100 h-100"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section> -->
+
+    </main>
+    <!-- prettier-ignore -->
+    <!-- Footer -->
+    <footer>
+        <div class="section-footer position-relative pt-60 pb-60 bg-secondary-1">
+            <div class="container position-relative z-1">
+                <div class="text-center">
+                    <a class="d-flex main-logo align-items-center d-inline-flex" href="index.html">
+                        <img src="assets/imgs/footer-1/logo.svg" alt="zelio" />
+                        <span class="fs-4 ms-2 text-white-keep">w333zard</span>
+                    </a>
+                    <div class="navigation d-none d-md-flex align-items-center justify-content-center flex-wrap gap-4 my-4">
+                        <a href="index.html" class="fs-5">
+                            Home
+                        </a>
+                        <a href="index.html#skills" class="fs-5">
+                            Skills
+                        </a>
+                        <a href="index.html#portfolio" class="fs-5">
+                            Portfolio
+                        </a>
+                        <a href="index.html#blog" class="fs-5">
+                            Blog
+                        </a>
+                        <a href="index.html#projects" class="fs-5">
+                            Projects
+                        </a>
+                        <a href="index.html#contact" class="fs-5">
+                            Contact
+                        </a>
+                    </div>
+                </div>
+                <div class="row text-center py-4">
+                    <span class="fs-6 text-white-keep">© 2024 All Rights Reserved by <span><a href="#" class="text-primary">w333zard</a></span>
+                </div>
+            </div>
+            <div class="position-absolute top-0 start-0 w-100 h-100 z-0" data-background="assets/imgs/footer-1/background.png "></div>
+        </div>
+    </footer>
+    <!-- Scroll top -->
+    <div class="btn-scroll-top @@style">
+        <svg class="progress-square svg-content" width="100%" height="100%" viewBox="0 0 40 40">
+            <path d="M8 1H32C35.866 1 39 4.13401 39 8V32C39 35.866 35.866 39 32 39H8C4.13401 39 1 35.866 1 32V8C1 4.13401 4.13401 1 8 1Z" />
+        </svg>
+    </div>
+
+    <!-- Libs JS -->
+    <script src="assets/js/vendors/jquery-3.7.1.min.js"></script>
+    <script src="assets/js/vendors/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/vendors/swiper-bundle.min.js"></script>
+    <script src="assets/js/vendors/aos.js"></script>
+    <script src="assets/js/vendors/wow.min.js"></script>
+    <script src="assets/js/vendors/headhesive.min.js"></script>
+    <script src="assets/js/vendors/smart-stick-nav.js"></script>
+    <script src="assets/js/vendors/jquery.magnific-popup.min.js"></script>
+    <script src="assets/js/vendors/gsap.min.js"></script>
+    <script src="assets/js/vendors/imagesloaded.pkgd.min.js"></script>
+    <script src="assets/js/vendors/isotope.pkgd.min.js"></script>
+    <script src="assets/js/vendors/ScrollToPlugin.min.js"></script>
+    <script src="assets/js/vendors/ScrollTrigger.min.js"></script>
+    <script src="assets/js/vendors/jquery.carouselTicker.min.js"></script>
+    <script src="assets/js/vendors/jquery.odometer.min.js"></script>
+    <script src="assets/js/vendors/jquery.appear.js"></script>
+    <script src="assets/js/vendors/gsap-custom.js"></script>
+    <script src="assets/js/imageRevealHover.js"></script>
+    <script src="assets/js/vendors/aat.min.js"></script>
+    <!-- Theme JS -->
+    <script src="assets/js/main.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,489 @@
+<!doctype html>
+<html lang="en" data-bs-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <meta property="og:title" content="Bug Hunting Jember University Web: XSS Vulnerability" />
+    <meta property="og:description" content="Exploiting web for fun & profit (braindead edition)" />
+    <meta property="og:url" content="https://w333zard.my.id" />
+    <meta
+      property="og:image"
+      content="https://i.pinimg.com/564x/27/80/f4/2780f413024ba77b543b40a553ea7462.jpg"
+    />
+
+    <title>Bug Hunting XSS Vulnerability in Jember University Journal Web</title>
+    <script src="assets/js/vendors/color-modes.js"></script>
+    <!-- Favicon icon-->
+    <link rel="shortcut icon" type="image/x-icon" href="assets/imgs/template/favicon.svg">
+    <!-- Libs CSS -->
+    <link rel="stylesheet" href="assets/css/vendors/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/vendors/swiper-bundle.min.css">
+    <link rel="stylesheet" href="assets/css/vendors/aos.css">
+    <link rel="stylesheet" href="assets/css/vendors/odometer.css">
+    <link rel="stylesheet" href="assets/css/vendors/carouselTicker.css">
+    <link rel="stylesheet" href="assets/css/vendors/magnific-popup.css">
+    <link rel="stylesheet" href="assets/fonts/remixicon/remixicon.css">
+    <link rel="stylesheet" href="assets/fonts/satoshi/satoshi.css">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Playfair+Display:wght@400..900&family=Urbanist:wght@100..900&display=swap" rel="stylesheet">
+   
+    <!-- In your HTML head -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <!-- Initialize -->
+    <script>
+        hljs.highlightAll();
+    </script>
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/Wzrd.css">
+
+
+</head>
+
+<body>
+    <!-- prettier-ignore -->
+
+    <!-- Navbar -->
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light w-100 flex-nowrap z-999 p-0">
+            <a href="#" class="navbar-menu p-4 text-center square-100 menu-tigger icon_80 icon-shape d-none d-md-flex" data-bs-target=".offCanvas__info" aria-controls="offCanvas__info">
+                <i class="ri-menu-2-line"></i>
+            </a>
+            <div class="container py-3 px-0">
+                <a class="navbar-brand d-flex main-logo align-items-center ms-lg-0 ms-md-5 ms-3" href="index.html">
+                    <img src="assets/imgs/template/favicon.svg" alt="zelio" />
+                    <span class="fs-4 ms-2">w333zard</span>
+                </a>
+                <div class="d-none d-lg-flex">
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="index.html">Home</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="index.html#skills">Skills</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="index.html#portfolio">Portfolio</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="index.html#blog">Blog</a>
+                            </li>
+                            
+                            <li class="nav-item">
+                                <a class="nav-link" href="index.html#projects">Projects</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="index.html#contact">Contact</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="navbar-social d-flex align-items-center pe-5 pe-lg-0 me-5 me-lg-0">
+                    <div class="d-md-flex d-none gap-3">
+                        <a href="https://www.instagram.com/rfdhaikal.wizz/">
+                            <i class="ri-instagram-fill"></i>
+                        </a>
+                        <a href="https://medium.com/@w333zard">
+                            <i class="ri-medium-fill"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/rfdhaikal/">
+                            <i class="ri-linkedin-fill"></i>
+                        </a>
+                        <a href="https://github.com/W-zrd">
+                            <i class="ri-github-fill"></i>
+                        </a>
+                    </div>
+                    <div class="burger-icon burger-icon-white border rounded-3">
+                        <span class="burger-icon-top"></span>
+                        <span class="burger-icon-mid"></span>
+                        <span class="burger-icon-bottom"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="dark-light-switcher pe-10 pe-lg-0 pe-0 ps-md-5 ps-0 ps-lg-4 pe-lg-4 d-flex justify-content-center align-items-center icon_80 @@classList">
+                <i class="ri-sun-fill text-warning"></i>
+                <i class="ri-contrast-2-line text-white"></i>
+            </div>
+
+        </nav>
+        <!-- offCanvas-menu -->
+        <div class="offCanvas__info">
+            <div class="offCanvas__close-icon menu-close">
+                <button><i class="ri-close-line"></i></button>
+            </div>
+            <div class="offCanvas__logo mb-5">
+                <h3 class="mb-0">Get in touch</h3>
+            </div>
+            <div class="offCanvas__side-info mb-30">
+                <div class="contact-list mb-30">
+                    <p class="fs-6 fw-medium text-200 mb-5">I'm always excited to take on new projects and collaborate with innovative minds.</p>
+                    <div class="mb-3">
+                        <span class="text-400 fs-5">LinkedIn</span>
+                        <p class="mb-0">https://www.linkedin.com/in/rfdhaikal/</p>
+                    </div>
+                    <div class="mb-3">
+                        <span class="text-400 fs-5">Email</span>
+                        <p class="mb-0">rfdhaikal.wizz@proton.me</p>
+                    </div>
+                    <div class="mb-3">
+                        <span class="text-400 fs-5">GitHub</span>
+                        <p class="mb-0">https://github.com/W-zrd</p>
+                    </div>
+                </div>
+
+                <div class="contact-list">
+                    <p class="text-400 fs-5 mb-2">Social</p>
+                    <div class="d-md-flex d-none gap-3">
+                        <a href="https://www.instagram.com/rfdhaikal.wizz/">
+                            <i class="ri-instagram-fill fs-18"></i>
+                        </a>
+                        <a href="https://medium.com/@w333zard">
+                            <i class="ri-medium-fill fs-18"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/rfdhaikal/">
+                            <i class="ri-linkedin-fill fs-18"></i>
+                        </a>
+                        <a href="https://github.com/W-zrd">
+                            <i class="ri-github-fill fs-18"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="offCanvas__overly"></div>
+        <div class="mobile-header-active mobile-header-wrapper-style perfect-scrollbar button-bg-2">
+            <div class="mobile-header-wrapper-inner">
+                <div class="mobile-header-logo">
+                    <a class="d-flex main-logo align-items-center d-inline-flex" href="index.html">
+                        <img src="assets/imgs/footer-1/logo.svg" alt="zelio" />
+                        <span class="fs-4 ms-2 text-dark">w333zard</span>
+                    </a>
+                    <div class="burger-icon burger-icon-white border rounded-3">
+                        <span class="burger-icon-top"></span>
+                        <span class="burger-icon-mid"></span>
+                        <span class="burger-icon-bottom"></span>
+                    </div>
+                </div>
+                <div class="mobile-header-content-area">
+                    <div class="perfect-scroll">
+                        <div class="mobile-menu-wrap mobile-header-border">
+                            <nav>
+                                <ul class="mobile-menu font-heading ps-0">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" href="index.html">Home</a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="index.html#skills">Skills</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="index.html#portfolio">Portfolio</a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="index.html#blog">Blog</a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="index.html#projects">Projects</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="index.html#contact">Contact</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </header>
+
+    <main>
+        <!-- prettier-ignore -->
+        <!-- blog details -->
+        <section class="section-details pt-60 pb-100">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-10 mx-lg-auto mb-3">
+                        <div class="text-center">
+                            <a href="#" class="btn btn-gradient d-inline-block text-uppercase"> Web Exploitation </a>
+                            <h3 class="ds-3 mt-3 mb-3 text-dark">Bug Hunting XSS Vulnerability in Jember University Journal Web</h3>
+                            <p class="text-300 fs-5 mb-0">
+                                Exploiting web for fun & profit (braindead edition)
+                            </p>
+                            <div class="d-flex align-items-center my-4">
+                                    <img class="" style="width:1200px;" src="assets/imgs/blog/blog-3/cover.jpg" alt="" />
+                                    </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-10 mx-lg-auto">
+                        <div class="row">
+                            <div class="col-lg-9">
+                                <h4>Introduction</h4>
+                                <p style="text-align: justify; font-size: 20px; color: white;" >"Your session has been hijacked." </p>
+                                <p>
+These words send chills down the spine of any cybersecurity professional. But what if I told you I discovered a way to make these words appear on any student's or professor's screen at X University? What if I could access their private messages, grades, or personal information - all because of a simple flaw in how the university's website handles certain requests?</p>
+                                <p style="text-align: justify;">"I have nothing to hide, so why should I care about privacy?" I hear this often, but let's talk a bit more about this kid..  Imagine a scenario where someone could silently monitor your every move on the university's platforms. They could read your scholarship applications, or even alter your academic records. Even more concerning, they could impersonate you, sending messages to your professors or classmates that appear to come directly from you. </p>
+
+                                <p style="text-align: justify;">Each of those record leaves a digital trace, and each trace contains pieces of your identity. It's about your future. Every grade, every submission, every financial transaction builds a record that could affect your job prospects or anything beyond that. When this information is compromised, it's not just data that's at risk – it's your opportunities, your reputation, and your future. 
+
+                                </p>
+
+                                <div class="d-flex align-items-center my-4">
+                                    <img class="" src="assets/imgs/blog/blog-3/1.png" alt="" />
+                                </div>
+
+                                <p style="text-align: justify; font-size: 17px;">Recently, while conducting a bug hunting activity of Jember University's web application, I discovered a security vulnerability that could allow attackers to steal users' sensitive information. No alarms, no red flags, no network log or history, just me and their data. Maybe this findings is also a potential backdoor of "Slot Gacor" web defacement in this university
+
+                                </p>
+
+                                <h4 class="my-4">Proof of Concept: Reflected XSS via Host Header Injection</h4>
+                                <p style="text-align: justify;">During a recent security assessment on X University’s OJS (Open Journal Systems) platform, I identified a  Reflected Cross-Site Scripting (XSS) via Host Header Injection. This vulnerability could allow attackers to inject malicious JavaScript code into the application. The key danger here is that once the malicious script executes in the user’s browser, it can access sensitive data like cookies, session information, or even alter the page content.</p>
+                                <div class="d-flex align-items-center my-4">
+                                    <img class="" src="assets/imgs/blog/blog-3/5.png" alt="" />
+                                    </div>
+                                <p style="text-align: justify;">Host Header Injection occurs when an application or a backend server trusts and uses the "Host" or "X-Forwarded-Host" HTTP headers without validation. These headers indicate the domain or IP address of the server handling the request. If not properly validated, attackers can manipulate these headers to inject scripts or other malicious content into the response.</p>
+
+                                <p style="text-align: justify;">Below, I’ll outline the steps to reproduce this finding, followed by a detailed breakdown of the vulnerability’s impact.
+                                    <ul>
+                                        <li>Intercept any HTTP request to the OJS platform. In this case, i did a simple GET request to the root web page
+                                        </li>
+                                        <li>
+                                            Modify the X-Forwarded-Host Header: Add a custom header to the request with an injected JavaScript payload. Here’s an example of a malicious payload:
+                                            <pre><code class="language-js">X-Forwarded-Host: foo&quot;&gt;&lt;script&gt;alert(document.cookie)&lt;/script&gt;&lt;x=&quot;.com
+</code></pre>
+                                        </li>
+                                        <li>
+                                            Send the modified request. If the application is vulnerable, the response from the server will reflect the injected script without sanitization.
+                                        </li>
+                                    </ul>
+                                    <div class="d-flex align-items-center my-4">
+                                    <img class="" src="assets/imgs/blog/blog-3/2.png" alt="" />
+                                    </div>
+                                    The payload is executed by the browser as though it were a legitimate part of the site’s code. In our case, the payload used (<code>&quot;&gt;&lt;script&gt;alert(document.cookie)&lt;/script&gt;</code>) successfully triggered a pop-up showing the contents of session tokens and other sensitive data. This shows that the attacker could access the user’s cookies. The vulnerability lies in the server's inability to differentiate between safe, trusted content and potentially malicious input from user-controlled headers like <code>X-Forwarded-Host</code> . Since the server lacks proper validation here, any untrusted data from this header can flow freely into the web response.
+                                    <div class="d-flex align-items-center my-4">
+                                    <img class="" src="assets/imgs/blog/blog-3/6.png" alt="" />
+                                    </div>
+                                </p>
+                                <h4>Impact & Findings</h4>
+                                
+                                <p style="text-align: justify;">The XSS vulnerability i found significant implications. It can leads to Browser Exploitation. This type of attack can manipulate various functionalities within the victim’s browser. By exploiting this flaw, an attacker can potentially retrieve sensitive data about the user, such as their IP address, which reveals approximate location.</p>
+                                
+                                <p style="text-align: justify;">Furthermore, the attacker could trigger the browser to redirect users to external malicious sites without their knowledge. This capability presents a substantial risk of phishing attacks, where victims may be tricked into providing sensitive credentials, such as university login details, to a page that looks identical to the legitimate OJS platform. These redirects can also be used to deploy malware or spyware, further compromising user data and device security.</p>
+
+                                <div class="d-flex align-items-center my-4">
+                                    <img class="" src="assets/imgs/blog/blog-3/3.png" alt="" />
+                                </div>
+
+                                <p style="text-align: justify;">Beyond data leakage and redirection, attackers can manipulate the browser to initiate other unwanted actions, like automatically placing a phone call if the browser has the necessary permissions. As shown on the image, my payload has successfully trigger the browser to open GSConnect which is an app to open call in Ubuntu. To be honest i could take another lateral movement by leveraging this vulnerability, but i don't. This is enough to confirm that this website is vulnerable to XSS</p>
+
+                                <!-- CONCLUSION -->
+                                <div class="border-linear-3 rounded-4 p-lg-6 p-md-4 p-3 mt-6">
+                                    <h4>Conclusion</h4>
+                                    <p style="text-align: justify;">As we conclude this deep dive into the vulnerability I discovered at Jember University, let's take a moment to reflect our journey. The host header injection vulnerability I found might seem like a technical glitch to some, but it represents a much larger issue that affects us all.</p>
+                                    <p style="text-align: justify;">Security isn't just the responsibility of IT departments or security researchers. It's a shared responsibility that requires awareness and action from all of us. Simple habits like using strong passwords, enabling 2FA can make a significant difference.</p>
+                                    <p style="text-align: justify;">As we move forward, let this discovery serve as a wake-up call. Your privacy matters. Your data matters. Your digital identity matters. The bad news is this vulnerability has not been fixed, so prepare for the worst. The good news is you have a power to protect yourself. Think critically, Question every damn thing, and trust nobody, because nothing secure when you enter the internet</p>
+                                    <p style="text-align: justify; color: white; font-size: 17px;">- w333zard.</p>
+
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6 col-8">
+                                <div class="border-linear-3 rounded-4 p-lg-6 p-md-4 p-3 mt-lg-0 mt-4">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <i class="ri-time-line fs-6"></i>
+                                        <span class="ms-2 fs-6">5 mins to read</span>
+                                    </div>
+                                    <div class="d-flex align-items-center mb-3">
+                                        <i class="ri-calendar-schedule-line fs-6"></i>
+                                        <span class="ms-2 fs-6">November 5, 2024</span>
+                                    </div>
+                                    <div class="d-flex align-items-center mb-3">
+                                        <i class="ri-user-line fs-6"></i>
+                                        <span class="ms-2 fs-6">By <a class="fw-bold" href="#">w333zard</a></span>
+                                    </div>
+                                </div>
+                                <div class="border-linear-3 rounded-4 p-lg-6 p-md-4 p-3 mt-4">
+                                    <span class="text-uppercase fs-7">Share</span> <br />
+                                    <div class="d-flex gap-3 pt-3">
+                                        <a href="#" class="text-decoration-none">
+                                            <i class="ri-facebook-circle-fill fs-18"></i>
+                                        </a>
+                                        <a href="#" class="text-decoration-none">
+                                            <i class="ri-twitter-x-fill fs-18"></i>
+                                        </a>
+                                        <a href="#" class="text-decoration-none">
+                                            <i class="ri-instagram-fill fs-5"></i>
+                                        </a>
+                                        <a href="#" class="text-decoration-none">
+                                            <i class="ri-pinterest-fill fs-5"></i>
+                                        </a>
+                                        <a href="#" class="text-decoration-none">
+                                            <i class="ri-google-fill fs-5"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- blog list -->
+        <!-- <section class="section-blog-list">
+            <div class="container border-top pt-80 pb-80">
+                <div class="row">
+                    <div class="d-md-flex align-items-center">
+                        <h1 class="text-300">Related posts</h1>
+                        <a href="#" class="btn btn-gradient ms-auto">
+                            View more
+                            <i class="ri-arrow-right-line"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="row mt-8">
+                    <div class="col-lg-4">
+                        <div class="blog-card rounded-4 mb-lg-3 mb-md-5 mb-3">
+                            <div class="blog-card__image position-relative">
+                                <div class="zoom-img rounded-3 overflow-hidden">
+                                    <img class="w-100" src="assets/imgs/blog/blog-1/img-1.png" alt="">
+                                    <a class="position-absolute bottom-0 start-0 m-3 text-white-keep btn btn-gradient fw-medium rounded-3 px-3 py-2" href="blog-details.html">App Design</a>
+                                    <a href="blog-details.html" class="blog-card__link position-absolute top-50 start-50 translate-middle icon-md icon-shape bg-linear-1 rounded-circle">
+                                        <i class="ri-arrow-right-up-line text-dark"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="blog-card__content position-relative text-center mt-4">
+                                <span class="blog-card__date fs-7">March 28, 2023 • 3 min read</span>
+                                <h5 class="blog-card__title">5 UI/UX Trends to Watch in 2024</h5>
+                                <p class="blog-card__description fs-6">Stay ahead of the curve with these emerging trends in UI/UX design.</p>
+                                <a href="blog-details.html" class="link-overlay position-absolute top-0 start-0 w-100 h-100"></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="blog-card rounded-4 mb-lg-3 mb-md-5 mb-3">
+                            <div class="blog-card__image position-relative">
+                                <div class="zoom-img rounded-3 overflow-hidden">
+                                    <img class="w-100" src="assets/imgs/blog/blog-1/img-2.png" alt="">
+                                    <a class="position-absolute bottom-0 start-0 m-3 text-white-keep btn btn-gradient fw-medium rounded-3 px-3 py-2" href="blog-details.html">App Design</a>
+                                    <a href="blog-details.html" class="blog-card__link position-absolute top-50 start-50 translate-middle icon-md icon-shape bg-linear-1 rounded-circle">
+                                        <i class="ri-arrow-right-up-line text-dark"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="blog-card__content position-relative text-center mt-4">
+                                <span class="blog-card__date fs-7">March 28, 2023 • 3 min read</span>
+                                <h5 class="blog-card__title">The Importance of User Research</h5>
+                                <p class="blog-card__description fs-6">Stay ahead of the curve with these emerging trends in UI/UX design.</p>
+                                <a href="blog-details.html" class="link-overlay position-absolute top-0 start-0 w-100 h-100"></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="blog-card rounded-4 mb-lg-3 mb-md-5 mb-3">
+                            <div class="blog-card__image position-relative">
+                                <div class="zoom-img rounded-3 overflow-hidden">
+                                    <img class="w-100" src="assets/imgs/blog/blog-1/img-3.png" alt="">
+                                    <a class="position-absolute bottom-0 start-0 m-3 text-white-keep btn btn-gradient fw-medium rounded-3 px-3 py-2" href="blog-details.html">App Design</a>
+                                    <a href="blog-details.html" class="blog-card__link position-absolute top-50 start-50 translate-middle icon-md icon-shape bg-linear-1 rounded-circle">
+                                        <i class="ri-arrow-right-up-line text-dark"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="blog-card__content position-relative text-center mt-4">
+                                <span class="blog-card__date fs-7">March 28, 2023 • 3 min read</span>
+                                <h5 class="blog-card__title">The Role of Color Psychology</h5>
+                                <p class="blog-card__description fs-6">Stay ahead of the curve with these emerging trends in UI/UX design.</p>
+                                <a href="blog-details.html" class="link-overlay position-absolute top-0 start-0 w-100 h-100"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section> -->
+
+    </main>
+    <!-- prettier-ignore -->
+    <!-- Footer -->
+    <footer>
+        <div class="section-footer position-relative pt-60 pb-60 bg-secondary-1">
+            <div class="container position-relative z-1">
+                <div class="text-center">
+                    <a class="d-flex main-logo align-items-center d-inline-flex" href="index.html">
+                        <img src="assets/imgs/footer-1/logo.svg" alt="zelio" />
+                        <span class="fs-4 ms-2 text-white-keep">w333zard</span>
+                    </a>
+                    <div class="navigation d-none d-md-flex align-items-center justify-content-center flex-wrap gap-4 my-4">
+                        <a href="index.html" class="fs-5">
+                            Home
+                        </a>
+                        <a href="index.html#skills" class="fs-5">
+                            Skills
+                        </a>
+                        <a href="index.html#portfolio" class="fs-5">
+                            Portfolio
+                        </a>
+                        <a href="index.html#blog" class="fs-5">
+                            Blog
+                        </a>
+                        <a href="index.html#projects" class="fs-5">
+                            Projects
+                        </a>
+                        <a href="index.html#contact" class="fs-5">
+                            Contact
+                        </a>
+                    </div>
+                </div>
+                <div class="row text-center py-4">
+                    <span class="fs-6 text-white-keep">© 2024 All Rights Reserved by <span><a href="#" class="text-primary">w333zard</a></span>
+                </div>
+            </div>
+            <div class="position-absolute top-0 start-0 w-100 h-100 z-0" data-background="assets/imgs/footer-1/background.png "></div>
+        </div>
+    </footer>
+    <!-- Scroll top -->
+    <div class="btn-scroll-top @@style">
+        <svg class="progress-square svg-content" width="100%" height="100%" viewBox="0 0 40 40">
+            <path d="M8 1H32C35.866 1 39 4.13401 39 8V32C39 35.866 35.866 39 32 39H8C4.13401 39 1 35.866 1 32V8C1 4.13401 4.13401 1 8 1Z" />
+        </svg>
+    </div>
+
+    <!-- Libs JS -->
+    <script src="assets/js/vendors/jquery-3.7.1.min.js"></script>
+    <script src="assets/js/vendors/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/vendors/swiper-bundle.min.js"></script>
+    <script src="assets/js/vendors/aos.js"></script>
+    <script src="assets/js/vendors/wow.min.js"></script>
+    <script src="assets/js/vendors/headhesive.min.js"></script>
+    <script src="assets/js/vendors/smart-stick-nav.js"></script>
+    <script src="assets/js/vendors/jquery.magnific-popup.min.js"></script>
+    <script src="assets/js/vendors/gsap.min.js"></script>
+    <script src="assets/js/vendors/imagesloaded.pkgd.min.js"></script>
+    <script src="assets/js/vendors/isotope.pkgd.min.js"></script>
+    <script src="assets/js/vendors/ScrollToPlugin.min.js"></script>
+    <script src="assets/js/vendors/ScrollTrigger.min.js"></script>
+    <script src="assets/js/vendors/jquery.carouselTicker.min.js"></script>
+    <script src="assets/js/vendors/jquery.odometer.min.js"></script>
+    <script src="assets/js/vendors/jquery.appear.js"></script>
+    <script src="assets/js/vendors/gsap-custom.js"></script>
+    <script src="assets/js/imageRevealHover.js"></script>
+    <script src="assets/js/vendors/aat.min.js"></script>
+    <!-- Theme JS -->
+    <script src="assets/js/main.js"></script>
+</body>
+
+</html>

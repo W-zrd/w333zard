@@ -1,0 +1,64 @@
+/* Base styles for inline code */
+:not(pre) > code {
+  background-color: rgba(135, 131, 120, 0.15);
+  color: #EB5757;
+  padding: 3px 6px;
+  margin: 0 2px;
+  border-radius: 4px;
+  font-size: 0.85em;
+  font-family: 'Fira Code', 'Consolas', monospace;
+}
+
+/* Container styles */
+pre {
+  margin: 1rem 0;
+  padding: 0;
+  background: #18181f;
+  border-radius: 6px;
+  border: 2px solid #262638;
+}
+
+/* Code block styles */
+pre code.hljs {
+  padding: 0.75rem 1rem;
+  background: #1E1E1E;
+  font-family: 'Fira Code', 'Consolas', monospace;
+  font-size: 0.9em;
+  line-height: 1.5;
+  white-space: pre;
+}
+
+/* Remove default highlight.js padding */
+.hljs {
+  padding: 0.75rem 1rem !important;
+  background: #18181f !important;
+}
+
+/* Handle overflow properly */
+pre {
+  overflow-x: auto;
+}
+
+pre code {
+  display: block;
+  min-width: 100%;
+  word-wrap: normal;
+}
+
+/* Optional: Style scrollbar */
+pre::-webkit-scrollbar {
+  height: 6px;
+}
+
+pre::-webkit-scrollbar-thumb {
+  background: #444;
+  border-radius: 3px;
+}
+
+pre::-webkit-scrollbar-track {
+  background: #1a1a29;
+}
+
+strong{
+  color: white;
+}
