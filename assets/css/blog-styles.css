@@ -1,0 +1,495 @@
+/* Blog-specific styles for w333zard blog */
+
+/* Table of Contents Styles */
+.toc-link:hover {
+    transform: translateX(5px);
+}
+
+.toc-link:hover .ri-arrow-right-s-line {
+    transform: translateX(3px);
+}
+
+.hover-bg-primary:hover {
+    background-color: var(--bs-primary) !important;
+}
+
+.hover-bg-opacity-10:hover {
+    background-color: rgba(var(--bs-primary-rgb), 0.1) !important;
+}
+
+.transition-all {
+    transition: all 0.3s ease;
+}
+
+/* Sticky Sidebar Styles */
+.sticky-sidebar {
+    position: sticky;
+    top: 100px;
+    z-index: 10;
+}
+
+@media (max-width: 991.98px) {
+    .sticky-sidebar {
+        position: static;
+        margin-top: 2rem;
+    }
+}
+
+/* Dracula Code Block Styles - Darker Theme */
+.code-container {
+    position: relative;
+    margin: 1rem 0;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    border: 1px solid #21222c;
+    background: #1e1f29;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+}
+
+/* Collapsible toggle */
+.code-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.625rem 0.9rem;
+    background: #0f172a;
+    border-bottom: 1px solid #21222c;
+    cursor: pointer;
+    user-select: none;
+}
+
+.code-toggle-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #f1f5f9;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.code-toggle-title i {
+    font-size: 0.9rem;
+    color: #6272a4;
+}
+
+.code-toggle-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.code-toggle .toggle-icon {
+    transition: transform 0.2s ease;
+    color: #8be9fd;
+    font-size: 0.9rem;
+}
+
+.code-container.collapsed .code-content {
+    display: none;
+}
+
+.code-container.collapsed .toggle-icon {
+    transform: rotate(-90deg);
+}
+
+.code-content {
+    background: #1e1f29;
+    color: #f8f8f2;
+    padding: 1rem;
+    overflow-x: auto;
+    font-family: 'Fira Code', 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 0.875rem;
+    line-height: 1.6;
+    position: relative;
+}
+
+.code-content pre {
+    margin: 0;
+    white-space: pre;
+    overflow-x: auto;
+}
+
+.code-controls {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    z-index: 10;
+    pointer-events: none;
+}
+
+.code-controls > * {
+    pointer-events: auto;
+}
+
+.code-language {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    background: rgba(33, 34, 44, 0.95);
+    color: #f8f8f2;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.7rem;
+    font-weight: 500;
+    border: 1px solid #21222c;
+    backdrop-filter: blur(8px);
+}
+
+.code-language i {
+    font-size: 0.7rem;
+}
+
+.copy-btn {
+    background: rgba(33, 34, 44, 0.95);
+    border: 1px solid #21222c;
+    color: #f8f8f2;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.7rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    backdrop-filter: blur(8px);
+}
+
+.copy-btn:hover {
+    background: rgba(98, 114, 164, 0.9);
+    border-color: #6272a4;
+    color: #f8f8f2;
+}
+
+.copy-btn.copied {
+    background: rgba(80, 250, 123, 0.2);
+    border-color: #50fa7b;
+    color: #50fa7b;
+}
+
+/* Dracula Syntax Highlighting - Darker Theme */
+.code-content .hljs {
+    background: #1e1f29 !important;
+    color: #f8f8f2 !important;
+}
+
+.code-content .hljs-comment,
+.code-content .hljs-quote {
+    color: #6272a4;
+    font-style: italic;
+}
+
+.code-content .hljs-keyword,
+.code-content .hljs-selector-tag,
+.code-content .hljs-subst {
+    color: #ff79c6;
+    font-weight: bold;
+}
+
+.code-content .hljs-string,
+.code-content .hljs-title,
+.code-content .hljs-section,
+.code-content .hljs-built_in,
+.code-content .hljs-literal,
+.code-content .hljs-type,
+.code-content .hljs-addition,
+.code-content .hljs-tag,
+.code-content .hljs-quote,
+.code-content .hljs-name,
+.code-content .hljs-selector-id,
+.code-content .hljs-selector-class {
+    color: #f1fa8c;
+}
+
+.code-content .hljs-meta,
+.code-content .hljs-meta-keyword,
+.code-content .hljs-meta-string {
+    color: #50fa7b;
+}
+
+.code-content .hljs-number,
+.code-content .hljs-symbol,
+.code-content .hljs-bullet,
+.code-content .hljs-code,
+.code-content .hljs-addition {
+    color: #bd93f9;
+}
+
+.code-content .hljs-variable,
+.code-content .hljs-template-variable,
+.code-content .hljs-attribute {
+    color: #8be9fd;
+}
+
+.code-content .hljs-function,
+.code-content .hljs-title.function_ {
+    color: #50fa7b;
+}
+
+.code-content .hljs-class,
+.code-content .hljs-title.class_ {
+    color: #8be9fd;
+}
+
+.code-content .hljs-emphasis {
+    font-style: italic;
+}
+
+.code-content .hljs-strong {
+    font-weight: bold;
+}
+
+/* Challenge Summary Styles - Matching Code Block Theme */
+.challenge-summary {
+    background: #1e1f29;
+    border: 1px solid #21222c;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    margin: 1rem 0;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+    position: relative;
+    overflow: hidden;
+}
+
+.challenge-summary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: #6272a4;
+}
+
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.summary-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.summary-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #6272a4;
+    margin: 0;
+}
+
+.summary-value {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #f1f5f9;
+    margin: 0;
+}
+
+.difficulty-easy {
+    color: #50fa7b;
+    background: rgba(80, 250, 123, 0.15);
+    padding: 0.375rem 0.75rem;
+    border-radius: 0.5rem;
+    border: 1px solid #50fa7b;
+    display: inline-block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.difficulty-medium {
+    color: #f1fa8c;
+    background: rgba(241, 250, 140, 0.15);
+    padding: 0.375rem 0.75rem;
+    border-radius: 0.5rem;
+    border: 1px solid #f1fa8c;
+    display: inline-block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.difficulty-hard {
+    color: #ff79c6;
+    background: rgba(255, 121, 198, 0.15);
+    padding: 0.375rem 0.75rem;
+    border-radius: 0.5rem;
+    border: 1px solid #ff79c6;
+    display: inline-block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.flag-container {
+    background: #0f172a;
+    border: 1px solid #374151;
+    border-radius: 0.375rem;
+    padding: 1rem;
+    margin-top: 0.75rem;
+    font-family: 'Fira Code', 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    position: relative;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.flag-container::before {
+    content: '🏴';
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    font-size: 1rem;
+    opacity: 0.8;
+}
+
+.flag-text {
+    color: #f1f5f9;
+    font-size: 0.9rem;
+    font-weight: 500;
+    word-break: break-all;
+    margin: 0;
+    padding-right: 2rem;
+    letter-spacing: 0.025em;
+}
+
+.flag-copy-btn {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    background: rgba(55, 65, 81, 0.8);
+    border: 1px solid #44475a;
+    color: #d1d5db;
+    padding: 0.375rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.7rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-weight: 500;
+    backdrop-filter: blur(8px);
+}
+
+.flag-copy-btn:hover {
+    background: rgba(75, 85, 99, 0.9);
+    border-color: #6b7280;
+    color: #f9fafb;
+    transform: translateY(-1px);
+}
+
+.flag-copy-btn.copied {
+    background: rgba(80, 250, 123, 0.2);
+    border-color: #50fa7b;
+    color: #50fa7b;
+}
+
+/* Responsive improvements for challenge summary */
+@media (max-width: 768px) {
+    .challenge-summary {
+        padding: 1rem;
+        margin: 0.75rem 0;
+    }
+    
+    .summary-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .flag-container {
+        padding: 0.75rem;
+    }
+    
+    .flag-text {
+        font-size: 0.8rem;
+        padding-right: 1.5rem;
+    }
+    
+    .difficulty-easy,
+    .difficulty-medium,
+    .difficulty-hard {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .summary-grid {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+    
+    .challenge-summary {
+        padding: 0.75rem;
+    }
+}
+
+/* Blog content alignment */
+.blog-content p,
+.blog-content h4,
+.blog-content h5,
+.blog-content h6,
+.blog-content li,
+.blog-content div:not(.code-container):not(.code-content):not(.code-controls):not(.challenge-summary):not(.summary-grid):not(.summary-item):not(.flag-container) {
+    text-align: justify;
+}
+
+
+
+
+/* Simple code block styles - focused only on code */
+
+/* Active TOC link highlighting */
+.sticky-sidebar a.active {
+    background-color: rgba(var(--bs-primary-rgb), 0.15) !important;
+    border-left: 3px solid var(--bs-primary);
+    padding-left: calc(0.5rem - 3px);
+}
+
+.sticky-sidebar a.active .ri-arrow-right-s-line {
+    color: var(--bs-primary) !important;
+    transform: translateX(3px);
+}
+
+/* Code block enhancements */
+.code-container:hover .copy-btn {
+    opacity: 1;
+    transform: translateY(-1px);
+}
+
+.copy-btn {
+    opacity: 0.8;
+    transition: all 0.2s ease;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .code-container {
+        margin: 1rem 0;
+    }
+    
+    .code-content {
+        padding: 1rem;
+        font-size: 0.8rem;
+    }
+    
+    .code-header {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.8rem;
+    }
+    
+    .copy-btn {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.7rem;
+    }
+}
