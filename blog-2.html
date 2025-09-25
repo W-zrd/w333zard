@@ -281,8 +281,7 @@
                                 <pre><code>search_term: ' AND '1'='2</code></pre>
 
                                 <p style="text-align: justify;">This time, I got zero results because <code>'1'='2'</code> is always <code>FALSE</code>. The different responses to these inputs confirmed that the application was directly embedding my search terms into its SQL queries without proper sanitization. After confirming the vulnerability through manual testing, I moved to an automation tool using SQLMap. I began by capturing search request from the university's website using BurpSuite Interceptor. This request was saved to a file named <code>request.txt</code>.</p>
-                                <p style="text-align: justify;">Since I already knew the system used Oracle from our reconnaissance, I specified <code>--dbms=Oracle</code> to ensure our tests efficient. Next, the sqlmap command I used was crafted and ended up with this:</p>
-                                <pre><code class="language-js">sqlmap -r request.txt --batch -p sSearch --random-agent --dbms=Oracle --technique U --level 5 --dbs</code></pre>
+                                <p style="text-align: justify;">Since I already knew the system used Oracle from our reconnaissance, I specified <code>--dbms=Oracle</code> to ensure our tests efficient. Next, i use sqlmap to automate the process</p>
 
                                 <div class="d-flex align-items-center my-4">
                                     <img class="" src="assets/imgs/blog/blog-2/poc2.png" alt="" />
