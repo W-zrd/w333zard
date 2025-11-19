@@ -7,7 +7,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
 
     <meta property="og:title" content="Hacking all the things on Telkom University (Graduation Edition)" />
-    <meta property="og:description" content="There are no geniuses without a touch of madness" />
+    <meta property="og:description" content="As my journey ends, I'll leave my hat on Telyu." />
     <meta property="og:url" content="https://rfdhaikal-wizz.pro" />
     <meta
       property="og:image"
@@ -43,6 +43,7 @@
     <!-- Main CSS -->
     <link rel="stylesheet" href="assets/css/main.css">
     <link rel="stylesheet" href="assets/css/Wzrd.css">
+    <link rel="stylesheet" href="assets/css/blog-styles.css">
 
 
 </head>
@@ -220,19 +221,63 @@
                 <div class="row">
                     <div class="col-lg-10 mx-lg-auto mb-3">
                         <div class="text-center">
-                            <a href="#" class="btn btn-gradient d-inline-block text-uppercase"> Offensive Security </a>
+                            <a href="#" class="btn btn-gradient d-inline-block text-uppercase"> Web Exploitation </a>
                             <h3 class="ds-3 mt-3 mb-3 text-dark">Hacking all the things on Telkom University (Graduation Edition)</h3>
                             <p class="text-300 fs-5 mb-0">
-                                There are no geniuses without a touch of madness
+                                As my journey ends, I'll leave my hat on Telyu.
                             </p>
                             <div class="d-flex align-items-center my-4">
                                 <img class="" style="width:1200px;" src="assets/imgs/blog/blog-5/cover.png" alt="" />
                             </div>
                         </div>
                     </div>
+
+                    
                     <div class="col-lg-10 mx-lg-auto">
                         <div class="row">
                             <div class="col-lg-9">
+                                <div class="mt-4">
+                                    <div class="bg-primary bg-opacity-10 border border-primary border-opacity-25 rounded-4 p-4">
+                                        <div class="d-flex align-items-center mb-3">
+                                            <i class="ri-list-check-2 fs-5 text-primary me-2"></i>
+                                            <h5 class="mb-0 text-primary">List of Findings</h5>
+                                        </div>
+                                        <ol class="list-unstyled mb-0">
+                                            <li class="mb-2">
+                                                <a href="#basila" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
+                                                    <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
+                                                    <span><strong>Unauthorized File Access in Basila</strong> <span class="text-muted">(Medium 6.5)</span></span>
+                                                </a>
+                                            </li>
+                                            <li class="mb-2">
+                                                <a href="#sipeta" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
+                                                    <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
+                                                    <span><strong>Broken Access Control in SiPeta</strong> <span class="text-muted">(Medium 5.4)</span></span>
+                                                </a>
+                                            </li>
+                                            <li class="mb-2">
+                                                <a href="#mytelu" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
+                                                    <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
+                                                    <span><strong>Insecure Data Storage in MyTel-U</strong> <span class="text-muted">(High 7.1)</span></span>
+                                                </a>
+                                            </li>
+                                            <li class="mb-2">
+                                                <a href="#openlib" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
+                                                    <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
+                                                    <span><strong>SQL Injection in Open Library</strong> <span class="text-muted">(Critical 9.1)</span></span>
+                                                </a>
+                                            </li>
+                                            <li class="mb-2">
+                                                <a href="#igracias" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
+                                                    <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
+                                                    <span><strong>Insecure Direct Object References on iGracias</strong> <span class="text-muted">(High 7.1)</span></span>
+                                                </a>
+                                            </li>
+                                        </ol>
+                                    </div>
+                                </div>
+                                <br>
+
                                 <h4>Introduction</h4>
                                 <p style="text-align: justify;">
                                 As I sit here in my final semester moment, I've spent so many time in Telkom University to make memories, meet some friends, and compete to win some competitions. I'd never regret to choose Tel-U to forge my bachelor's degree. It's a honor to become a part of this university, better than my previous academic history which is fucking sucks in every aspects. So before I leave these halls that have shaped me for years, there's something important that i need to share as a return.
@@ -258,18 +303,22 @@
 
                                 <h4>Impact & Findings</h4>
 
-                                <h6>1. Unauthorized File Access in Basila</h6>
+                                <h6 id="basila">1. Unauthorized File Access in Basila</h6>
                                 <p style="text-align: justify;">Basila is used by the final semester students to download their transcripts and certificates (ijazah). The system requiring students to input their SSO username and password before being allowed to download these sensitive documents. This seems like a reasonable security measure to ensure that only the rightful owner can access their own files. However during my testing, I discovered about how Basila actually processes these download requests.</p>
-
-                                <p style="text-align: justify;">While the application does ask for your username and password, it turns out that these credentials aren't actually being used to verify which files you're authorized to access. Instead, the system relies on a student ID number (NIM) that's sent in the background when you make a download request. This means that even though I would log in with my own username & password before downloading those documents, I can modify the NIM parameter to someone else's student ID. The system would still accepting my request and send me that other student's documents. The user/pass verification check was essentially just for show, but it didn't actually protect anything.</p>
-
+                                
                                 <div class="d-flex align-items-center my-4">
                                     <img class="" src="assets/imgs/blog/blog-5/basila1.png" alt="" />
                                 </div>
 
+                                <p style="text-align: justify;">While the application does ask for your username and password, it turns out that these credentials aren't actually being used to verify which files you're authorized to access. Instead, the system relies on a student ID number (NIM) that's sent in the background when you make a download request. This means that even though I would log in with my own username & password before downloading those documents, I can modify the NIM parameter to someone else's student ID. The system would still accepting my request and send me that other student's documents. The user/pass verification check was essentially just for show, but it didn't actually protect anything.</p>
+
+                                <div class="d-flex align-items-center my-4">
+                                    <img class="" src="assets/imgs/blog/blog-5/basila2.png" alt="" />
+                                </div>
+
                                 <p style="text-align: justify;">Anyone with a valid SSO account could download transcripts and certificates belonging to any student in the university. All they need is just a student's NIM, which isn't exactly secret information since it can be accessed publicly via PDDikti. Imagine if someone wanted to impersonate you for a job application, or if a malicious actor wanted to steal the identities of hundreds or thousands of students. It can be a gateway to identity theft, fraud, and a serious breach of privacy for every student who has ever graduated or is about to graduate from the university.</p>
 
-                                <h6>2. Broken Access Control on SiPeta</h6>
+                                <h6 id="sipeta">2. Broken Access Control on SiPeta</h6>
                                 <p style="text-align: justify;">SiPeta is a platform where Students can upload their thesis progress, view grades, submit administrative documents, and check their thesis defense status. Lecturers can also use it to input grades and review thesis drafts. To access these features, students must have a valid certificate called "SK TA" (Surat Keterangan Tugas Akhir). This certificate acts as your permission slip which confirm that you're officially registered for thesis work. Without it, the system is designed to restrict your access and only showing you a "Data Tugas Akhir" menu on its sidebar.</p>
                                 
                                 <div class="d-flex align-items-center my-4">
@@ -280,7 +329,7 @@
 
                                 <p style="text-align: justify;">The vulnerability also means that the entire permission system built around SK TA certificates becomes meaningless. If access controls can be bypassed with such a simple method, what's the point of requiring certificates in the first place? It undermines the integrity of the entire thesis management process and the administrative controls that are supposed to govern who can do, what, and when within the system.</p>
 
-                                <h6>3. Insecure Data Storage in MyTel-U</h6>
+                                <h6 id="mytelu">3. Insecure Data Storage in MyTel-U</h6>
 
                                 <p style="text-align: justify;">The next issue I found was related about how MyTel-U mobile handled data storage. Mobile apps often save small pieces of information locally on the device so that users don’t have to log in repeatedly. On Flutter, this is commonly done using something called Shared Preferences, which is essentially like a local storage cookies in a web browser.</p>
 
@@ -296,7 +345,7 @@
 
                                 <p style="text-align: justify;">Local storage in Flutter is designed to store non-sensitive information like news, notifications, name, faculty, or grades. It was never intended to store sensitive such as role, password, or even auth token. Because these values were not encrypted, Attackers could read and modify these data easily. In a good practice, Sensitive information like tokens or passwords should always be stored using secure mechanisms, such as Flutter Secure Storage.</p>
 
-                                <h6>4. SQL Injection in Open Library</h6>
+                                <h6 id="openlib">4. SQL Injection in Open Library</h6>
                                 <p style="text-align: justify;">Behind the scenes, Open Library communicates with a database to retrieve information about available resources, student borrowing history, and catalog details.  It's a system that students and staff interact with regularly for research and academic purposes. When you search for a book or access any feature, your input is sent to the database as a query command. Normally, the system should treat your input as plain text and safely search for matching results. However, I discovered that Open Library wasn't properly filtering user input before passing it to the database.</p>
 
                                 <div class="d-flex align-items-center my-4">
@@ -311,16 +360,22 @@
 
                                 <p style="text-align: justify;">One of the most sensitive databases I could access was called Masterdata, which stores almost all academic and administrative information across the university. There are so many sensitive data inside Masterdata DB such as PII informations, student academic records, administrative data, enrollment details, and countless other sensitive datasets that power various university systems. This means a single SQL Injection point in Open Library could potentially compromise the entire university's digital infrastructure. It's like finding one weak door that leads to every room in the entire building. The impact of this vulnerability threatened the confidentiality of everyone's data across the entire institution.</p>
 
-                                <h6>5. Insecure Direct Object Reference on iGracias</h6>
+                                <h6 id="igracias">5. Insecure Direct Object Reference on iGracias</h6>
                                 <p style="text-align: justify;">One of the services within iGracias is called TAK (Transcript of Student Activities), which records all your extracurricular activities, organizational involvement, competitions, and other achievements during the study. The system works through a structured approval process where students can add new TAK records or update existing ones in their account. Once submitted, these records must be reviewed and approved by the LAK administration team. If approved, the TAK points get added to your academic record. Otherwise, you'll need to make revisions based on the LAK team's feedback. This process exists to ensure that only legitimate achievements are recognized in your academic transcript.</p>
-
-                                <p style="text-align: justify;">However, I discovered a critical flaw in how iGracias handles TAK record modifications. This finding occurs when the system doesn't properly verify whether a user has the right to access or modify a specific piece of data. In this case, when you submit or update a TAK record, the system uses an identifier to reference which record is being modified. But it never checks whether that identifier actually belongs to you. By manipulating this identifier in my request, I could target another student's TAK record and modify it as if it were my own. Even worse, I discovered that I could craft a payload that also bypassed the entire approval workflow altogether.</p>
 
                                 <div class="d-flex align-items-center my-4">
                                     <img class="" src="assets/imgs/blog/blog-5/idor1.png" alt="" />
                                 </div>
+                                
+                                <p style="text-align: justify;">However, I discovered a critical flaw in how iGracias handles TAK record modifications. This finding occurs when the system doesn't properly verify whether a user has the right to access or modify a specific piece of data. In this case, when you submit or update a TAK record, the system uses an identifier to reference which record is being modified. But it never checks whether that identifier actually belongs to you. By manipulating this identifier in my request, I could target another student's TAK record and modify it as if it were my own. Even worse, I discovered that I could craft a payload that also bypassed the entire approval workflow altogether.</p>
+
+                               
 
                                 <p style="text-align: justify;">This means an attacker could insert some fake activity records into any student's account, cheating to increase their TAK points, and directly mark those records as "approved" <strong>without any involvement from the LAK admin team</strong>. They could give themselves credit for competitions they never participated in, organizational roles they never held, or achievements they never earned. Since TAK points play a significant role in determining academic recognitions, scholarships, and even serve as a requirement for graduation, this vulnerability creates an unfair advantage.</p>
+
+                                <div class="d-flex align-items-center my-4">
+                                    <img class="" src="assets/imgs/blog/blog-5/idor2.jpg" alt="" />
+                                </div>
 
                                 <p style="text-align: justify;">The severity of this issue is at least on the same level as SQL Injection. While SQL Injection threatens data breaches, its impact can still be reduced by changing password or enabling multi-factor authentication on the victim's side. Even if credentials were leaked, MFA would act as an additional barrier against the attackers that trying to log in with breached password from SQLi finding. But on the other hand, this IDOR finding could bypasses authentication entirely. No matter how strong a user’s password is, or even if they rotate it daily and enabling MFA, the attacker could still modify the victim’s data by just using the data IDs of the victim. This data IDs wont never changed since it has already defined randomly by the system. Unfortunately, anyone can view this ID based on student's NIM, while the NIM itself can be accessed publicly via PDDikti. This makes IDOR highly damaging because it undermines the integrity of academic records without needing to compromise any account at all.</p>
 
@@ -347,7 +402,7 @@
                                     </div>
                                     <div class="d-flex align-items-center mb-3">
                                         <i class="ri-calendar-schedule-line fs-6"></i>
-                                        <span class="ms-2 fs-6">November 5, 2025</span>
+                                        <span class="ms-2 fs-6">November 24, 2025</span>
                                     </div>
                                     <div class="d-flex align-items-center mb-3">
                                         <i class="ri-user-line fs-6"></i>
@@ -426,7 +481,7 @@
                             <div class="blog-card__content position-relative text-center mt-4">
                                 <span class="blog-card__date fs-7">November 5, 2024 • 7 min read</span>
                                 <h5 class="blog-card__title">Hacking all the things on Telkom University (Graduation Edition)</h5>
-                                <p class="blog-card__description fs-6">There are no geniuses without a touch of madness</p>
+                                <p class="blog-card__description fs-6">As my journey ends, I'll leave my hat on Telyu.</p>
                                 <a href="blog-3.html" class="link-overlay position-absolute top-0 start-0 w-100 h-100"></a>
                             </div>
                         </div>
@@ -522,6 +577,8 @@
     <script src="assets/js/vendors/aat.min.js"></script>
     <!-- Theme JS -->
     <script src="assets/js/main.js"></script>
+
+    
 </body>
 
 </html>
