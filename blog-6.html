@@ -1,0 +1,721 @@
+ <!doctype html>
+<html lang="en" data-bs-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <meta property="og:title" content="Solving Reverse Engineering CTF by Mandiant, Google Cloud" />
+    <meta property="og:description" content="In a race against hackers on another country" />
+    <meta property="og:url" content="https://rfdhaikal-wizz.pro" />
+    <meta
+      property="og:image"
+      content="https://i.pinimg.com/1200x/61/31/52/613152453ec7f1b58ac49f9c9b5e3fa6.jpg"
+    />
+
+    <title>Solving Reverse Engineering CTF by Mandiant, Google Cloud</title>
+    <script src="assets/js/vendors/color-modes.js"></script>
+    <!-- Favicon icon-->
+    <link rel="shortcut icon" type="image/x-icon" href="assets/imgs/template/favicon.svg">
+    <!-- Libs CSS -->
+    <link rel="stylesheet" href="assets/css/vendors/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/vendors/swiper-bundle.min.css">
+    <link rel="stylesheet" href="assets/css/vendors/aos.css">
+    <link rel="stylesheet" href="assets/css/vendors/odometer.css">
+    <link rel="stylesheet" href="assets/css/vendors/carouselTicker.css">
+    <link rel="stylesheet" href="assets/css/vendors/magnific-popup.css">
+    <link rel="stylesheet" href="assets/fonts/remixicon/remixicon.css">
+    <link rel="stylesheet" href="assets/fonts/satoshi/satoshi.css">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Playfair+Display:wght@400..900&family=Urbanist:wght@100..900&display=swap" rel="stylesheet">
+   
+    <!-- In your HTML head -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <!-- Initialize -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            hljs.highlightAll();
+        });
+    </script>
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/Wzrd.css">
+    <link rel="stylesheet" href="assets/css/blog-styles.css">
+
+
+</head>
+
+<body>
+    <!-- prettier-ignore -->
+
+    <!-- Navbar -->
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light w-100 flex-nowrap z-999 p-0">
+            <a href="#" class="navbar-menu p-4 text-center square-100 menu-tigger icon_80 icon-shape d-none d-md-flex" data-bs-target=".offCanvas__info" aria-controls="offCanvas__info">
+                <i class="ri-menu-2-line"></i>
+            </a>
+            <div class="container py-3 px-0">
+                <a class="navbar-brand d-flex main-logo align-items-center ms-lg-0 ms-md-5 ms-3" href="index.html">
+                    <img src="assets/imgs/template/favicon.svg" alt="zelio" />
+                    <span class="fs-4 ms-2">w333zard</span>
+                </a>
+                <div class="d-none d-lg-flex">
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="index.html">Home</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="index.html#skills">Skills</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="index.html#portfolio">Portfolio</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="index.html#blog">Blog</a>
+                            </li>
+                            
+                            <li class="nav-item">
+                                <a class="nav-link" href="index.html#projects">Projects</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="index.html#contact">Contact</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="navbar-social d-flex align-items-center pe-5 pe-lg-0 me-5 me-lg-0">
+                    <div class="d-md-flex d-none gap-3">
+                        <a href="https://www.instagram.com/rfdhaikal.wizz/">
+                            <i class="ri-instagram-fill"></i>
+                        </a>
+                        <a href="https://medium.com/@w333zard">
+                            <i class="ri-medium-fill"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/rfdhaikal/">
+                            <i class="ri-linkedin-fill"></i>
+                        </a>
+                        <a href="https://github.com/W-zrd">
+                            <i class="ri-github-fill"></i>
+                        </a>
+                    </div>
+                    <div class="burger-icon burger-icon-white border rounded-3">
+                        <span class="burger-icon-top"></span>
+                        <span class="burger-icon-mid"></span>
+                        <span class="burger-icon-bottom"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="dark-light-switcher pe-10 pe-lg-0 pe-0 ps-md-5 ps-0 ps-lg-4 pe-lg-4 d-flex justify-content-center align-items-center icon_80 @@classList">
+                <i class="ri-sun-fill text-warning"></i>
+                <i class="ri-contrast-2-line text-white"></i>
+            </div>
+
+        </nav>
+        <!-- offCanvas-menu -->
+        <div class="offCanvas__info">
+            <div class="offCanvas__close-icon menu-close">
+                <button><i class="ri-close-line"></i></button>
+            </div>
+            <div class="offCanvas__logo mb-5">
+                <h3 class="mb-0">Get in touch</h3>
+            </div>
+            <div class="offCanvas__side-info mb-30">
+                <div class="contact-list mb-30">
+                    <p class="fs-6 fw-medium text-200 mb-5">Offense in depth; better take your data back to offline mode.</p>
+                    <div class="mb-3">
+                        <span class="text-400 fs-5">LinkedIn</span>
+                        <p class="mb-0">https://www.linkedin.com/in/rfdhaikal/</p>
+                    </div>
+                    <div class="mb-3">
+                        <span class="text-400 fs-5">Email</span>
+                        <p class="mb-0">rfdhaikal.wizz@proton.me</p>
+                    </div>
+                    <div class="mb-3">
+                        <span class="text-400 fs-5">GitHub</span>
+                        <p class="mb-0">https://github.com/W-zrd</p>
+                    </div>
+                </div>
+
+                <div class="contact-list">
+                    <p class="text-400 fs-5 mb-2">Social</p>
+                    <div class="d-md-flex d-none gap-3">
+                        <a href="https://www.instagram.com/rfdhaikal.wizz/">
+                            <i class="ri-instagram-fill fs-18"></i>
+                        </a>
+                        <a href="https://medium.com/@w333zard">
+                            <i class="ri-medium-fill fs-18"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/rfdhaikal/">
+                            <i class="ri-linkedin-fill fs-18"></i>
+                        </a>
+                        <a href="https://github.com/W-zrd">
+                            <i class="ri-github-fill fs-18"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="offCanvas__overly"></div>
+        <div class="mobile-header-active mobile-header-wrapper-style perfect-scrollbar button-bg-2">
+            <div class="mobile-header-wrapper-inner">
+                <div class="mobile-header-logo">
+                    <a class="d-flex main-logo align-items-center d-inline-flex" href="index.html">
+                        <img src="assets/imgs/footer-1/logo.svg" alt="zelio" />
+                        <span class="fs-4 ms-2 text-dark">w333zard</span>
+                    </a>
+                    <div class="burger-icon burger-icon-white border rounded-3">
+                        <span class="burger-icon-top"></span>
+                        <span class="burger-icon-mid"></span>
+                        <span class="burger-icon-bottom"></span>
+                    </div>
+                </div>
+                <div class="mobile-header-content-area">
+                    <div class="perfect-scroll">
+                        <div class="mobile-menu-wrap mobile-header-border">
+                            <nav>
+                                <ul class="mobile-menu font-heading ps-0">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" href="index.html">Home</a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="index.html#skills">Skills</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="index.html#portfolio">Portfolio</a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="index.html#blog">Blog</a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="index.html#projects">Projects</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="index.html#contact">Contact</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </header>
+
+    <main>
+        <!-- prettier-ignore -->
+        <!-- blog details -->
+        <section class="section-details pt-60 pb-100">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-10 mx-lg-auto mb-3">
+                        <div class="text-center">
+                            <a href="#" class="btn btn-gradient d-inline-block text-uppercase"> Reverse Engineering </a>
+                            <h3 class="ds-3 mt-3 mb-3 text-dark">Solving Reverse Engineering CTF by Mandiant, Google Cloud</h3>
+                            <p class="text-300 fs-5 mb-0">
+                                pwning video game for fun and profit
+                            </p>
+                            <div class="d-flex align-items-center my-4">
+                                <img class="" style="width:1200px;" src="assets/imgs/blog/blog-6/cover.jpeg" alt="" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-10 mx-lg-auto">
+                        <div class="row">
+                            <div class="col-lg-8 blog-content">
+
+                                <div class="mt-4">
+                                    <div class="bg-primary bg-opacity-10 border border-primary border-opacity-25 rounded-4 p-4">
+                                        <div class="d-flex align-items-center mb-3">
+                                            <i class="ri-list-check-2 fs-5 text-primary me-2"></i>
+                                            <h5 class="mb-0 text-primary">Table of Contents</h5>
+                                        </div>
+                                        <ol class="list-unstyled mb-0">
+                                            <li class="mb-2">
+                                                <a href="#overview" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
+                                                    <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
+                                                    <span><strong>Challenge Overview</strong></span>
+                                                </a>
+                                            </li>
+                                            <li class="mb-2">
+                                                <a href="#flow" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
+                                                    <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
+                                                    <span><strong>Program Execution Flow</strong></span>
+                                                </a>
+                                            </li>
+                                            <li class="mb-2">
+                                                <a href="#solution" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
+                                                    <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
+                                                    <span><strong>Solution</strong></span>
+                                                </a>
+                                            </li>
+                                            <li class="mb-2">
+                                                <a href="#bl1zzard" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
+                                                    <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
+                                                    <span><strong>Patching the Binary</strong></span>
+                                                </a>
+                                            </li>
+                                        </ol>
+                                    </div>
+                                </div>
+
+                                <div class="mt-5">
+                                    
+                                    <div class="mt-4">
+                                        <div class="d-flex align-items-center my-2">
+                                            <img class="" src="assets/imgs/blog/blog-6/0.png" alt="" />
+                                        </div>
+                                        <p>Flareon CTF was a reverse engineering CTF challenge developed by Mandiant, part of Google Cloud. There is 10 challenges developed by the author, but sadly there is no finishers from Indonesia which solve them all. All the challenge was hard for me, but at least i learn something during the analysis. And here is what i got from the challenge number #4 about Game Hacking</p>
+                                        <h4 id="overview">1. Challenge Overview</h4>
+                                        
+                                        <div class="challenge-summary">
+                                            <div class="summary-grid">
+                                                <div class="summary-item">
+                                                    <p class="summary-label">Difficulty</p>
+                                                    <span class="difficulty-medium">Medium</span>
+                                                </div>
+                                                <div class="summary-item">
+                                                    <p class="summary-label">Category</p>
+                                                    <p class="summary-value">Reverse Engineering</p>
+                                                </div>
+                                                <div class="summary-item">
+                                                    <p class="summary-label">Topic</p>
+                                                    <p class="summary-value">DWARF, Nim Language</p>
+                                                </div>
+                                            </div>
+                                            <div class="flag-container">
+                                                <p class="flag-text">1t_i5_wEdn3sd4y_mY_Dud3s@flare-on.com</p>
+                                                <button class="flag-copy-btn" onclick="copyFlag(this)">
+                                                    <i class="ri-file-copy-line" style="font-size: 0.6rem;"></i>
+                                                    <span>Copy</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        
+                                        <p>We are given folder package which contains a Windows executable named mydude.exe along with supporting asset for graphics, fonts, and sound files. The program was built using the Nim programming language. Upon execution, the game displays a bouncing frog character with two menu options: "DUDE" to start the game and "EXIT" to close the application. The controls are straightforward: up arrow to jump, down arrow to duck, and ESC to quit. In short, this game is similar to Chrome's offline dinosaur game or Flappy Bird where the player needs to avoid the obstacles.</p>
+
+                                        <div class="d-flex align-items-center my-2">
+                                            <img class="" src="assets/imgs/blog/blog-6/1.png" alt="" />
+                                        </div>
+
+                                        <p>Each obstacle is labeled with a single letter representing days of the week: (S)unday, (M)onday, (T)uesday, and (F)riday. The challenge title "Wednesday" means that the player acts as Wednesday. The game logic works as follows: when an obstacle approaches with a day that comes before Wednesday alphabetically (Monday or Sunday), the player must duck underneath it. When the obstacle represents a day after Wednesday alphabetically (Friday or Thursday), the player must jump over it. </p>
+
+                                        <div class="d-flex align-items-center my-2">
+                                            <img class="" src="assets/imgs/blog/blog-6/2.png" alt="" />
+                                        </div>
+
+                                        <p>The game tracks the player's score, incrementing by one for each correctly navigated obstacle. When the player performs the wrong action for an obstacle or collides with the solid part of an obstacle, a death sound plays and the game resets to the beginning. With 296 total obstacles to complete, manual gameplay becomes impossible since a single mistake or collision will trigger the game to restart from the beginning. So, Our goal is to patch the binary rather than attempting to beat the game manually.</p>
+
+                                        <div class="d-flex align-items-center my-2">
+                                            <img class="" src="assets/imgs/blog/blog-6/3.png" alt="" />
+                                        </div>
+
+                                        <h4 id="flow">2. Program Execution Flow</h4>
+                                        
+                                        <p>The main execution begins with updateScene__rbzI, which serves as the orchestrator for the entire game state. This function is called every frame and handles position updates, animation updates, and triggers the collision detection system. During each frame, the collision detection activates through checkCollisions__P9bT which will checking each pair for potential collisions. When a collision is confirmed, both objects involved need to be notified so they can respond appropriately. The system calls onCollide__BN6X twice, once for each object, passing the other object as a parameter. This wrapper function performs type checking and validation to ensure the objects can handle collision events, then dispatches to the appropriate object-specific collision handler. For the player character, this leads to onCollide__9byA, where the actual game logic resides.</p>
+
+                                        <div class="d-flex align-items-center my-2">
+                                            <img class="" src="assets/imgs/blog/blog-6/4.png" alt="" />
+                                        </div>
+
+                                        <p>The onCollide__9byAjE9cSmbSbow3F9cTFQfLg function contains the core game logic that determines whether the player lives or dies. This function receives two parameters: the player object passed in the ECX register and the obstacle object passed in the EDX register. </p>
+
+                                        <div class="d-flex align-items-center my-2">
+                                            <img class="" src="assets/imgs/blog/blog-6/5.png" alt="" />
+                                        </div>
+
+                                        <p>Based on the image above, The first collision type handled is Type 3, which represents obstacles. When the function encounters a Type 3 collider at address 0x00432159, it compares a word value at offset +0x8 of the collider against reference data stored at address 0x0043e8fc. It also compares a byte at offset +0xa against data at 0x0043e8fe. These comparisons serve as zone markers that distinguish safe collision areas from fatal ones. If the comparison at 0x00432168 shows the values match, the code treats this as a safe zone and continues processing other colliders. However, if the values dont match (the player hit a solid dangerous part of the obstacle), the code executes a critical instruction at address 0x00432247: MOV byte ptr [EAX + 0xf9], 0x1. This instruction writes the value 1 to offset 0xf9 in the player object, which serves as the game over flag. </p>
+
+                                        <div class="d-flex align-items-center my-2">
+                                            <img class="" src="assets/imgs/blog/blog-6/6.png" alt="" />
+                                        </div>
+
+                                        <p>After processing all Type 3 colliders, the function begins a second loop starting at address 0x004321a2 to check for Type 5 colliders, view the image above. Type 5 represents the day label markers (S, M, F, etc.) that implement the core game mechanic. When the function finds a Type 5 collider at address 0x004321db, it performs a data comparison at 0x004321e9 to verify the label data matches expected values at addresses 0x0043e8e0 and 0x0043e8e4. If the label data does not match the expected pattern, the code skips this collider and continues the loop.</p>
+
+                                        <p>When a valid Type 5 day label collider is found, the code enters the validation logic at address 0x00432320. Then at address 0x00432348, the code loads the obstacle's day character from offset +0xf8 using MOVSX EDX, byte ptr [ESI + 0xf8], which sign-extends the byte value into EDX. At 0x0043234f, it loads the player's expected day character from offset +0xf8 using MOVZX EAX, byte ptr [EDI + 0xf8], which zero-extends the byte value into EAX. The comparison occurs at 0x00432356 with the instruction CMP EDX, EAX.</p>
+
+
+                                        <div class="d-flex align-items-center my-2">
+                                            <img class="" src="assets/imgs/blog/blog-6/7.png" alt="" />
+                                        </div>
+
+                                        <p>The result of this comparison determines the player's fate. If the values match, the jump at 0x00432358 is taken to address 0x00432261, where the code increments the global score. At 0x00432267, the instruction ADD EBX, 1 increments the score value, which is then stored back to the global variable at address 0x0044ddb0 via the instruction at 0x00432279.  If the day characters do not match, the jump at 0x00432358 is not taken, and execution continues to address 0x0043235e. Here, the code executes another MOV byte ptr [EDI + 0xf9], 0x1 instruction, setting the same game over flag that Type 3 collisions set.</p>
+
+                                        <h4 id="vulnerability">3. Vulnerability Analysis</h4>
+
+                                        <p>The vulnerability lies on function onCollide__9byA. The collision handler performs two checks that determine game state. The first check sets the game over flag when the player collides with solid obstacles. The second check sets the game over flag when the player performs the wrong action (jumping when they should duck, or vice versa).</p>
+
+                                        <p>Both death conditions funnel through the same mechanism: setting a single byte flag at offset 0xf9 in the player object. This creates an exploitable point because the game's entire death system depends on these two instructions executing. If these instructions can be prevented from executing or their effects can be bypassed, the player becomes invulnerable to both collision damage and wrong action penalties.</p>
+
+                                        <div class="d-flex align-items-center my-2">
+                                            <img class="" src="assets/imgs/blog/blog-6/8.png" alt="" />
+                                        </div>
+
+                                        <p>The day comparison logic presents another potential exploit point. This comparison uses a simple CMP instruction followed by a conditional JZ jump. The jump is taken when the day characters match, leading to the score increment path. When they do not match, execution falls through to the death flag instruction. This conditional jump represents a binary decision point that can be modified to always take the success path regardless of whether the day characters actually match.  Once the game over flag is prevented from being set, or once the day comparison is forced to always succeed, the normal game rules no longer apply and the player's character can be immortal so we can reach 296 score easily.</p>
+
+                                        <h4 id="solution">4. Solution</h4>
+
+                                        <p>The most reliable approach to solving this challenge is to neutralize the collision logic itself to remove the game’s ability to kill the player, rather than making automation bot to auto correct jump/duck behavior for each obstacle. The simplest way is to force the execution flow to always take the “success” path, regardless of player input. </p>
+
+                                        <p>From the execution flow, the win or lose condition are written in the function onCollide__9byA, which makes it the ideal patch target. Inside this function, there are two different logical paths: one that handles solid obstacle collisions and another that validates whether the player performed the correct action (jump or duck) for a given day-labeled obstacle.</p>
+
+
+                                        <div class="d-flex align-items-center my-2">
+                                            <img class="" src="assets/imgs/blog/blog-6/9.png" alt="" />
+                                        </div>
+                                    
+                                        <p>At address 0x00432247, the game executes a MOV byte ptr [EAX + 0xf9], 0x1 instruction whenever the player hits a fatal part of an obstacle. A second, nearly identical instruction at 0x0043235e performs the same write when the player chooses the wrong action for a day prefix. By overwriting both of these instructions with NOPs, the game over flag is never set, regardless of what the collision logic decides internally. All comparisons, sound logic, and score updates still execute normally, but the final “kill switch” is effectively removed.</p>
+
+                                        <div class="d-flex align-items-center my-2">
+                                            <img class="" src="assets/imgs/blog/blog-6/cheat.gif" alt="" />
+                                        </div>
+
+                                        <p>Once this patch is applied and the binary is re-compiled, the player can collide with obstacles freely, ignore the jump/duck rules entirely, and continue moving forward without interruption.  After passing 296 obstacles, the flag will revealed. </p>
+
+                                        <div class="d-flex align-items-center my-2">
+                                            <img class="" src="assets/imgs/blog/blog-6/flag.webp" alt="" />
+                                        </div>
+
+                                    </div>
+                                    </div>
+                                
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="sticky-sidebar">
+                                    
+                                    <div class="bg-primary bg-opacity-10 border border-primary border-opacity-25 rounded-4 p-4">
+                                        <div class="d-flex align-items-center mb-3">
+                                            <i class="ri-list-check-2 fs-5 text-primary me-2"></i>
+                                            <h6 class="mb-0 text-primary">Table of Contents</h6>
+                                        </div>
+                                        <ol class="list-unstyled mb-0">
+                                            <li class="mb-2">
+                                                <a href="#overview" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
+                                                    <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
+                                                    <span><strong>Challenge Overview</strong></span>
+                                                </a>
+                                            </li>
+                                            <li class="mb-2">
+                                                <a href="#flow" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
+                                                    <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
+                                                    <span><strong>Program Execution Flow</strong></span>
+                                                </a>
+                                            </li>
+                                            <li class="mb-2">
+                                                <a href="#vulnerability" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
+                                                    <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
+                                                    <span><strong>Vulnerability Analysis</strong></span>
+                                                </a>
+                                            <li class="mb-2">
+                                                <a href="#solution" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
+                                                    <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
+                                                    <span><strong>Solution</strong></span>
+                                                </a>
+                                            </li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- blog list -->
+        <section class="section-blog-list">
+            <div class="container border-top pt-80 pb-80">
+                <div class="row">
+                    <div class="d-md-flex align-items-center">
+                        <h1 class="text-300">Related posts</h1>
+                        <a href="" class="btn btn-gradient ms-auto">
+                            View more
+                            <i class="ri-arrow-right-line"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="row mt-8">
+                    <div class="col-lg-4">
+                        <div class="blog-card rounded-4 mb-lg-3 mb-md-5 mb-3">
+                            <div class="blog-card__image position-relative">
+                                <div class="zoom-img rounded-3 overflow-hidden">
+                                    <img class="w-100" src="assets/imgs/blog/blog-5/cover.jpeg" style="height: 250px; object-fit: cover;" alt="">
+                                    <a class="position-absolute bottom-0 start-0 m-3 text-white-keep btn btn-gradient fw-medium rounded-3 px-3 py-2" href="blog-5.html">Web Exploitation</a>
+                                    <a href="blog-5.html" class="blog-card__link position-absolute top-50 start-50 translate-middle icon-md icon-shape bg-linear-1 rounded-circle">
+                                        <i class="ri-arrow-right-up-line text-dark"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="blog-card__content position-relative text-center mt-4">
+                                <span class="blog-card__date fs-7">November 24, 2025 • 7 min read</span>
+                                <h5 class="blog-card__title">Hacking all the things on Telkom University (Graduation Edition)</h5>
+                                <p class="blog-card__description fs-6">As my journey ends, I'll leave my hat on Telyu.</p>
+                                <a href="blog-5.html" class="link-overlay position-absolute top-0 start-0 w-100 h-100"></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="blog-card rounded-4 mb-lg-3 mb-md-5 mb-3">
+                            <div class="blog-card__image position-relative">
+                                <div class="zoom-img rounded-3 overflow-hidden">
+                                    <img class="w-100" src="https://i.pinimg.com/736x/c9/c3/47/c9c347f07d38aa9c2ad85e73db0a4719.jpg" style="height: 250px; object-fit: cover;" alt="">
+                                    <a class="position-absolute bottom-0 start-0 m-3 text-white-keep btn btn-gradient fw-medium rounded-3 px-3 py-2" href="blog-3.html">Offensive Security</a>
+                                    <a href="blog-3.html" class="blog-card__link position-absolute top-50 start-50 translate-middle icon-md icon-shape bg-linear-1 rounded-circle">
+                                        <i class="ri-arrow-right-up-line text-dark"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="blog-card__content position-relative text-center mt-4">
+                                <span class="blog-card__date fs-7">November 5, 2024 • 7 min read</span>
+                                <h5 class="blog-card__title">Bug Hunting XSS Vulnerability in Jember University Journal Web</h5>
+                                <p class="blog-card__description fs-6">Exploiting web for fun & profit (braindead edition)</p>
+                                <a href="blog-3.html" class="link-overlay position-absolute top-0 start-0 w-100 h-100"></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="blog-card rounded-4 mb-lg-3 mb-md-5 mb-3">
+                            <div class="blog-card__image position-relative">
+                                <div class="zoom-img rounded-3 overflow-hidden">
+                                    <img class="w-100" src="assets/imgs/blog/blog-2/cover.jpg" style="height: 250px; object-fit: cover;" alt="">
+                                    <a class="position-absolute bottom-0 start-0 m-3 text-white-keep btn btn-gradient fw-medium rounded-3 px-3 py-2" href="blog-2.html">Offensive Security</a>
+                                    <a href="blog-2.html" class="blog-card__link position-absolute top-50 start-50 translate-middle icon-md icon-shape bg-linear-1 rounded-circle">
+                                        <i class="ri-arrow-right-up-line text-dark"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="blog-card__content position-relative text-center mt-4">
+                                <span class="blog-card__date fs-7">December 17, 2024 • 6 min read</span>
+                                <h5 class="blog-card__title">How a Small Security Flaw Can Lead to Massive Data Breach</h5>
+                                <p class="blog-card__description fs-6">Everything Online Is Vulnerable. This is how Attackers Exploit SQLi to Expose Your Personal Information</p>
+                                <a href="blog-2.html" class="link-overlay position-absolute top-0 start-0 w-100 h-100"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    <!-- prettier-ignore -->
+    <!-- Footer -->
+    <footer>
+        <div class="section-footer position-relative pt-60 pb-60 bg-secondary-1">
+            <div class="container position-relative z-1">
+                <div class="text-center">
+                    <a class="d-flex main-logo align-items-center d-inline-flex" href="index.html">
+                        <img src="assets/imgs/footer-1/logo.svg" alt="zelio" />
+                        <span class="fs-4 ms-2 text-white-keep">w333zard</span>
+                    </a>
+                    <div class="navigation d-none d-md-flex align-items-center justify-content-center flex-wrap gap-4 my-4">
+                        <a href="index.html" class="fs-5">
+                            Home
+                        </a>
+                        <a href="index.html#skills" class="fs-5">
+                            Skills
+                        </a>
+                        <a href="index.html#portfolio" class="fs-5">
+                            Portfolio
+                        </a>
+                        <a href="index.html#blog" class="fs-5">
+                            Blog
+                        </a>
+                        <a href="index.html#projects" class="fs-5">
+                            Projects
+                        </a>
+                        <a href="index.html#contact" class="fs-5">
+                            Contact
+                        </a>
+                    </div>
+                </div>
+                <div class="row text-center py-4">
+                    <span class="fs-6 text-white-keep">© 2024 All Rights Reserved by <span><a href="#" class="text-primary">w333zard</a></span>
+                </div>
+            </div>
+            <div class="position-absolute top-0 start-0 w-100 h-100 z-0" data-background="assets/imgs/footer-1/background.png "></div>
+        </div>
+    </footer>
+    <!-- Scroll top -->
+    <div class="btn-scroll-top @@style">
+        <svg class="progress-square svg-content" width="100%" height="100%" viewBox="0 0 40 40">
+            <path d="M8 1H32C35.866 1 39 4.13401 39 8V32C39 35.866 35.866 39 32 39H8C4.13401 39 1 35.866 1 32V8C1 4.13401 4.13401 1 8 1Z" />
+        </svg>
+    </div>
+
+    <!-- Libs JS -->
+    <script src="assets/js/vendors/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/vendors/swiper-bundle.min.js"></script>
+    <script src="assets/js/vendors/aos.js"></script>
+    <script src="assets/js/vendors/odometer.min.js"></script>
+    <script src="assets/js/vendors/magnific-popup.min.js"></script>
+    
+    <!-- Theme JS -->
+    <script src="assets/js/main.js"></script>
+    
+    <!-- Blog-specific JavaScript -->
+    <script>
+        // Collapse / Expand code blocks
+        function toggleCode(toggleEl) {
+            const container = toggleEl.closest('.code-container');
+            const titleSpan = toggleEl.querySelector('.code-toggle-title span');
+            container.classList.toggle('collapsed');
+            const isCollapsed = container.classList.contains('collapsed');
+            if (titleSpan) {
+                const text = titleSpan.textContent;
+                titleSpan.textContent = text.replace(isCollapsed ? 'Hide code' : 'Show code', isCollapsed ? 'Show code' : 'Hide code');
+            }
+        }
+
+        // Copy to clipboard functionality
+        function copyCode(button) {
+            const codeContainer = button.closest('.code-container');
+            const codeElement = codeContainer.querySelector('code');
+            const codeText = codeElement.textContent;
+            
+            // Create a temporary textarea to copy the text
+            const tempTextarea = document.createElement('textarea');
+            tempTextarea.value = codeText;
+            document.body.appendChild(tempTextarea);
+            tempTextarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextarea);
+            
+            // Update button appearance
+            const originalText = button.querySelector('span').textContent;
+            const originalIcon = button.querySelector('i').className;
+            
+            button.querySelector('span').textContent = 'Copied!';
+            button.querySelector('i').className = 'ri-check-line';
+            button.classList.add('copied');
+            
+            // Reset button after 2 seconds
+            setTimeout(() => {
+                button.querySelector('span').textContent = originalText;
+                button.querySelector('i').className = originalIcon;
+                button.classList.remove('copied');
+            }, 2000);
+        }
+        
+        // Initialize collapsible code blocks
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.code-container').forEach(container => {
+                // Skip if already initialized
+                if (container.dataset.toggled === 'true') return;
+
+                const codeContent = container.querySelector('.code-content');
+                if (!codeContent) return;
+
+                // Determine language label
+                const codeEl = codeContent.querySelector('code');
+                let language = 'Code';
+                if (codeEl) {
+                    const match = (codeEl.className || '').match(/language-([\w-]+)/);
+                    if (match && match[1]) {
+                        language = match[1].charAt(0).toUpperCase() + match[1].slice(1);
+                    }
+                }
+
+                // Build toggle bar
+                const toggleBar = document.createElement('div');
+                toggleBar.className = 'code-toggle';
+                toggleBar.innerHTML = `
+                    <div class="code-toggle-title">
+                        <i class="ri-code-s-slash-line"></i>
+                        <span>${language} • Show code</span>
+                    </div>
+                    <div class="code-toggle-actions">
+                        <i class="ri-arrow-down-s-line toggle-icon"></i>
+                    </div>
+                `;
+                toggleBar.addEventListener('click', () => toggleCode(toggleBar));
+
+                // Insert toggle bar and collapse by default
+                container.insertBefore(toggleBar, codeContent);
+                container.classList.add('collapsed');
+                container.dataset.toggled = 'true';
+            });
+        });
+        
+        // Copy flag functionality
+        function copyFlag(button) {
+            const flagContainer = button.closest('.flag-container');
+            const flagText = flagContainer.querySelector('.flag-text').textContent;
+            
+            // Create a temporary textarea to copy the text
+            const tempTextarea = document.createElement('textarea');
+            tempTextarea.value = flagText;
+            document.body.appendChild(tempTextarea);
+            tempTextarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextarea);
+            
+            // Update button appearance
+            const originalText = button.querySelector('span').textContent;
+            const originalIcon = button.querySelector('i').className;
+            
+            button.querySelector('span').textContent = 'Copied!';
+            button.querySelector('i').className = 'ri-check-line';
+            button.classList.add('copied');
+            
+            // Reset button after 2 seconds
+            setTimeout(() => {
+                button.querySelector('span').textContent = originalText;
+                button.querySelector('i').className = originalIcon;
+                button.classList.remove('copied');
+            }, 2000);
+        }
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+        
+        // Highlight active section in TOC
+        function updateActiveSection() {
+            const sections = document.querySelectorAll('h5[id]');
+            const tocLinks = document.querySelectorAll('.sticky-sidebar a[href^="#"]');
+            
+            let currentSection = '';
+            sections.forEach(section => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top <= 100) {
+                    currentSection = section.getAttribute('id');
+                }
+            });
+            
+            tocLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + currentSection) {
+                    link.classList.add('active');
+                }
+            });
+        }
+        
+        // Update active section on scroll
+        window.addEventListener('scroll', updateActiveSection);
+        updateActiveSection(); // Initial call
+    </script>
+</body>
+
+</html>
