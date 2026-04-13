@@ -1,0 +1,928 @@
+<!doctype html>
+<html lang="en" data-bs-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <meta property="og:title" content="Malware Analysis: Identifying Cryptominer in a Game Cheat Loader" />
+    <meta property="og:description" content="Inspired by Malware Analysis Project: Crime and Punishment" />
+    <meta property="og:url" content="https://rfdhaikal-wizz.pro" />
+    <meta
+      property="og:image"
+      content="https://i.pinimg.com/1200x/c9/11/1f/c9111ff70be8f40728202beff7b2d637.jpg"
+    />
+
+    <title>Malware Analysis: Identifying Cryptominer in a Game Cheat Loader</title>
+    <script src="assets/js/vendors/color-modes.js"></script>
+    <!-- Favicon icon-->
+    <link rel="shortcut icon" type="image/x-icon" href="assets/imgs/template/favicon.svg">
+    <!-- Libs CSS -->
+    <link rel="stylesheet" href="assets/css/vendors/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/vendors/swiper-bundle.min.css">
+    <link rel="stylesheet" href="assets/css/vendors/aos.css">
+    <link rel="stylesheet" href="assets/css/vendors/odometer.css">
+    <link rel="stylesheet" href="assets/css/vendors/carouselTicker.css">
+    <link rel="stylesheet" href="assets/css/vendors/magnific-popup.css">
+    <link rel="stylesheet" href="assets/fonts/remixicon/remixicon.css">
+    <link rel="stylesheet" href="assets/fonts/satoshi/satoshi.css">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Playfair+Display:wght@400..900&family=Urbanist:wght@100..900&display=swap" rel="stylesheet">
+   
+    <!-- In your HTML head -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <!-- Initialize -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            hljs.highlightAll();
+        });
+    </script>
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/Wzrd.css">
+    <link rel="stylesheet" href="assets/css/blog-styles.css">
+    <style>
+        [data-bs-theme="light"] strong,
+        [data-bs-theme="light"] b {
+            color: inherit;
+        }
+        [data-bs-theme="light"] .toc-link span,
+        [data-bs-theme="light"] .toc-link strong {
+            color: var(--bs-body-color);
+        }
+        [data-bs-theme="light"] .blog-content strong {
+            color: var(--bs-body-color);
+        }
+    </style>
+
+
+</head>
+
+<body>
+    <!-- prettier-ignore -->
+
+    <!-- Navbar -->
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light w-100 flex-nowrap z-999 p-0">
+            <a href="#" class="navbar-menu p-4 text-center square-100 menu-tigger icon_80 icon-shape d-none d-md-flex" data-bs-target=".offCanvas__info" aria-controls="offCanvas__info">
+                <i class="ri-menu-2-line"></i>
+            </a>
+            <div class="container py-3 px-0">
+                <a class="navbar-brand d-flex main-logo align-items-center ms-lg-0 ms-md-5 ms-3" href="index.html">
+                    <img src="assets/imgs/template/favicon.svg" alt="zelio" />
+                    <span class="fs-4 ms-2">w333zard</span>
+                </a>
+                <div class="d-none d-lg-flex">
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="index.html">Home</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="index.html#skills">Skills</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="index.html#portfolio">Portfolio</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="index.html#blog">Blog</a>
+                            </li>
+                            
+                            <li class="nav-item">
+                                <a class="nav-link" href="index.html#projects">Projects</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="index.html#contact">Contact</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="navbar-social d-flex align-items-center pe-5 pe-lg-0 me-5 me-lg-0">
+                    <div class="d-md-flex d-none gap-3">
+                        <a href="https://www.instagram.com/rfdhaikal.wizz/">
+                            <i class="ri-instagram-fill"></i>
+                        </a>
+                        <a href="https://medium.com/@w333zard">
+                            <i class="ri-medium-fill"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/rfdhaikal/">
+                            <i class="ri-linkedin-fill"></i>
+                        </a>
+                        <a href="https://github.com/W-zrd">
+                            <i class="ri-github-fill"></i>
+                        </a>
+                    </div>
+                    <div class="burger-icon burger-icon-white border rounded-3">
+                        <span class="burger-icon-top"></span>
+                        <span class="burger-icon-mid"></span>
+                        <span class="burger-icon-bottom"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="dark-light-switcher pe-10 pe-lg-0 pe-0 ps-md-5 ps-0 ps-lg-4 pe-lg-4 d-flex justify-content-center align-items-center icon_80 @@classList">
+                <i class="ri-sun-fill text-warning"></i>
+                <i class="ri-contrast-2-line text-white"></i>
+            </div>
+
+        </nav>
+        <!-- offCanvas-menu -->
+        <div class="offCanvas__info">
+            <div class="offCanvas__close-icon menu-close">
+                <button><i class="ri-close-line"></i></button>
+            </div>
+            <div class="offCanvas__logo mb-5">
+                <h3 class="mb-0">Get in touch</h3>
+            </div>
+            <div class="offCanvas__side-info mb-30">
+                <div class="contact-list mb-30">
+                    <p class="fs-6 fw-medium text-200 mb-5">Offense in depth; better take your data back to offline mode.</p>
+                    <div class="mb-3">
+                        <span class="text-400 fs-5">LinkedIn</span>
+                        <p class="mb-0">https://www.linkedin.com/in/rfdhaikal/</p>
+                    </div>
+                    <div class="mb-3">
+                        <span class="text-400 fs-5">Email</span>
+                        <p class="mb-0"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="740612101c151d1f15185a031d0e0e3404061b001b1a5a1911">[email&#160;protected]</a></p>
+                    </div>
+                    <div class="mb-3">
+                        <span class="text-400 fs-5">GitHub</span>
+                        <p class="mb-0">https://github.com/W-zrd</p>
+                    </div>
+                </div>
+
+                <div class="contact-list">
+                    <p class="text-400 fs-5 mb-2">Social</p>
+                    <div class="d-md-flex d-none gap-3">
+                        <a href="https://www.instagram.com/rfdhaikal.wizz/">
+                            <i class="ri-instagram-fill fs-18"></i>
+                        </a>
+                        <a href="https://medium.com/@w333zard">
+                            <i class="ri-medium-fill fs-18"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/rfdhaikal/">
+                            <i class="ri-linkedin-fill fs-18"></i>
+                        </a>
+                        <a href="https://github.com/W-zrd">
+                            <i class="ri-github-fill fs-18"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="offCanvas__overly"></div>
+        <div class="mobile-header-active mobile-header-wrapper-style perfect-scrollbar button-bg-2">
+            <div class="mobile-header-wrapper-inner">
+                <div class="mobile-header-logo">
+                    <a class="d-flex main-logo align-items-center d-inline-flex" href="index.html">
+                        <img src="assets/imgs/footer-1/logo.svg" alt="zelio" />
+                        <span class="fs-4 ms-2 text-dark">w333zard</span>
+                    </a>
+                    <div class="burger-icon burger-icon-white border rounded-3">
+                        <span class="burger-icon-top"></span>
+                        <span class="burger-icon-mid"></span>
+                        <span class="burger-icon-bottom"></span>
+                    </div>
+                </div>
+                <div class="mobile-header-content-area">
+                    <div class="perfect-scroll">
+                        <div class="mobile-menu-wrap mobile-header-border">
+                            <nav>
+                                <ul class="mobile-menu font-heading ps-0">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" href="index.html">Home</a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="index.html#skills">Skills</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="index.html#portfolio">Portfolio</a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="index.html#blog">Blog</a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="index.html#projects">Projects</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="index.html#contact">Contact</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </header>
+
+    <main>
+        <!-- prettier-ignore -->
+        <!-- blog details -->
+        <section class="section-details pt-60 pb-100">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-10 mx-lg-auto mb-3">
+                        <div class="text-center">
+                            <a href="#" class="btn btn-gradient d-inline-block text-uppercase"> Reverse Engineering </a>
+                            <h1 class="mt-3 mb-3 text-dark" style="font-size: 60px;">Malware Analysis: Identifying Cryptominer in a Game Cheat Loader</h1>
+                            <p class="text-300 fs-5 mb-0">
+                                Malware Analysis Project: Crime and Punishment
+                            </p>
+                            <div class="d-flex align-items-center my-4">
+                                <img class="" style="width:1200px;" src="assets/imgs/blog/blog-7/cover.png" alt="" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-10 mx-lg-auto">
+                        <div class="row">
+                            <div class="col-lg-8 blog-content">
+
+                                <div class="mt-4">
+                                    <div class="bg-primary bg-opacity-10 border border-primary border-opacity-25 rounded-4 p-4">
+                                        <div class="d-flex align-items-center mb-3">
+                                            <i class="ri-list-check-2 fs-5 text-primary me-2"></i>
+                                            <h5 class="mb-0 text-primary">Table of Contents</h5>
+                                        </div>
+                                        <ol class="list-unstyled mb-0">
+                                            <li class="mb-2">
+                                                <a href="#initial-recon" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
+                                                    <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
+                                                    <span><strong>Initial Recon</strong></span>
+                                                </a>
+                                            </li>
+                                            <li class="mb-2">
+                                                <a href="#pe-file-structure" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
+                                                    <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
+                                                    <span><strong>PE File Structure</strong></span>
+                                                </a>
+                                            </li>
+                                            <li class="mb-2">
+                                                <a href="#dynamic-api-resolution" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
+                                                    <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
+                                                    <span><strong>Hiding Its Capabilities via Dynamic API Resolution</strong></span>
+                                                </a>
+                                            </li>
+                                            <li class="mb-2">
+                                                <a href="#xor-encryption" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
+                                                    <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
+                                                    <span><strong>Obfuscation Technique: XOR Encryption with Evolving Key</strong></span>
+                                                </a>
+                                            </li>
+                                            <li class="mb-2">
+                                                <a href="#powershell-security" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
+                                                    <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
+                                                    <span><strong>PowerShell Execution: Disable Windows Security</strong></span>
+                                                </a>
+                                            </li>
+                                            <li class="mb-2">
+                                                <a href="#powershell-persistence" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
+                                                    <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
+                                                    <span><strong>PowerShell Execution: Malware Persistance</strong></span>
+                                                </a>
+                                            </li>
+                                            <li class="mb-2">
+                                                <a href="#c2-communication" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
+                                                    <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
+                                                    <span><strong>C2 Communication: Detecting Cryptomining Activity</strong></span>
+                                                </a>
+                                            </li>
+                                            <li class="mb-2">
+                                                <a href="#process-hollowing" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
+                                                    <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
+                                                    <span><strong>Process Hollowing</strong></span>
+                                                </a>
+                                            </li>
+                                            <li class="mb-2">
+                                                <a href="#conclusion" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
+                                                    <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
+                                                    <span><strong>Conclusion</strong></span>
+                                                </a>
+                                            </li>
+                                            <li class="mb-2">
+                                                <a href="#ioc" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
+                                                    <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
+                                                    <span><strong>Indicators of Compromise</strong></span>
+                                                </a>
+                                            </li>
+                                        </ol>
+                                    </div>
+                                </div>
+
+                                <div class="mt-5">
+
+                                    <div class="mt-4">
+                                        <p>Recently, I helped my friend after he run a Tom Clancy's The Division 2 game trainer that turned out to be a cryptominer loader. He found a game trainer online, downloaded it, and installed it. Nothing seemed wrong at first. Then his antivirus popped up, flagged that file, and quarantined it.</p>
+
+                                        <p>Shortly after, I told him to run full scan using his Antivirus and clear browser data as a quick prevention. But as a Reverse Engineer, we don't just run and trust AV. We do research. I wonder about how the malware worked in low level perspective. That is what this blog content is about.</p>
+
+                                        <p><strong>Note:</strong> This is my first time i do malware analysis on a real threat, so the explanation here is very detail because i also want to remember everything by writing this blog. Tools used: x64dbg, IDA Pro, Ghidra, Wireshark, Procmon, RegShot, Fakenet, FlareVM. Enjoy the show :)</p>
+                                    </div>
+
+                                    <div class="mt-4">
+                                        <h4 id="initial-recon">Initial Recon</h4>
+
+                                        <p>The suspected file was named <code>FLiNG-AutoUpdate.exe</code>, distributed as part of a Tom Clancy's The Division 2 game trainer. When executed, FLiNG-AutoUpdate.exe produces nothing visible. No window, no dialog, no progress bar, no system tray icon. To a user who double-clicked it expecting a trainer update, it looks like the program did nothing and exited. Everything it does happens in the background.</p>
+
+                                        <p>It would be easy if there is a public available writeup or report about this file. So, I start with doing initial reconnaissance. Based on the image below, unfortunately there are no similar malware found when i search the hashes on VirusTotal and MalwareBazaar. So this is a unique malware that im curious about.</p>
+
+                                        <p>Anyway, the file carries an Authenticode digital signature, the same mechanism Windows uses to verify that a file came from a legitimate publisher. The signature references claims this file is from "Microsoft Windows Publisher" under "Microsoft Corporation" but actually it's not a Microsoft executable. From here, i can assume that this is a real malware. But i need to deep dive into it by performing static analysis using IDA Pro and Ghidra.</p>
+                                    </div>
+
+                                    <div class="mt-4">
+                                        <h4 id="pe-file-structure">PE File Structure</h4>
+
+                                        <p>The executable file binary has 8 sections. The <code>.data</code> section is suspiciously large at 2.83 MB (almost ~96% of the entire section). This is an immediate red flag since it even larger than the <code>.text</code> section.</p>
+
+                                        <div class="d-flex align-items-center my-4">
+                                            <img class="" style="width:1200px;" src="assets/imgs/blog/blog-7/1.png" alt="" />
+                                        </div>
+
+                                        <p>The executable file only imports <code>msvcrt.dll</code> (standard C runtime) and <code>KERNEL32.dll</code> (basic threading and memory). The absence of networking (<code>wininet.dll</code>, <code>ws2_32.dll</code>), process management (<code>ntdll.dll</code> native calls), registry (<code>advapi32.dll</code>), and shell imports means all functionality is hidden behind Dynamic API Resolution.</p>
+
+                                        <h4 id="dynamic-api-resolution">Hiding Its Capabilities via Dynamic API Resolution</h4>
+
+                                        <p>Before any malicious activity begins, the malware looks up the Windows system functions it needs in a way that hides them from security scanners. See the image below to understand how does Dynamic API Resolution worked in function <code>0x140008350</code>:</p>
+
+                                        <div class="d-flex align-items-center my-4">
+                                            <img class="" style="width:1200px;" src="assets/imgs/blog/blog-7/2.png" alt="" />
+                                        </div>
+
+                                        <p>The <code>CALL FUN_140008350</code> at address <code>0x1400013b3</code> will walks loaded modules and their PE export directories for each loaded DLL. After deep dive on reviewing <code>FUN_140008350</code>, i realized that there are 33 hashes which resolves into 33 Windows API functions at runtime using a custom hashing scheme. This means my static analysis phases will never sees any calls to process injection APIs because those function names do not appear anywhere in the file.</p>
+
+                                        <p>That's why i move forward to perform dynamic analysis using x64dbg while setting up breakpoint at <code>0x1400013F7</code> (the indirect call site after resolution). The goal is to find out what Windows APIs are actually called by uncovering those 33 hashes. After debugging on x64dbg, I identified 21 of the 33 target functions by tracing the resolver's return values and correlating them against the live ntdll.dll export table. See the live debug session below, especially on <code>Nt</code> prefix on the highlighted arrow.</p>
+
+                                        <div class="d-flex align-items-center my-4">
+                                            <img class="" style="width:1200px;" src="assets/imgs/blog/blog-7/3.gif" alt="" />
+                                        </div>
+
+                                        <p>In short, there are 21 resolved functions divide into four capability: process and token operations, virtual memory management, thread control, and registry and filesystem access. One function deserves specific note: <code>NtCreateUserProcess</code>. This is the lowest-level mechanism for creating a new process in Windows. Its presence suggests the loader spawns at least one child process directly through the native API. The most likely candidate is the creation of another process instance that serves as the hollowing target. I'll explain more about this process hollowing in the very last section. Anyway, here is my note about those 21 resolved APIs</p>
+
+                                       <div class="d-flex justify-content-center align-items-center my-4">
+    <img style="height:500px;" src="assets/imgs/blog/blog-7/winapi.png" alt="" />
+</div>
+
+                                        <p>The 12 unresolved hashes remain an open item since i can't debug into the whole instuctions due to unexpected program exit. Given the 21 already identified, the remaining set likely covers memory-mapping calls or object query functions.</p>
+
+                                        <h4 id="xor-encryption">Obfuscation Technique: XOR Encryption with Evolving Key</h4>
+
+                                        <p>So far, we've already know that the malware uses Hash Obfuscation and Dynamic API Resolution to hide its capabilities. Since there are already 2 obfuscation strategy used by the malware, I'm thinking about multi-layered obfuscation where there are another obfuscation technique which i didn't see yet. The reason behind this is because i found several strings during live debugging on x64dbg and some random constants when performing static analysis on IDA Pro.</p>
+
+                                        <p>Embedded payloads are encrypted using XOR with a 32-byte key that evolves over time. The initial key is stored in <code>.rdata</code> at RVA <code>0x1400095B0</code>:</p>
+
+                                        <div class="code-container">
+                                            <div class="code-content">
+                                                <div class="code-controls">
+                                                    <div class="code-language">
+                                                        <i class="ri-code-s-slash-line" style="font-size: 0.6rem;"></i>
+                                                        <span>hex</span>
+                                                    </div>
+                                                    <button class="copy-btn" onclick="copyCode(this)">
+                                                        <i class="ri-file-copy-line" style="font-size: 0.6rem;"></i>
+                                                        <span>Copy</span>
+                                                    </button>
+                                                </div>
+                                                <pre><code>81 82 84 8E 7F 80 7D 84 8C 91 85 7E 7A 87 92 88
+7D 90 86 83 8F 82 80 8D 83 7A 8F 91 93 8F 92 82</code></pre>
+                                            </div>
+                                        </div>
+
+                                        <p>The key is loaded into two XMM registers and evolved via the SIMD <code>PADDB</code> instruction, which adds <code>0xE7</code> to every byte simultaneously. This evolution is stateful across calls to the decryption function (<code>func_31E0</code> at RVA <code>0x31E0</code>), meaning the key state depends on all prior decryption operations during execution.</p>
+
+                                        <div class="d-flex align-items-center my-4">
+                                            <img class="" style="width:1200px;" src="assets/imgs/blog/blog-7/4.jpg" alt="" />
+                                        </div>
+
+                                        <p>During static analysis, a subset of strings decoded with a shift of -7, while others decoded with a shift of -6. This was decoded from wide strings at address <code>0x140009B14</code>–<code>0x140009BE0</code> in <code>.rdata</code> using a shift cipher. The shift value is not uniform across all strings. It varies because the XOR decryption key evolves across calls. For example, a shift of -7 will restore the string <code>Hkk4TwWylmlylujl</code> into a plaintext <code>Add-MpPreference</code></p>
+
+                                        <div class="d-flex align-items-center my-4">
+                                            <img class="" style="width:1200px;" src="assets/imgs/blog/blog-7/5.png" alt="" />
+                                        </div>
+
+                                        <h4 id="powershell-security">PowerShell Execution: Disable Windows Security</h4>
+
+                                        <p>The previous decoded strings was a good catch, but still not enough for my insight. I need to know the exact command to understand the malware behavior. After debugging on x64dbg, the malware constructs and executes a PowerShell command to disable Windows Defender. The full command was captured in memory:</p>
+
+                                        <div class="code-container">
+                                            <div class="code-content">
+                                                <div class="code-controls">
+                                                    <div class="code-language">
+                                                        <i class="ri-code-s-slash-line" style="font-size: 0.6rem;"></i>
+                                                        <span>cmd</span>
+                                                    </div>
+                                                    <button class="copy-btn" onclick="copyCode(this)">
+                                                        <i class="ri-file-copy-line" style="font-size: 0.6rem;"></i>
+                                                        <span>Copy</span>
+                                                    </button>
+                                                </div>
+                                                <pre><code>cmd.exe /c powershell.exe Add-MpPreference -ExclusionPath @($env:UserProfile, $env:ProgramData) -ExclusionExtension '.exe' -Force</code></pre>
+                                            </div>
+                                        </div>
+
+                                        <p>Check out the gif image below for live debugging PoC. In short, this command instructs Windows Defender to exclude the user's profile directory, the <code>C:\ProgramData</code> directory, and all <code>.exe</code> files from real-time scanning. The <code>-Force</code> flag suppresses confirmation prompts. After execution, any executable placed in these locations becomes invisible to Defender, which is where the malware intends to drop its payload.</p>
+
+                                        <div class="d-flex align-items-center my-4">
+                                            <img class="" style="width:1200px;" src="assets/imgs/blog/blog-7/6.gif" alt="" />
+                                        </div>
+
+                                        <p>Based on the highlighted part on the gif above, The presence of <code>C:\ProgramData\Windows\svchost.exe</code> in the RBX register indicates the malware references this path, likely as its payload drop location or as a check for previous installation. Then the next command captured at the format string builder is:</p>
+
+                                        <div class="code-container">
+                                            <div class="code-content">
+                                                <div class="code-controls">
+                                                    <div class="code-language">
+                                                        <i class="ri-code-s-slash-line" style="font-size: 0.6rem;"></i>
+                                                        <span>cmd</span>
+                                                    </div>
+                                                    <button class="copy-btn" onclick="copyCode(this)">
+                                                        <i class="ri-file-copy-line" style="font-size: 0.6rem;"></i>
+                                                        <span>Copy</span>
+                                                    </button>
+                                                </div>
+                                                <pre><code>cmd.exe /c wusa /uninstall /kb:890830 /quiet /norestart</code></pre>
+                                            </div>
+                                        </div>
+
+                                        <p>KB890830 is the Windows Malicious Software Removal Tool (MSRT) that scans and remove known malware. The <code>wusa.exe</code> (Windows Update Standalone Installer) is used to silently uninstall MSRT. The registry key <code>HKLM\SOFTWARE\Policies\Microsoft\MRT</code> was also accessed during this phase. This key contains policy settings that control MSRT behavior. Modifying it ensures that even if MSRT is later reinstalled through Windows Update, it stays policy-disabled.</p>
+
+                                        <h4 id="powershell-persistence">PowerShell Execution: Malware Persistance</h4>
+
+                                        <div class="d-flex align-items-center my-4">
+                                            <img class="" style="width:1200px;" src="assets/imgs/blog/blog-7/7.png" alt="" />
+                                        </div>
+
+                                        <p>During API hash resolution, the R14 register contained <code>\\Registry\\Machine\\SYSTEM\\CurrentControlSet\\Services\\Windows</code>. This is the native API path for a Windows service named "Windows" registered under <code>HKLM\SYSTEM\CurrentControlSet\Services\</code>. But actually before that, there is a format string builder call shown on R9 register: <code>%S delete \"Windows\"</code>. This constructs a command to delete any existing "Windows" service before the malware proceeds to add the fake "Windows" service to prevent duplicate errors from the previous one.</p>
+
+                                        <p>The service persistence key structure is then recreated using <code>NtCreateKey</code> and populated using <code>NtSetValueKey</code>, writing the <code>ImagePath</code> value to <code>C:\ProgramData\Windows\svchost.exe</code>.</p>
+
+                                        <div class="d-flex align-items-center my-4">
+                                            <img class="" style="width:1200px;" src="assets/imgs/blog/blog-7/8.png" alt="" />
+                                        </div>
+
+                                        <p>To avoid the machine/system from being turned off or sleep, the malware calls 4 format string builder which produces <code>powercfg.exe</code> commands.</p>
+
+                                        <ul>
+                                            <li><code>powercfg.exe /x -hibernate-timeout-ac 0</code> : Disable hibernate on AC power</li>
+                                            <li><code>powercfg.exe /x -hibernate-timeout-dc 0</code> : Disable hibernate on battery</li>
+                                            <li><code>powercfg.exe /x -standby-timeout-ac 0</code> &nbsp;&nbsp; : Disable sleep on AC power</li>
+                                            <li><code>powercfg.exe /x -standby-timeout-dc 0</code> &nbsp;&nbsp; : Disable sleep on battery</li>
+                                        </ul>
+
+                                        <p>Setting each timeout to <code>0</code> means "never." This affects both AC (plugged in) and DC (battery) power states. The purpose is to prevent the infected machine from entering sleep or hibernation, which would terminate network connections and pause the malware operation.</p>
+
+                                        <p>So it's make sense that we previously found <code>NtSetThreadExecutionState</code> during Dynamic API Resolution phase. This Windows API would signals the kernel that the current thread requires the system to remain awake.</p>
+
+                                        <h4 id="c2-communication">C2 Communication: Detecting Cryptomining Activity</h4>
+
+                                        <p>After got enough information and malware behavior from low level analysis, i move forward to analyze the C2 Communication. The reason behind this is because i found several processes which opens network communication via <code>dialer.exe</code> when i ran the malware.</p>
+
+                                        <div class="d-flex align-items-center my-4">
+                                            <img class="" style="width:1200px;" src="assets/imgs/blog/blog-7/9.png" alt="" />
+                                        </div>
+
+                                        <p><code>dialer.exe</code> is the Windows Phone Dialer, a built-in application that exists on every Windows installation but is almost never used on modern systems. Hmm, interesting.. why does a Windows phone dialer opens connection to HTTP traffic? Look at the image above. I didn't even open this service during program execution. It just opened up when i execute the malware.</p>
+
+                                        <p>Looking at the wireshark traffic on the image below, i notice several suspected behavior. First, the payload sends an HTTP POST request to register the infected machine with a command-and-control server.</p>
+
+                                        <div class="d-flex align-items-center my-4">
+                                            <img class="" style="width:1200px;" src="assets/imgs/blog/blog-7/10.png" alt="" />
+                                        </div>
+
+                                        <p>DNS resolution captured in the pcap shows <code>apkindir.io</code> resolving to <code>172.67.161.114</code>, a Cloudflare-proxied IP address. This IP was EXACTLY the same address we found earlier on the previous Process Monitor output.</p>
+
+                                        <p>The traffic contains a system fingerprint that enumerates the victim's hardware. The <code>"type": "xmrig"</code> field explicitly identifies the payload as the <strong>XMRig Crypto Miner</strong>. The <code>"activewindow": "Running as System"</code> value confirms the malware achieved SYSTEM-level privileges (it's make sense since the malware file needs to be run as admin). The rest of the field is not important for me.</p>
+
+                                        <p>I also found a longer network capture revealed that the C2 beacon is evolving over time. Looking at the image below, the beacon payload expanded to include live mining activity. Compared to the previous traffic, this payload adds the following fields: <code>pool</code> (mining pool hostname), <code>port</code> (pool connection port), <code>algo</code> (active mining algorithm), <code>user</code> (wallet address), and <code>hashrate</code> (current mining speed in hashes per second). The <code>status</code> field changed from <code>1</code> (initial registration) to <code>2</code> (active mining). The <code>runtime</code> field counts seconds since execution, and 11 POST beacons were observed in the image above.</p>
+
+                                        <div class="d-flex align-items-center my-4">
+                                            <img class="" style="width:1200px;" src="assets/imgs/blog/blog-7/11.png" alt="" />
+                                        </div>
+
+                                        <p>This beacon enables the attacker to operate a mining botnet dashboard to monitors which victims are online, their hardware capabilities, current hashrate, and mining pool connectivity, all reported through the C2 panel at <code>apkindir.io</code>. Following the C2 registration, the payload establishes a connection to a Monero mining pool using the Stratum protocol over JSON-RPC 2.0.</p>
+
+                                        <p>The <code>login</code> field contains the attacker's Monero wallet address: <code>8ARyh4dx2m1h4DJb7jW3uvdNZVWViGKQ4bCyzkNiCha57c6NFPBumyVJf3eun3ojAP2zeB5WFMrNhKExgGYVP8kmGL7DwMY</code>. The <code>agent</code> string identifies XMRig version 6.21.3. The miner advertises support for 28 mining algorithms, with <code>rx/0</code> (RandomX) being the primary algorithm used for Monero mining.</p>
+
+                                        <p>The mining pool was identified from the C2 beacon telemetry as <strong><code>xmr-eu1.nanopool.org</code></strong> on <strong>port 10300</strong>. Nanopool is a major public Monero mining pool. The <code>eu1</code> prefix indicates the European server endpoint.</p>
+
+                                        <h4 id="process-hollowing">Process Hollowing</h4>
+
+                                        <p>Back to the low level analysis again. Based on the C2 communication earlier, i want to make sure if the <code>dialer.exe</code> is the process hollowing target or just a false-positive finding due to process noise. At breakpoint <code>0x140005183</code> (the call to the PE loader function <code>func_38E0</code>):</p>
+
+                                        <ul>
+                                            <li><strong>RCX</strong> = <code>0x14EF10</code> → <code>C:\Windows\system32\dialer.exe</code></li>
+                                            <li><strong>RDX</strong> = <code>0x14EF10</code> → <code>C:\Windows\system32\dialer.exe</code></li>
+                                        </ul>
+
+                                        <div class="d-flex align-items-center my-4">
+                                            <img class="" style="width:1200px;" src="assets/imgs/blog/blog-7/12.png" alt="" />
+                                        </div>
+
+                                        <p>The PE loader function (<code>func_38E0</code>) performs in-memory PE loading. Static analysis confirmed it reads the PE header fields (e_lfanew, ImageBase, SizeOfImage, SizeOfHeaders), allocates memory, copies sections to their virtual addresses, processes the relocation table, and adjusts memory protections based on section characteristics.</p>
+
+                                        <p>The fact that both RCX and RDX point to the path <code>C:\Windows\system32\dialer.exe</code> confirms process hollowing. the loader creates an instance of this legitimate Windows binary as an injection target for the decrypted payload. <code>dialer.exe</code>.</p>
+
+                                        <p>The hollowing sequence now fully corroborated by the previous Dynamic API resolution findings, proceeds as follows: <code>NtCreateUserProcess</code> spawns <code>dialer.exe</code> in a suspended state; <code>NtAllocateVirtualMemory</code> reserves memory within its address space; <code>NtWriteVirtualMemory</code> copies the decrypted XMRig PE into that memory section by section; <code>NtProtectVirtualMemory</code> flips the injected sections from writable to executable; <code>NtGetContextThread</code> retrieves the main thread's register state; <code>NtSetContextThread</code> redirects the instruction pointer to the payload's entry point; and finally <code>NtResumeThread</code> releases the thread to run the injected miner.</p>
+
+                                        <h4 id="conclusion">Conclusion</h4>
+
+                                        <p><code>FLiNG-AutoUpdate.exe</code> is a multi-stage malware loader that installs XMRig and mines Monero on the victim's machine with no visible indication. The full attack chain:</p>
+
+                                        <ol>
+                                            <li>The user runs a file that looks like a game trainer.</li>
+                                            <li>The malware resolves 33 Windows system functions at runtime (Dynamic API resolution) using a custom hashing scheme.</li>
+                                            <li>It adds Windows Defender exclusions for the user profile and ProgramData directories, then removes the Malicious Software Removal Tool.</li>
+                                            <li>It disables sleep and hibernation to keep the miner running continuously.</li>
+                                            <li>It decrypts the XMRig payload in memory and injects it into <code>dialer.exe</code> using process hollowing.</li>
+                                            <li>It registers a Windows service named "Windows" for persistence across reboots.</li>
+                                            <li>The miner registers with a C2 server at <code>apkindir.io</code>, reports hardware information, then connects to <code>xmr-eu1.nanopool.org</code> and begins mining Monero to the attacker's wallet.</li>
+                                        </ol>
+
+                                        <h4 id="ioc">Indicators of Compromise</h4>
+                                        <ul>
+                                            <li>C2 Domain: <code>apkindir.io</code></li>
+                                            <li>C2 Endpoint: <code>https://apkindir.io/bulbakalim/api/endpoint.php</code></li>
+                                            <li>C2 IP: <code>172.67.161.114</code></li>
+                                            <li>C2 IP: <code>104.21.82.183</code></li>
+                                            <li>Mining Pool: <code>xmr-eu1.nanopool.org:10300</code></li>
+                                            <li>HTTP User-Agent: <code>cpp-httplib/0.12.6</code></li>
+                                            <li>Miner Agent: <code>XMRig/6.21.3 (Windows NT 10.0; Win64; x64) libuv/1.38.0 msvc/2022</code></li>
+                                            <li>Monero Wallet: <code>8ARyh4dx2m1h4DJb7jW3uvdNZVWViGKQ4bCyzkNiCha57c6NFPBumyVJf3eun3ojAP2zeB5WFMrNhKExgGYVP8kmGL7DwMY</code></li>
+                                        </ul>
+
+                                    </div>
+                                    </div>
+                                
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="sticky-sidebar">
+                                    
+                                    <div class="bg-primary bg-opacity-10 border border-primary border-opacity-25 rounded-4 p-4">
+                                        <div class="d-flex align-items-center mb-3">
+                                            <i class="ri-list-check-2 fs-5 text-primary me-2"></i>
+                                            <h6 class="mb-0 text-primary">Table of Contents</h6>
+                                        </div>
+                                        <ol class="list-unstyled mb-0">
+                                            <li class="mb-2">
+                                                <a href="#initial-recon" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
+                                                    <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
+                                                    <span><strong>Initial Recon</strong></span>
+                                                </a>
+                                            </li>
+                                            <li class="mb-2">
+                                                <a href="#pe-file-structure" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
+                                                    <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
+                                                    <span><strong>PE File Structure</strong></span>
+                                                </a>
+                                            </li>
+                                            <li class="mb-2">
+                                                <a href="#dynamic-api-resolution" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
+                                                    <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
+                                                    <span><strong>Dynamic API Resolution</strong></span>
+                                                </a>
+                                            </li>
+                                            <li class="mb-2">
+                                                <a href="#xor-encryption" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
+                                                    <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
+                                                    <span><strong>Obfuscation Technique</strong></span>
+                                                </a>
+                                            </li>
+                                            <li class="mb-2">
+                                                <a href="#powershell-security" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
+                                                    <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
+                                                    <span><strong>Disable Windows Security</strong></span>
+                                                </a>
+                                            </li>
+                                            <li class="mb-2">
+                                                <a href="#powershell-persistence" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
+                                                    <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
+                                                    <span><strong>Malware Persistance</strong></span>
+                                                </a>
+                                            </li>
+                                            <li class="mb-2">
+                                                <a href="#c2-communication" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
+                                                    <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
+                                                    <span><strong>Detecting Cryptomining Activity</strong></span>
+                                                </a>
+                                            </li>
+                                            <li class="mb-2">
+                                                <a href="#process-hollowing" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
+                                                    <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
+                                                    <span><strong>Process Hollowing</strong></span>
+                                                </a>
+                                            </li>
+                                            <li class="mb-2">
+                                                <a href="#conclusion" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
+                                                    <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
+                                                    <span><strong>Conclusion</strong></span>
+                                                </a>
+                                            </li>
+                                            <li class="mb-2">
+                                                <a href="#ioc" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
+                                                    <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
+                                                    <span><strong>Indicators of Compromise</strong></span>
+                                                </a>
+                                            </li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- blog list -->
+        <section class="section-blog-list">
+            <div class="container border-top pt-80 pb-80">
+                <div class="row">
+                    <div class="d-md-flex align-items-center">
+                        <h1 class="text-300">Related posts</h1>
+                        <a href="" class="btn btn-gradient ms-auto">
+                            View more
+                            <i class="ri-arrow-right-line"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="row mt-8">
+                    <div class="col-lg-4">
+                        <div class="blog-card rounded-4 mb-lg-3 mb-md-5 mb-3">
+                            <div class="blog-card__image position-relative">
+                                <div class="zoom-img rounded-3 overflow-hidden">
+                                    <img class="w-100" src="assets/imgs/blog/blog-5/cover.jpeg" style="height: 250px; object-fit: cover;" alt="">
+                                    <a class="position-absolute bottom-0 start-0 m-3 text-white-keep btn btn-gradient fw-medium rounded-3 px-3 py-2" href="blog-5.html">Web Exploitation</a>
+                                    <a href="blog-5.html" class="blog-card__link position-absolute top-50 start-50 translate-middle icon-md icon-shape bg-linear-1 rounded-circle">
+                                        <i class="ri-arrow-right-up-line text-dark"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="blog-card__content position-relative text-center mt-4">
+                                <span class="blog-card__date fs-7">November 24, 2025 • 7 min read</span>
+                                <h5 class="blog-card__title">Hacking all the things on Telkom University (Graduation Edition)</h5>
+                                <p class="blog-card__description fs-6">As my journey ends, I'll leave my hat on Telyu.</p>
+                                <a href="blog-5.html" class="link-overlay position-absolute top-0 start-0 w-100 h-100"></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="blog-card rounded-4 mb-lg-3 mb-md-5 mb-3">
+                            <div class="blog-card__image position-relative">
+                                <div class="zoom-img rounded-3 overflow-hidden">
+                                    <img class="w-100" src="https://i.pinimg.com/1200x/61/31/52/613152453ec7f1b58ac49f9c9b5e3fa6.jpg" style="height: 250px; object-fit: cover;" alt="">
+                                    <a class="position-absolute bottom-0 start-0 m-3 text-white-keep btn btn-gradient fw-medium rounded-3 px-3 py-2" href="blog-6.html">Binary Exploitation</a>
+                                    <a href="blog-6.html" class="blog-card__link position-absolute top-50 start-50 translate-middle icon-md icon-shape bg-linear-1 rounded-circle">
+                                        <i class="ri-arrow-right-up-line text-dark"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="blog-card__content position-relative text-center mt-4">
+                                <span class="blog-card__date fs-7">Jan 1, 2026 • 7 min read</span>
+                                <h5 class="blog-card__title">Patching a Video Game on Flareon CTF by Mandiant (Google Cloud)</h5>
+                                <p class="blog-card__description fs-6">Learning assembly because i hate myself >:(</p>
+                                <a href="blog-6.html" class="link-overlay position-absolute top-0 start-0 w-100 h-100"></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="blog-card rounded-4 mb-lg-3 mb-md-5 mb-3">
+                            <div class="blog-card__image position-relative">
+                                <div class="zoom-img rounded-3 overflow-hidden">
+                                    <img class="w-100" src="assets/imgs/blog/blog-2/cover.jpg" style="height: 250px; object-fit: cover;" alt="">
+                                    <a class="position-absolute bottom-0 start-0 m-3 text-white-keep btn btn-gradient fw-medium rounded-3 px-3 py-2" href="blog-2.html">Offensive Security</a>
+                                    <a href="blog-2.html" class="blog-card__link position-absolute top-50 start-50 translate-middle icon-md icon-shape bg-linear-1 rounded-circle">
+                                        <i class="ri-arrow-right-up-line text-dark"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="blog-card__content position-relative text-center mt-4">
+                                <span class="blog-card__date fs-7">December 17, 2024 • 6 min read</span>
+                                <h5 class="blog-card__title">How a Small Security Flaw Can Lead to Massive Data Breach</h5>
+                                <p class="blog-card__description fs-6">Everything Online Is Vulnerable. This is how Attackers Exploit SQLi to Expose Your Personal Information</p>
+                                <a href="blog-2.html" class="link-overlay position-absolute top-0 start-0 w-100 h-100"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    <!-- prettier-ignore -->
+    <!-- Footer -->
+    <footer>
+        <div class="section-footer position-relative pt-60 pb-60 bg-secondary-1">
+            <div class="container position-relative z-1">
+                <div class="text-center">
+                    <a class="d-flex main-logo align-items-center d-inline-flex" href="index.html">
+                        <img src="assets/imgs/footer-1/logo.svg" alt="zelio" />
+                        <span class="fs-4 ms-2 text-white-keep">w333zard</span>
+                    </a>
+                    <div class="navigation d-none d-md-flex align-items-center justify-content-center flex-wrap gap-4 my-4">
+                        <a href="index.html" class="fs-5">
+                            Home
+                        </a>
+                        <a href="index.html#skills" class="fs-5">
+                            Skills
+                        </a>
+                        <a href="index.html#portfolio" class="fs-5">
+                            Portfolio
+                        </a>
+                        <a href="index.html#blog" class="fs-5">
+                            Blog
+                        </a>
+                        <a href="index.html#projects" class="fs-5">
+                            Projects
+                        </a>
+                        <a href="index.html#contact" class="fs-5">
+                            Contact
+                        </a>
+                    </div>
+                </div>
+                <div class="row text-center py-4">
+                    <span class="fs-6 text-white-keep">© 2024 All Rights Reserved by <span><a href="#" class="text-primary">w333zard</a></span>
+                </div>
+            </div>
+            <div class="position-absolute top-0 start-0 w-100 h-100 z-0" data-background="assets/imgs/footer-1/background.png "></div>
+        </div>
+    </footer>
+    <!-- Scroll top -->
+    <div class="btn-scroll-top @@style">
+        <svg class="progress-square svg-content" width="100%" height="100%" viewBox="0 0 40 40">
+            <path d="M8 1H32C35.866 1 39 4.13401 39 8V32C39 35.866 35.866 39 32 39H8C4.13401 39 1 35.866 1 32V8C1 4.13401 4.13401 1 8 1Z" />
+        </svg>
+    </div>
+
+    <!-- Libs JS -->
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="assets/js/vendors/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/vendors/swiper-bundle.min.js"></script>
+    <script src="assets/js/vendors/aos.js"></script>
+    <script src="assets/js/vendors/odometer.min.js"></script>
+    <script src="assets/js/vendors/magnific-popup.min.js"></script>
+    
+    <!-- Theme JS -->
+    <script src="assets/js/main.js"></script>
+    
+    <!-- Blog-specific JavaScript -->
+    <script>
+        // Collapse / Expand code blocks
+        function toggleCode(toggleEl) {
+            const container = toggleEl.closest('.code-container');
+            const titleSpan = toggleEl.querySelector('.code-toggle-title span');
+            container.classList.toggle('collapsed');
+            const isCollapsed = container.classList.contains('collapsed');
+            if (titleSpan) {
+                const text = titleSpan.textContent;
+                titleSpan.textContent = text.replace(isCollapsed ? 'Hide code' : 'Show code', isCollapsed ? 'Show code' : 'Hide code');
+            }
+        }
+
+        // Copy to clipboard functionality
+        function copyCode(button) {
+            const codeContainer = button.closest('.code-container');
+            const codeElement = codeContainer.querySelector('code');
+            const codeText = codeElement.textContent;
+            
+            // Create a temporary textarea to copy the text
+            const tempTextarea = document.createElement('textarea');
+            tempTextarea.value = codeText;
+            document.body.appendChild(tempTextarea);
+            tempTextarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextarea);
+            
+            // Update button appearance
+            const originalText = button.querySelector('span').textContent;
+            const originalIcon = button.querySelector('i').className;
+            
+            button.querySelector('span').textContent = 'Copied!';
+            button.querySelector('i').className = 'ri-check-line';
+            button.classList.add('copied');
+            
+            // Reset button after 2 seconds
+            setTimeout(() => {
+                button.querySelector('span').textContent = originalText;
+                button.querySelector('i').className = originalIcon;
+                button.classList.remove('copied');
+            }, 2000);
+        }
+        
+        // Initialize collapsible code blocks
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.code-container').forEach(container => {
+                // Skip if already initialized
+                if (container.dataset.toggled === 'true') return;
+
+                const codeContent = container.querySelector('.code-content');
+                if (!codeContent) return;
+
+                // Determine language label
+                const codeEl = codeContent.querySelector('code');
+                let language = 'Code';
+                if (codeEl) {
+                    const match = (codeEl.className || '').match(/language-([\w-]+)/);
+                    if (match && match[1]) {
+                        language = match[1].charAt(0).toUpperCase() + match[1].slice(1);
+                    }
+                }
+
+                // Build toggle bar
+                const toggleBar = document.createElement('div');
+                toggleBar.className = 'code-toggle';
+                toggleBar.innerHTML = `
+                    <div class="code-toggle-title">
+                        <i class="ri-code-s-slash-line"></i>
+                        <span>${language} • Show code</span>
+                    </div>
+                    <div class="code-toggle-actions">
+                        <i class="ri-arrow-down-s-line toggle-icon"></i>
+                    </div>
+                `;
+                toggleBar.addEventListener('click', () => toggleCode(toggleBar));
+
+                // Insert toggle bar and collapse by default
+                container.insertBefore(toggleBar, codeContent);
+                container.classList.add('collapsed');
+                container.dataset.toggled = 'true';
+            });
+        });
+        
+        // Copy flag functionality
+        function copyFlag(button) {
+            const flagContainer = button.closest('.flag-container');
+            const flagText = flagContainer.querySelector('.flag-text').textContent;
+            
+            // Create a temporary textarea to copy the text
+            const tempTextarea = document.createElement('textarea');
+            tempTextarea.value = flagText;
+            document.body.appendChild(tempTextarea);
+            tempTextarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextarea);
+            
+            // Update button appearance
+            const originalText = button.querySelector('span').textContent;
+            const originalIcon = button.querySelector('i').className;
+            
+            button.querySelector('span').textContent = 'Copied!';
+            button.querySelector('i').className = 'ri-check-line';
+            button.classList.add('copied');
+            
+            // Reset button after 2 seconds
+            setTimeout(() => {
+                button.querySelector('span').textContent = originalText;
+                button.querySelector('i').className = originalIcon;
+                button.classList.remove('copied');
+            }, 2000);
+        }
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+        
+        // Highlight active section in TOC
+        function updateActiveSection() {
+            const sections = document.querySelectorAll('h5[id]');
+            const tocLinks = document.querySelectorAll('.sticky-sidebar a[href^="#"]');
+            
+            let currentSection = '';
+            sections.forEach(section => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top <= 100) {
+                    currentSection = section.getAttribute('id');
+                }
+            });
+            
+            tocLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + currentSection) {
+                    link.classList.add('active');
+                }
+            });
+        }
+        
+        window.addEventListener('scroll', updateActiveSection);
+        updateActiveSection();
+    </script>
+</body>
+</html>
