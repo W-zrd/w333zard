@@ -324,6 +324,9 @@
                                 <div class="mt-5">
 
                                     <div class="mt-4">
+                                        <div class="d-flex align-items-center my-4">
+                                            <img class="" style="width:1200px;" src="assets/imgs/blog/blog-7/thumbnail.jpg" alt="" />
+                                        </div>
                                         <p>Recently, I helped my friend after he run a Tom Clancy's The Division 2 game trainer that turned out to be a cryptominer loader. He found a game trainer online, downloaded it, and installed it. Nothing seemed wrong at first. Then his antivirus popped up, flagged that file, and quarantined it.</p>
 
                                         <p>Shortly after, I told him to run full scan using his Antivirus and clear browser data as a quick prevention. But as a Reverse Engineer, we don't just run and trust AV. We do research. I wonder about how the malware worked in low level perspective. That is what this blog content is about.</p>
@@ -336,7 +339,11 @@
 
                                         <p>The suspected file was named <code>FLiNG-AutoUpdate.exe</code>, distributed as part of a Tom Clancy's The Division 2 game trainer. When executed, FLiNG-AutoUpdate.exe produces nothing visible. No window, no dialog, no progress bar, no system tray icon. To a user who double-clicked it expecting a trainer update, it looks like the program did nothing and exited. Everything it does happens in the background.</p>
 
-                                        <p>It would be easy if there is a public available writeup or report about this file. So, I start with doing initial reconnaissance. Based on the image below, unfortunately there are no similar malware found when i search the hashes on VirusTotal and MalwareBazaar. So this is a unique malware that im curious about.</p>
+                                         <div class="d-flex align-items-center my-4">
+                                            <img class="" style="width:1200px;" src="assets/imgs/blog/blog-7/0.png" alt="" />
+                                        </div>
+
+                                        <p>It would be easy if there is a public available writeup or report about this file. So, I start with doing initial reconnaissance. Based on the image above, unfortunately there are no similar malware found when i search the hashes on VirusTotal and MalwareBazaar. So this is a unique malware that im curious about.</p>
 
                                         <p>Anyway, the file carries an Authenticode digital signature, the same mechanism Windows uses to verify that a file came from a legitimate publisher. The signature references claims this file is from "Microsoft Windows Publisher" under "Microsoft Corporation" but actually it's not a Microsoft executable. From here, i can assume that this is a real malware. But i need to deep dive into it by performing static analysis using IDA Pro and Ghidra.</p>
                                     </div>
@@ -504,7 +511,7 @@
 
                                         <p>The traffic contains a system fingerprint that enumerates the victim's hardware. The <code>"type": "xmrig"</code> field explicitly identifies the payload as the <strong>XMRig Crypto Miner</strong>. The <code>"activewindow": "Running as System"</code> value confirms the malware achieved SYSTEM-level privileges (it's make sense since the malware file needs to be run as admin). The rest of the field is not important for me.</p>
 
-                                        <p>I also found a longer network capture revealed that the C2 beacon is evolving over time. Looking at the image below, the beacon payload expanded to include live mining activity. Compared to the previous traffic, this payload adds the following fields: <code>pool</code> (mining pool hostname), <code>port</code> (pool connection port), <code>algo</code> (active mining algorithm), <code>user</code> (wallet address), and <code>hashrate</code> (current mining speed in hashes per second). The <code>status</code> field changed from <code>1</code> (initial registration) to <code>2</code> (active mining). The <code>runtime</code> field counts seconds since execution, and 11 POST beacons were observed in the image above.</p>
+                                        <p>I also found a longer network capture revealed that the C2 beacon is evolving over time. Looking at the image below, the beacon payload expanded to include live mining activity. Compared to the previous traffic, this payload adds the following fields: <code>pool</code> (mining pool hostname), <code>port</code> (pool connection port), <code>algo</code> (active mining algorithm), <code>user</code> (wallet address), and <code>hashrate</code> (current mining speed in hashes per second). The <code>status</code> field changed from <code>1</code> (initial registration) to <code>2</code> (active mining). The <code>runtime</code> field counts seconds since execution, and 11 POST beacons were observed in the image below.</p>
 
                                         <div class="d-flex align-items-center my-4">
                                             <img class="" style="width:1200px;" src="assets/imgs/blog/blog-7/11.png" alt="" />
@@ -535,31 +542,32 @@
 
                                         <p>The hollowing sequence now fully corroborated by the previous Dynamic API resolution findings, proceeds as follows: <code>NtCreateUserProcess</code> spawns <code>dialer.exe</code> in a suspended state; <code>NtAllocateVirtualMemory</code> reserves memory within its address space; <code>NtWriteVirtualMemory</code> copies the decrypted XMRig PE into that memory section by section; <code>NtProtectVirtualMemory</code> flips the injected sections from writable to executable; <code>NtGetContextThread</code> retrieves the main thread's register state; <code>NtSetContextThread</code> redirects the instruction pointer to the payload's entry point; and finally <code>NtResumeThread</code> releases the thread to run the injected miner.</p>
 
-                                        <h4 id="conclusion">Conclusion</h4>
-
-                                        <p><code>FLiNG-AutoUpdate.exe</code> is a multi-stage malware loader that installs XMRig and mines Monero on the victim's machine with no visible indication. The full attack chain:</p>
-
-                                        <ol>
-                                            <li>The user runs a file that looks like a game trainer.</li>
-                                            <li>The malware resolves 33 Windows system functions at runtime (Dynamic API resolution) using a custom hashing scheme.</li>
-                                            <li>It adds Windows Defender exclusions for the user profile and ProgramData directories, then removes the Malicious Software Removal Tool.</li>
-                                            <li>It disables sleep and hibernation to keep the miner running continuously.</li>
-                                            <li>It decrypts the XMRig payload in memory and injects it into <code>dialer.exe</code> using process hollowing.</li>
-                                            <li>It registers a Windows service named "Windows" for persistence across reboots.</li>
-                                            <li>The miner registers with a C2 server at <code>apkindir.io</code>, reports hardware information, then connects to <code>xmr-eu1.nanopool.org</code> and begins mining Monero to the attacker's wallet.</li>
-                                        </ol>
-
-                                        <h4 id="ioc">Indicators of Compromise</h4>
-                                        <ul>
-                                            <li>C2 Domain: <code>apkindir.io</code></li>
-                                            <li>C2 Endpoint: <code>https://apkindir.io/bulbakalim/api/endpoint.php</code></li>
-                                            <li>C2 IP: <code>172.67.161.114</code></li>
-                                            <li>C2 IP: <code>104.21.82.183</code></li>
-                                            <li>Mining Pool: <code>xmr-eu1.nanopool.org:10300</code></li>
-                                            <li>HTTP User-Agent: <code>cpp-httplib/0.12.6</code></li>
-                                            <li>Miner Agent: <code>XMRig/6.21.3 (Windows NT 10.0; Win64; x64) libuv/1.38.0 msvc/2022</code></li>
-                                            <li>Monero Wallet: <code>8ARyh4dx2m1h4DJb7jW3uvdNZVWViGKQ4bCyzkNiCha57c6NFPBumyVJf3eun3ojAP2zeB5WFMrNhKExgGYVP8kmGL7DwMY</code></li>
-                                        </ul>
+                                        
+                                        <!-- CONCLUSION -->
+                                        <div class="border-linear-3 rounded-4 p-lg-6 p-md-4 p-3 mt-6">
+                                            <h4 id="conclusion">Conclusion</h4>
+                                            <p><code>FLiNG-AutoUpdate.exe</code> is a multi-stage malware loader that installs XMRig and mines Monero on the victim's machine with no visible indication. The full attack chain:</p>
+                                            <ol>
+                                                <li>The user runs a file that looks like a game trainer.</li>
+                                                <li>The malware resolves 33 Windows system functions at runtime (Dynamic API resolution) using a custom hashing scheme.</li>
+                                                <li>It adds Windows Defender exclusions for the user profile and ProgramData directories, then removes the Malicious Software Removal Tool.</li>
+                                                <li>It disables sleep and hibernation to keep the miner running continuously.</li>
+                                                <li>It decrypts the XMRig payload in memory and injects it into <code>dialer.exe</code> using process hollowing.</li>
+                                                <li>It registers a Windows service named "Windows" for persistence across reboots.</li>
+                                                <li>The miner registers with a C2 server at <code>apkindir.io</code>, reports hardware information, then connects to <code>xmr-eu1.nanopool.org</code> and begins mining Monero to the attacker's wallet.</li>
+                                            </ol>
+                                            <h4 id="ioc">Indicators of Compromise</h4>
+                                            <ul>
+                                                <li>C2 Domain: <code>apkindir.io</code></li>
+                                                <li>C2 Endpoint: <code>https://apkindir.io/bulbakalim/api/endpoint.php</code></li>
+                                                <li>C2 IP: <code>172.67.161.114</code></li>
+                                                <li>C2 IP: <code>104.21.82.183</code></li>
+                                                <li>Mining Pool: <code>xmr-eu1.nanopool.org:10300</code></li>
+                                                <li>HTTP User-Agent: <code>cpp-httplib/0.12.6</code></li>
+                                                <li>Miner Agent: <code>XMRig/6.21.3 (Windows NT 10.0; Win64; x64) libuv/1.38.0 msvc/2022</code></li>
+                                                <li style="text-align: left; font-size: 17px;">Monero Wallet: <code>8ARyh4dx2m1h4DJb7jW3uvdNZVWViGKQ4bCyzkNiCha57c6NFPBumyVJf3eun3ojAP2zeB5WFMrNhKExgGYVP8kmGL7DwMY</code></li>
+                                            </ul>   
+                                        </div>
 
                                     </div>
                                     </div>
