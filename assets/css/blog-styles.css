@@ -444,6 +444,11 @@
     text-align: justify;
 }
 
+.blog-content .ioc-list,
+.blog-content .ioc-list li {
+    text-align: left;
+}
+
 
 
 

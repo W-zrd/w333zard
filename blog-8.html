@@ -292,9 +292,9 @@
                                                 </a>
                                             </li>
                                             <li class="mb-2">
-                                                <a href="#malware-capability-1-credential-theft" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
+                                                <a href="#breaking-down-the-credential-theft-capablity" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
                                                     <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
-                                                    <span><strong>Malware Capability #1: Credential Theft</strong></span>
+                                                    <span><strong>Breaking Down the Credential Theft Capablity</strong></span>
                                                 </a>
                                             </li>
                                             <li class="mb-2">
@@ -307,6 +307,18 @@
                                                 <a href="#tracing-back-hackers" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
                                                     <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
                                                     <span><strong>Tracing Back Hackers</strong></span>
+                                                </a>
+                                            </li>
+                                            <li class="mb-2">
+                                                <a href="#conclusion" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
+                                                    <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
+                                                    <span><strong>Conclusion</strong></span>
+                                                </a>
+                                            </li>
+                                            <li class="mb-2">
+                                                <a href="#ioc" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
+                                                    <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
+                                                    <span><strong>Indicators of Compromise</strong></span>
                                                 </a>
                                             </li>
                                         </ol>
@@ -349,7 +361,21 @@
 
                                         <p>From the initial recon, we know that the attacker packed the malware using UPX to make string extraction useless and to reduce the file size. The executable file have only 3.5 MB packed, but actually after unpacking, it explodes to <strong>12.5 MB</strong>. UPX is one of the laziest obfuscation methods out there. One command to reverse it:</p>
 
-                                        <p><code>upx -d installer.exe -o unpacked.exe</code></p>
+                                        <div class="code-container">
+                                            <div class="code-content">
+                                                <div class="code-controls">
+                                                    <div class="code-language">
+                                                        <i class="ri-code-s-slash-line" style="font-size: 0.6rem;"></i>
+                                                        <span>bash</span>
+                                                    </div>
+                                                    <button class="copy-btn" onclick="copyCode(this)">
+                                                        <i class="ri-file-copy-line" style="font-size: 0.6rem;"></i>
+                                                        <span>Copy</span>
+                                                    </button>
+                                                </div>
+                                                <pre><code>upx -d installer.exe -o unpacked.exe</code></pre>
+                                            </div>
+                                        </div>
 
                                         <p>After unpacking, the section layout looks like a normal PE structure:</p>
 
@@ -489,7 +515,7 @@ new bytes: C3 90</code></pre>
                                     </div>
 
                                     <div class="mt-4">
-                                        <h4 id="malware-capability-1-credential-theft">Malware Capability #1: Credential Theft</h4>
+                                        <h4 id="breaking-down-the-credential-theft-capablity">Breaking Down the Credential Theft Capablity</h4>
 
                                         <p>Not every breakpoint can be fired every time. Some paths depend on which browser artifacts exist in the victim environment. In my case, Chrome-related paths were easy to prove dynamically since i didn&rsquo;t have Yandex and Gecko in my VM. During analysis on x32dbg, <code>main.getChromeCookies</code> is a function which steals SQLite data. This function is one of the most aggressive ones in the sample.</p>
 
@@ -501,7 +527,21 @@ new bytes: C3 90</code></pre>
 
                                         <p>Another thing worth noting is the temporary path:</p>
 
-                                        <p><code>C:\Users\wzrd\AppData\Local\Temp\256533066</code></p>
+                                        <div class="code-container">
+                                            <div class="code-content">
+                                                <div class="code-controls">
+                                                    <div class="code-language">
+                                                        <i class="ri-code-s-slash-line" style="font-size: 0.6rem;"></i>
+                                                        <span>text</span>
+                                                    </div>
+                                                    <button class="copy-btn" onclick="copyCode(this)">
+                                                        <i class="ri-file-copy-line" style="font-size: 0.6rem;"></i>
+                                                        <span>Copy</span>
+                                                    </button>
+                                                </div>
+                                                <pre><code>C:\Users\wzrd\AppData\Local\Temp\256533066</code></pre>
+                                            </div>
+                                        </div>
 
                                         <p>The malware creates a temporary working copy before extraction. This is common because browser databases can be locked while the browser is running. By copying the SQLite database first, the malware can query it without fighting the original browser process.</p>
 
@@ -535,7 +575,21 @@ new bytes: C3 90</code></pre>
 
                                         <p>Good, this explains why the pcap was unreadable but x32dbg was able to recover the data. <strong>The malware applied its own encryption before the TLS layer, so the real content had to be recovered from memory</strong> before <code>main.dec</code> transformed it. The image above shows the result after stopping the program before the encryption/send stage. The plaintext payload was a JSON object that looked like this:</p>
 
-                                        <p><code>{"1":"6","2":"898d5caf26b6808381f2fcbd1a83e872","3":"UEsDB...","4":"0"}</code></p>
+                                        <div class="code-container">
+                                            <div class="code-content">
+                                                <div class="code-controls">
+                                                    <div class="code-language">
+                                                        <i class="ri-code-s-slash-line" style="font-size: 0.6rem;"></i>
+                                                        <span>json</span>
+                                                    </div>
+                                                    <button class="copy-btn" onclick="copyCode(this)">
+                                                        <i class="ri-file-copy-line" style="font-size: 0.6rem;"></i>
+                                                        <span>Copy</span>
+                                                    </button>
+                                                </div>
+                                                <pre><code>{"1":"6","2":"898d5caf26b6808381f2fcbd1a83e872","3":"UEsDB...","4":"0"}</code></pre>
+                                            </div>
+                                        </div>
 
                                         <p>Field <code>3</code> starts with <code>UEsDB</code>. After decoding it, the first bytes became <code>PK</code>, which means that the malware was preparing a ZIP archive before sending it. In short, the malware packages the stolen artifacts into a ZIP, then embeds that ZIP as base64 inside a JSON wrapper. After that, the JSON is encrypted and finally sent to the C2 server.</p>
 
@@ -577,7 +631,21 @@ Browsers/Autofills_Chrome_Default.txt</code></pre>
 
                                         <p>During dynamic analysis on x32dbg, i found suspicious domain name which i didn&rsquo;t see in the previous section. I queried the domain through <a href="https://tonapi.io/v2/dns/shyetootval.ton/resolve">TonAPI&rsquo;s DNS resolve</a>. It returned metadata proving the <code>.ton</code> domain is real and registered in the TON DNS collection. That endpoint tells us the domain exists on-chain.</p>
 
-                                        <p><code>curl -s https://tonapi.io/v2/dns/shyetootval.ton/resolve</code></p>
+                                        <div class="code-container">
+                                            <div class="code-content">
+                                                <div class="code-controls">
+                                                    <div class="code-language">
+                                                        <i class="ri-code-s-slash-line" style="font-size: 0.6rem;"></i>
+                                                        <span>bash</span>
+                                                    </div>
+                                                    <button class="copy-btn" onclick="copyCode(this)">
+                                                        <i class="ri-file-copy-line" style="font-size: 0.6rem;"></i>
+                                                        <span>Copy</span>
+                                                    </button>
+                                                </div>
+                                                <pre><code>curl -s https://tonapi.io/v2/dns/shyetootval.ton/resolve</code></pre>
+                                            </div>
+                                        </div>
 
                                         <p>The response was:</p>
 
@@ -626,15 +694,69 @@ Browsers/Autofills_Chrome_Default.txt</code></pre>
 
                                         <p>Looking at the <code>wallet.address</code> field, The value after <code>0:</code> in the resolved address is:</p>
 
-                                        <p><code>3231372e32362e32382e32333400000000000000000000000000000000000000</code></p>
+                                        <div class="code-container">
+                                            <div class="code-content">
+                                                <div class="code-controls">
+                                                    <div class="code-language">
+                                                        <i class="ri-code-s-slash-line" style="font-size: 0.6rem;"></i>
+                                                        <span>text</span>
+                                                    </div>
+                                                    <button class="copy-btn" onclick="copyCode(this)">
+                                                        <i class="ri-file-copy-line" style="font-size: 0.6rem;"></i>
+                                                        <span>Copy</span>
+                                                    </button>
+                                                </div>
+                                                <pre><code>3231372e32362e32382e32333400000000000000000000000000000000000000</code></pre>
+                                            </div>
+                                        </div>
 
                                         <p>Then I decode each byte from hex to ASCII (excluding the zero&rsquo;s):</p>
 
-                                        <p><code>2 1 7 . 2 6 . 2 8 . 2 3 4</code></p>
+                                        <div class="code-container">
+                                            <div class="code-content">
+                                                <div class="code-controls">
+                                                    <div class="code-language">
+                                                        <i class="ri-code-s-slash-line" style="font-size: 0.6rem;"></i>
+                                                        <span>text</span>
+                                                    </div>
+                                                    <button class="copy-btn" onclick="copyCode(this)">
+                                                        <i class="ri-file-copy-line" style="font-size: 0.6rem;"></i>
+                                                        <span>Copy</span>
+                                                    </button>
+                                                </div>
+                                                <pre><code>2 1 7 . 2 6 . 2 8 . 2 3 4</code></pre>
+                                            </div>
+                                        </div>
 
                                         <p>The remaining <code>00</code> bytes are just null padding. That means the resolved TON DNS record is effectively embedding the backend IP address <strong>inside the wallet field itself</strong>. This IP was the one we just saw in the previous Wireshark traffic.</p>
 
                                         <p>This fits the network trace perfectly. The previous Wireshark dump shows TON-related resolution traffic, then a direct TLS session to <strong><code>217.26.28.234:443</code></strong>, which becomes the largest client-to-server upload in the capture. In other words, the malware appears to use TON-related services as an indirection layer, then pivots to a direct TLS connection to the backend IP.</p>
+
+                                        <div class="border-linear-3 rounded-4 p-lg-6 p-md-4 p-3 mt-6">
+                                            <h4 id="conclusion">Conclusion</h4>
+                                            <p>This cracked Photoshop installer is not just a fake setup. It is a Go-based infostealer that uses several layers of evasion and staging to steal victim data before the ransomware stage becomes visible. The attack chain shown in this analysis is:</p>
+                                            <ol>
+                                                <li>The victim runs a trojanized Photoshop installer packed with UPX.</li>
+                                                <li>After unpacking, the sample reveals Go artifacts and a large <code>main.Steal</code> orchestration function that coordinates browser theft and exfiltration.</li>
+                                                <li>The malware resists analysis with anti-debug logic, intentional crashes, and a <code>runtime.abort</code> trap that had to be patched to make tracing stable.</li>
+                                                <li>It copies browser SQLite data into a temporary working directory, extracts cookies and autofill data, and collects host metadata plus a screenshot.</li>
+                                                <li>Before exfiltration, it packages the stolen artifacts into a ZIP archive, embeds that ZIP inside a JSON wrapper, encrypts it, and sends it over TLS.</li>
+                                                <li>Instead of exposing a normal C2 domain directly, it abuses TON-related resolution infrastructure and stores the backend IP inside a suspicious TON DNS wallet record.</li>
+                                                <li>The final exfiltration destination observed in traffic is <code>217.26.28.234:443</code>, which matches the decoded value hidden in the TON DNS response.</li>
+                                            </ol>
+                                            <h4 id="ioc">Indicators of Compromise</h4>
+                                            <ul class="ioc-list">
+                                                <li>TON Domain: <code>shyetootval.ton</code></li>
+                                                <li>TON Domain: <code>webratpanel.ton</code></li>
+                                                <li>Supporting Infrastructure: <code>tonapi.io</code></li>
+                                                <li>Supporting Infrastructure: <code>ton.access.orbs.network</code></li>
+                                                <li>Exfiltration IP: <code>217.26.28.234</code></li>
+                                                <li>Exfiltration Endpoint: <code>217.26.28.234:443</code></li>
+                                                <li>Suspicious TON Wallet Record: <code>0:3231372e32362e32382e32333400000000000000000000000000000000000000</code></li>
+                                                <li>Temporary Working Path: <code>C:\Users\wzrd\AppData\Local\Temp\256533066</code></li>
+                                                <li>Stolen Artifacts: <code>UserInformation.txt</code>, <code>Monitor 1.jpg</code>, <code>Browsers/Cookies_Edge_Default.txt</code>, <code>Browsers/Autofills_Edge_Default.txt</code>, <code>Browsers/Autofills_Chrome_Default.txt</code></li>
+                                            </ul>
+                                        </div>
                                     </div>
 
                                     </div>
@@ -674,21 +796,33 @@ Browsers/Autofills_Chrome_Default.txt</code></pre>
                                                 </a>
                                             </li>
                                             <li class="mb-2">
-                                                <a href="#malware-capability-1-credential-theft" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
+                                                <a href="#breaking-down-the-credential-theft-capablity" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
                                                     <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
-                                                    <span><strong>Credential Theft</strong></span>
+                                                    <span><strong>Breaking Down the Credential Theft Capablity</strong></span>
                                                 </a>
                                             </li>
                                             <li class="mb-2">
                                                 <a href="#reversing-the-encrypted-payload-from-c2-communication" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
                                                     <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
-                                                    <span><strong>Encrypted Payload</strong></span>
+                                                    <span><strong>Reversing the Encrypted Payload from C2 Communication</strong></span>
                                                 </a>
                                             </li>
                                             <li class="mb-2">
                                                 <a href="#tracing-back-hackers" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
                                                     <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
                                                     <span><strong>Tracing Back Hackers</strong></span>
+                                                </a>
+                                            </li>
+                                            <li class="mb-2">
+                                                <a href="#conclusion" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
+                                                    <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
+                                                    <span><strong>Conclusion</strong></span>
+                                                </a>
+                                            </li>
+                                            <li class="mb-2">
+                                                <a href="#ioc" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
+                                                    <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
+                                                    <span><strong>Indicators of Compromise</strong></span>
                                                 </a>
                                             </li>
                                         </ol>
@@ -755,18 +889,18 @@ Browsers/Autofills_Chrome_Default.txt</code></pre>
                         <div class="blog-card rounded-4 mb-lg-3 mb-md-5 mb-3">
                             <div class="blog-card__image position-relative">
                                 <div class="zoom-img rounded-3 overflow-hidden">
-                                    <img class="w-100" src="assets/imgs/blog/blog-5/cover.jpeg" style="height: 250px; object-fit: cover;" alt="">
-                                    <a class="position-absolute bottom-0 start-0 m-3 text-white-keep btn btn-gradient fw-medium rounded-3 px-3 py-2" href="blog-list.html?category=Web%20Exploitation">Web Exploitation</a>
-                                    <a href="blog-5.html" class="blog-card__link position-absolute top-50 start-50 translate-middle icon-md icon-shape bg-linear-1 rounded-circle">
+                                    <img class="w-100" src="assets/imgs/blog/blog-8/Wzrd.jpeg" style="height: 250px; object-fit: cover;" alt="Adobe Photoshop malware analysis blog cover">
+                                    <a class="position-absolute bottom-0 start-0 m-3 text-white-keep btn btn-gradient fw-medium rounded-3 px-3 py-2" href="blog-list.html?category=Reverse%20Engineering">Reverse Engineering</a>
+                                    <a href="blog-8.html" class="blog-card__link position-absolute top-50 start-50 translate-middle icon-md icon-shape bg-linear-1 rounded-circle">
                                         <i class="ri-arrow-right-up-line text-dark"></i>
                                     </a>
                                 </div>
                             </div>
                             <div class="blog-card__content position-relative text-center mt-4">
-                                <span class="blog-card__date fs-7">November 24, 2025 • 7 min read</span>
-                                <h5 class="blog-card__title">Hacking all the things on Telkom University (Graduation Edition)</h5>
-                                <p class="blog-card__description fs-6">As my journey ends, I'll leave my hat on Telyu.</p>
-                                <a href="blog-5.html" class="link-overlay position-absolute top-0 start-0 w-100 h-100"></a>
+                                <span class="blog-card__date fs-7">May 3, 2026 • by Wzrd</span>
+                                <h5 class="blog-card__title">Pwning Back the Hacker Who Gave Me Ransomware After I Installed a Cracked Adobe Photoshop</h5>
+                                <p class="blog-card__description fs-6">Malware Analysis Project #2: Crime and Punishment</p>
+                                <a href="blog-8.html" class="link-overlay position-absolute top-0 start-0 w-100 h-100"></a>
                             </div>
                         </div>
                     </div>
@@ -834,18 +968,6 @@ Browsers/Autofills_Chrome_Default.txt</code></pre>
     
     <!-- Blog-specific JavaScript -->
     <script>
-        // Collapse / Expand code blocks
-        function toggleCode(toggleEl) {
-            const container = toggleEl.closest('.code-container');
-            const titleSpan = toggleEl.querySelector('.code-toggle-title span');
-            container.classList.toggle('collapsed');
-            const isCollapsed = container.classList.contains('collapsed');
-            if (titleSpan) {
-                const text = titleSpan.textContent;
-                titleSpan.textContent = text.replace(isCollapsed ? 'Hide code' : 'Show code', isCollapsed ? 'Show code' : 'Hide code');
-            }
-        }
-
         // Copy to clipboard functionality
         function copyCode(button) {
             const codeContainer = button.closest('.code-container');
@@ -875,46 +997,6 @@ Browsers/Autofills_Chrome_Default.txt</code></pre>
                 button.classList.remove('copied');
             }, 2000);
         }
-        
-        // Initialize collapsible code blocks
-        document.addEventListener('DOMContentLoaded', () => {
-            document.querySelectorAll('.code-container').forEach(container => {
-                // Skip if already initialized
-                if (container.dataset.toggled === 'true') return;
-
-                const codeContent = container.querySelector('.code-content');
-                if (!codeContent) return;
-
-                // Determine language label
-                const codeEl = codeContent.querySelector('code');
-                let language = 'Code';
-                if (codeEl) {
-                    const match = (codeEl.className || '').match(/language-([\w-]+)/);
-                    if (match && match[1]) {
-                        language = match[1].charAt(0).toUpperCase() + match[1].slice(1);
-                    }
-                }
-
-                // Build toggle bar
-                const toggleBar = document.createElement('div');
-                toggleBar.className = 'code-toggle';
-                toggleBar.innerHTML = `
-                    <div class="code-toggle-title">
-                        <i class="ri-code-s-slash-line"></i>
-                        <span>${language} • Show code</span>
-                    </div>
-                    <div class="code-toggle-actions">
-                        <i class="ri-arrow-down-s-line toggle-icon"></i>
-                    </div>
-                `;
-                toggleBar.addEventListener('click', () => toggleCode(toggleBar));
-
-                // Insert toggle bar and collapse by default
-                container.insertBefore(toggleBar, codeContent);
-                container.classList.add('collapsed');
-                container.dataset.toggled = 'true';
-            });
-        });
         
         // Copy flag functionality
         function copyFlag(button) {
