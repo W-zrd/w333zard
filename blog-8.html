@@ -1,0 +1,1047 @@
+<!doctype html>
+<html lang="en" data-bs-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <meta property="og:title" content="Malware Analysis Project #2: Crime and Punishment" />
+    <meta property="og:description" content="Pwning Back Hacker Who Gave Me Ransomware After I Installed Photoshop Cracked" />
+    <meta property="og:url" content="https://rfdhaikal-wizz.pro" />
+    <meta
+      property="og:image"
+      content="https://i.pinimg.com/1200x/2e/88/1a/2e881afd4c5d85398f42047cf01d33ab.jpg"
+    />
+
+    <title>Pwning Back the Hacker Who Gave Me Ransomware After I Installed a Cracked Adobe Photoshop</title>
+    <script src="assets/js/vendors/color-modes.js"></script>
+    <!-- Favicon icon-->
+    <link rel="shortcut icon" type="image/x-icon" href="assets/imgs/template/favicon.svg">
+    <!-- Libs CSS -->
+    <link rel="stylesheet" href="assets/css/vendors/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/vendors/swiper-bundle.min.css">
+    <link rel="stylesheet" href="assets/css/vendors/aos.css">
+    <link rel="stylesheet" href="assets/css/vendors/odometer.css">
+    <link rel="stylesheet" href="assets/css/vendors/carouselTicker.css">
+    <link rel="stylesheet" href="assets/css/vendors/magnific-popup.css">
+    <link rel="stylesheet" href="assets/fonts/remixicon/remixicon.css">
+    <link rel="stylesheet" href="assets/fonts/satoshi/satoshi.css">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Playfair+Display:wght@400..900&family=Urbanist:wght@100..900&display=swap" rel="stylesheet">
+   
+    <!-- In your HTML head -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <!-- Initialize -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            hljs.highlightAll();
+        });
+    </script>
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/Wzrd.css">
+    <link rel="stylesheet" href="assets/css/blog-styles.css">
+    <style>
+        [data-bs-theme="light"] strong,
+        [data-bs-theme="light"] b {
+            color: inherit;
+        }
+        [data-bs-theme="light"] .toc-link span,
+        [data-bs-theme="light"] .toc-link strong {
+            color: var(--bs-body-color);
+        }
+        [data-bs-theme="light"] .blog-content strong {
+            color: var(--bs-body-color);
+        }
+        @media (min-width: 992px) {
+            .section-details .col-lg-4 {
+                align-self: flex-start;
+                position: relative;
+            }
+            .section-details .col-lg-4 .sticky-sidebar {
+                position: static;
+                align-self: flex-start;
+            }
+        }
+    </style>
+
+
+</head>
+
+<body>
+    <!-- prettier-ignore -->
+
+    <!-- Navbar -->
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light w-100 flex-nowrap z-999 p-0">
+            <a href="#" class="navbar-menu p-4 text-center square-100 menu-tigger icon_80 icon-shape d-none d-md-flex" data-bs-target=".offCanvas__info" aria-controls="offCanvas__info">
+                <i class="ri-menu-2-line"></i>
+            </a>
+            <div class="container py-3 px-0">
+                <a class="navbar-brand d-flex main-logo align-items-center ms-lg-0 ms-md-5 ms-3" href="index.html">
+                    <img src="assets/imgs/template/favicon.svg" alt="zelio" />
+                    <span class="fs-4 ms-2">w333zard</span>
+                </a>
+                <div class="d-none d-lg-flex">
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="index.html">Home</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="index.html#skills">Skills</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="index.html#portfolio">Portfolio</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="index.html#blog">Blog</a>
+                            </li>
+                            
+                            <li class="nav-item">
+                                <a class="nav-link" href="index.html#projects">Projects</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="index.html#contact">Contact</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="navbar-social d-flex align-items-center pe-5 pe-lg-0 me-5 me-lg-0">
+                    <div class="d-md-flex d-none gap-3">
+                        <a href="https://www.instagram.com/rfdhaikal.wizz/">
+                            <i class="ri-instagram-fill"></i>
+                        </a>
+                        <a href="https://medium.com/@w333zard">
+                            <i class="ri-medium-fill"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/rfdhaikal/">
+                            <i class="ri-linkedin-fill"></i>
+                        </a>
+                        <a href="https://github.com/W-zrd">
+                            <i class="ri-github-fill"></i>
+                        </a>
+                    </div>
+                    <div class="burger-icon burger-icon-white border rounded-3">
+                        <span class="burger-icon-top"></span>
+                        <span class="burger-icon-mid"></span>
+                        <span class="burger-icon-bottom"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="dark-light-switcher pe-10 pe-lg-0 pe-0 ps-md-5 ps-0 ps-lg-4 pe-lg-4 d-flex justify-content-center align-items-center icon_80 @@classList">
+                <i class="ri-sun-fill text-warning"></i>
+                <i class="ri-contrast-2-line text-white"></i>
+            </div>
+
+        </nav>
+        <!-- offCanvas-menu -->
+        <div class="offCanvas__info">
+            <div class="offCanvas__close-icon menu-close">
+                <button><i class="ri-close-line"></i></button>
+            </div>
+            <div class="offCanvas__logo mb-5">
+                <h3 class="mb-0">Get in touch</h3>
+            </div>
+            <div class="offCanvas__side-info mb-30">
+                <div class="contact-list mb-30">
+                    <p class="fs-6 fw-medium text-200 mb-5">Offense in depth; better take your data back to offline mode.</p>
+                    <div class="mb-3">
+                        <span class="text-400 fs-5">LinkedIn</span>
+                        <p class="mb-0">https://www.linkedin.com/in/rfdhaikal/</p>
+                    </div>
+                    <div class="mb-3">
+                        <span class="text-400 fs-5">Email</span>
+                        <p class="mb-0"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="740612101c151d1f15185a031d0e0e3404061b001b1a5a1911">[email&#160;protected]</a></p>
+                    </div>
+                    <div class="mb-3">
+                        <span class="text-400 fs-5">GitHub</span>
+                        <p class="mb-0">https://github.com/W-zrd</p>
+                    </div>
+                </div>
+
+                <div class="contact-list">
+                    <p class="text-400 fs-5 mb-2">Social</p>
+                    <div class="d-md-flex d-none gap-3">
+                        <a href="https://www.instagram.com/rfdhaikal.wizz/">
+                            <i class="ri-instagram-fill fs-18"></i>
+                        </a>
+                        <a href="https://medium.com/@w333zard">
+                            <i class="ri-medium-fill fs-18"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/rfdhaikal/">
+                            <i class="ri-linkedin-fill fs-18"></i>
+                        </a>
+                        <a href="https://github.com/W-zrd">
+                            <i class="ri-github-fill fs-18"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="offCanvas__overly"></div>
+        <div class="mobile-header-active mobile-header-wrapper-style perfect-scrollbar button-bg-2">
+            <div class="mobile-header-wrapper-inner">
+                <div class="mobile-header-logo">
+                    <a class="d-flex main-logo align-items-center d-inline-flex" href="index.html">
+                        <img src="assets/imgs/footer-1/logo.svg" alt="zelio" />
+                        <span class="fs-4 ms-2 text-dark">w333zard</span>
+                    </a>
+                    <div class="burger-icon burger-icon-white border rounded-3">
+                        <span class="burger-icon-top"></span>
+                        <span class="burger-icon-mid"></span>
+                        <span class="burger-icon-bottom"></span>
+                    </div>
+                </div>
+                <div class="mobile-header-content-area">
+                    <div class="perfect-scroll">
+                        <div class="mobile-menu-wrap mobile-header-border">
+                            <nav>
+                                <ul class="mobile-menu font-heading ps-0">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" href="index.html">Home</a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="index.html#skills">Skills</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="index.html#portfolio">Portfolio</a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="index.html#blog">Blog</a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="index.html#projects">Projects</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="index.html#contact">Contact</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </header>
+
+    <main>
+        <!-- prettier-ignore -->
+        <!-- blog details -->
+        <section class="section-details pt-60 pb-100">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-10 mx-lg-auto mb-3">
+                        <div class="text-center">
+                            <a href="blog-list.html?category=Reverse%20Engineering" class="btn btn-gradient d-inline-block text-uppercase"> Reverse Engineering </a>
+                            <h1 class="mt-3 mb-3 text-dark" style="font-size: 60px;">Pwning Back the Hacker Who Gave Me Ransomware After I Installed a Cracked Adobe Photoshop</h1>
+                            <p class="text-300 fs-5 mb-0">
+                                Malware Analysis Project #2: Crime and Punishment
+                            </p>
+                            <div class="d-flex align-items-center my-4">
+                                <img class="" style="width:1200px;" src="assets/imgs/blog/blog-8/Wzrd.jpeg" alt="" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-10 mx-lg-auto">
+                        <div class="row">
+                            <div class="col-lg-8 blog-content">
+
+                                <div class="mt-4">
+                                    <div class="bg-primary bg-opacity-10 border border-primary border-opacity-25 rounded-4 p-4">
+                                        <div class="d-flex align-items-center mb-3">
+                                            <i class="ri-list-check-2 fs-5 text-primary me-2"></i>
+                                            <h5 class="mb-0 text-primary">Table of Contents</h5>
+                                        </div>
+                                        <ol class="list-unstyled mb-0">
+                                            <li class="mb-2">
+                                                <a href="#initial-recon" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
+                                                    <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
+                                                    <span><strong>Initial Recon</strong></span>
+                                                </a>
+                                            </li>
+                                            <li class="mb-2">
+                                                <a href="#defeating-the-upx-packer" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
+                                                    <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
+                                                    <span><strong>Defeating the UPX Packer</strong></span>
+                                                </a>
+                                            </li>
+                                            <li class="mb-2">
+                                                <a href="#recovering-strings-and-function-names" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
+                                                    <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
+                                                    <span><strong>Recovering Strings and Function Names</strong></span>
+                                                </a>
+                                            </li>
+                                            <li class="mb-2">
+                                                <a href="#defeating-the-malware-evasion-techniques" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
+                                                    <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
+                                                    <span><strong>Defeating the Malware Evasion Techniques</strong></span>
+                                                </a>
+                                            </li>
+                                            <li class="mb-2">
+                                                <a href="#malware-capability-1-credential-theft" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
+                                                    <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
+                                                    <span><strong>Malware Capability #1: Credential Theft</strong></span>
+                                                </a>
+                                            </li>
+                                            <li class="mb-2">
+                                                <a href="#reversing-the-encrypted-payload-from-c2-communication" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
+                                                    <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
+                                                    <span><strong>Reversing the Encrypted Payload from C2 Communication</strong></span>
+                                                </a>
+                                            </li>
+                                            <li class="mb-2">
+                                                <a href="#tracing-back-hackers" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
+                                                    <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
+                                                    <span><strong>Tracing Back Hackers</strong></span>
+                                                </a>
+                                            </li>
+                                        </ol>
+                                    </div>
+                                </div>
+
+                                <div class="mt-5">
+
+                                    <div class="mt-4">
+                                        <div class="d-flex align-items-center my-4">
+                                            <img class="" style="width:1200px;" src="assets/imgs/blog/blog-8/photoshop.png" alt="" />
+                                        </div>
+                                        <p>My PC was infected by ransomware after I installed a cracked version of Adobe Photoshop. The hacker told me to sit and cry, but what did i actually do? I reversed it. Actually, I love using pirated software because it offers premium versions for free, but I also have zero tolerance for being hacked by someone as a result of using it. Most people might just format their drives and move on. I did the opposite. I stayed in the environment to see exactly how the malware was talking to the attacker&rsquo;s server. Instead of paying the ransom, I opened the binary and perform static, dynamic, and network analysis.</p>
+
+                                        <p>This is the second time I perform Malware Analysis in my self-research project, called Crime &amp; Punishment. This time, the case I encountered was in the form of pirated Adobe Photoshop which, when installed, didn&rsquo;t take long for the victim&rsquo;s laptop to be infected by ransomware.</p>
+
+                                        <p><strong>Note:</strong> This blog covered a long and detailed report to explain my flow during analysis and how to bypass malware evasions. <strong>If you feel tired/bored reading the entire content and want to see the result directly, you can quickly go to the Malware Capability section.</strong></p>
+
+                                        <div class="d-flex align-items-center my-4">
+                                            <img class="" style="width:1200px;" src="assets/imgs/blog/blog-8/ransomware.png" alt="" />
+                                        </div>
+                                    </div>
+
+                                    <div class="mt-4">
+                                        <h4 id="initial-recon">Initial Recon</h4>
+
+                                        <p>During analysis, I really didn&rsquo;t think that the file I was running was a ransomware because from the hash results on VirusTotal, many vendors indicated that the suspected binary file was a Trojan &amp; Infostealer, not ransomware. Actually, both make sense because before my VM was infected by ransomware, I saw several PowerShell and cmd.exe processes in Task Manager that might be executing data theft commands before the ransomware screen finally appeared.</p>
+
+                                        <p>In this confusion, I once heard a quote saying &ldquo;Talk is cheap, show me the code&rdquo;. Well, it applied here. Assuming things are useless unless you proof it, so let&rsquo;s start from the recon!</p>
+
+                                         <div class="d-flex align-items-center my-4">
+                                            <img class="" style="width:1200px;" src="assets/imgs/blog/blog-8/2.png" alt="" />
+                                        </div>
+
+                                        <p>First thing I do is to just let PE Bear tell me what I&rsquo;m dealing with. Looking at the image below, The Imports tab at the bottom shows only one DLL with 4 entries. <a href="#defeating-the-malware-evasion-techniques">Based on this explanation</a> (especially on the first patch), <code>ExitProcess</code> API would worth to note among those 4 APIs. The section view on the right side of the image above shows that UPX1 contains the full compressed payload. Looking at the IAT, it only shows <code>KERNEL32.DLL</code>. This means all the sensitive Win32 APIs are resolved <strong>at runtime</strong> using <code>GetProcAddress</code>.</p>
+                                    </div>
+
+                                    <div class="mt-4">
+                                        <h4 id="defeating-the-upx-packer">Defeating the UPX Packer</h4>
+
+                                        <p>From the initial recon, we know that the attacker packed the malware using UPX to make string extraction useless and to reduce the file size. The executable file have only 3.5 MB packed, but actually after unpacking, it explodes to <strong>12.5 MB</strong>. UPX is one of the laziest obfuscation methods out there. One command to reverse it:</p>
+
+                                        <p><code>upx -d installer.exe -o unpacked.exe</code></p>
+
+                                        <p>After unpacking, the section layout looks like a normal PE structure:</p>
+
+                                        <div class="d-flex align-items-center my-4">
+                                            <img class="" style="width:1200px;" src="assets/imgs/blog/blog-8/3.png" alt="" />
+                                        </div>
+
+                                        <p>The unpacked binary&rsquo;s section headers shown here confirm all six sections are present. To really see what changed between the packed and unpacked versions, I opened both side-by-side in PE-bear&rsquo;s compare view.</p>
+
+                                        <p>To really see what changed between the packed and unpacked versions, I opened both side-by-side in PE-bear&rsquo;s compare view on the image below. The left side is <code>installer.exe</code> (packed). You can see it only has three sections: <code>UPX0</code>, <code>UPX1</code>, and <code>UPX2</code>. The right side is <code>unpacked.exe</code> after <code>upx -d</code>. Now we have the real section layout. But what caught my eye more was the hex view of the unpacked binary&rsquo;s <code>.data</code> section, visible at the bottom right. Look at offset <code>0xB55640</code>, there is <code>salat.mod.salat</code> string.</p>
+
+                                        <div class="d-flex align-items-center my-4">
+                                            <img class="" style="width:1200px;" src="assets/imgs/blog/blog-8/4.png" alt="" />
+                                        </div>
+
+                                        <p><code>salat</code> is a Go module name, and it&rsquo;s embedded in the binary. Right above it at <code>0xB55620</code> you can read <code>go1.24.0</code>, confirming the Go version. And below it are the dependency paths: <code>dep.github.com/StackExchange/wmi.v1.2.1</code> and <code>dep.github.com/andygrunwald/vdf</code> which is the WMI library used for system reconnaissance queries, and a VDF parser for Steam which might be used for credential theft (We&rsquo;ll confirm it later on static analysis). The attacker didn&rsquo;t even strip it so I got a bunch of usefull strings without ever touching a decompiler.</p>
+                                    </div>
+
+                                    <div class="mt-4">
+                                        <h4 id="recovering-strings-and-function-names">Recovering Strings and Function Names</h4>
+
+                                        <p>During static analysis on malware written in Go, I found the Ghidra plugin <a href="https://github.com/mooncat-greenpy/Ghidra_GolangAnalyzerExtension">GolangAnalyzerExtension</a> very helpful. This plugin automatically renames all functions and recovers strings so i don&rsquo;t need to analyze it manually on my own.</p>
+
+                                        <div class="d-flex align-items-center my-4">
+                                            <img class="" style="width:1200px;" src="assets/imgs/blog/blog-8/5.png" alt="" />
+                                        </div>
+
+                                        <p>What you see above is a filtered view. Looking at the left panel, the most important one is <code>main.Steal</code> (19,921 bytes in size). This is the master orchestrator. It calls out to every sub-stealer, aggregates the results, and hands them off for exfiltration. Every other <code>main.*</code> function in this list is essentially a worker that <code>main.Steal</code> coordinates. You can guess its capability just from the function names.</p>
+                                    </div>
+
+                                    <div class="mt-4">
+                                        <h4 id="defeating-the-malware-evasion-techniques">Defeating the Malware Evasion Techniques</h4>
+
+                                        <p>This is where the fun started. Static analysis already told me the malware was dangerous, but when I moved into x32dbg and tried to stop on <code>main.Steal</code> function, the program didn&rsquo;t behave like a normal Go binary. Instead of letting me follow the code path, it reacted to the debugger state and terminated itself.</p>
+
+                                        <div class="d-flex align-items-center my-4">
+                                            <img class="" style="width:1200px;" src="assets/imgs/blog/blog-8/6.png" alt="" />
+                                        </div>
+
+                                        <p>The first thing that made me suspicious was the presence of <code>GetThreadContext</code> and <code>SetThreadContext</code>. During my analysis, those APIs will inspect the thread context and look at debug registers <code>DR0-DR7</code>. So if I place hardware breakpoints, the malware can see them. If it sees them, it will trigger anti-analysis code and ruin the session before I ever reach <code>main.Steal</code> or any user-defined functions. So I removed hardware breakpoints and cleaned the debugger state.</p>
+
+                                        <p>One thing to note is that the binary has <strong>ASLR enabled</strong>. That means the image base will change on each executions and I should not trust absolute addresses across different runs. So I use <strong>module-relative offsets</strong> such as <code>patched_v2.exe+4EB760</code>, not stale absolute addresses.</p>
+                                    </div>
+
+                                    <div class="mt-4">
+                                        <h4 id="patch-1-redirect-the-self-termination-wrapper">Patch 1: Redirect the Self-Termination Wrapper</h4>
+
+                                        <p>You couldn&rsquo;t reach <code>main.Steal</code> directly because it will trigger self-termination before normal execution got there. During analysis, local wrapper at <code>+3A8E0</code> will led to self-termination before I could reach the stealer orchestration logic. My idea is to redirect the wrapper so it jumps into the malware&rsquo;s own legitimate internal dispatch path that normally ends up calling <code>main.Steal</code>. This is much cleaner than forcing <code>EIP</code> manually because I still want to preserve the original execution flow as much as possible. The patch was:</p>
+
+                                        <div class="code-container">
+                                            <div class="code-content">
+                                                <div class="code-controls">
+                                                    <div class="code-language">
+                                                        <i class="ri-code-s-slash-line" style="font-size: 0.6rem;"></i>
+                                                        <span>text</span>
+                                                    </div>
+                                                    <button class="copy-btn" onclick="copyCode(this)">
+                                                        <i class="ri-file-copy-line" style="font-size: 0.6rem;"></i>
+                                                        <span>Copy</span>
+                                                    </button>
+                                                </div>
+                                                <pre><code>old bytes: 83 EC 0C 90 90
+new bytes: E9 DB 4F 4C 00</code></pre>
+                                            </div>
+                                        </div>
+
+                                        <p>That single jump removed the fake exit path and re-routed execution back into the real steal path.</p>
+
+                                        <div class="d-flex align-items-center my-4">
+                                            <img class="" style="width:1200px;" src="assets/imgs/blog/blog-8/7.png" alt="" />
+                                        </div>
+
+                                    </div>
+
+                                    <div class="mt-4">
+                                        <h4 id="patch-2-skip-the-intentional-crash-stub">Patch 2: Skip the Intentional Crash Stub</h4>
+
+                                        <p>The second defensive trick was even more obvious. At <code>+3E55B</code>, the code zeroed <code>EAX</code> and then wrote to <code>[EAX]</code> which means a null dereference. So I patched that too:</p>
+
+                                        <div class="code-container">
+                                            <div class="code-content">
+                                                <div class="code-controls">
+                                                    <div class="code-language">
+                                                        <i class="ri-code-s-slash-line" style="font-size: 0.6rem;"></i>
+                                                        <span>text</span>
+                                                    </div>
+                                                    <button class="copy-btn" onclick="copyCode(this)">
+                                                        <i class="ri-file-copy-line" style="font-size: 0.6rem;"></i>
+                                                        <span>Copy</span>
+                                                    </button>
+                                                </div>
+                                                <pre><code>old bytes: C7 00 00 00 00 00
+new bytes: E9 01 00 00 00 90</code></pre>
+                                            </div>
+                                        </div>
+
+                                        <p>This bypasses the deliberate write to address <code>0x00000000</code> and lands directly on the cleanup/return path after it. The goal is to stop the malware from rage quitting the moment it notices analysis artifacts.</p>
+
+                                        <div class="d-flex align-items-center my-4">
+                                            <img class="" style="width:1200px;" src="assets/imgs/blog/blog-8/8.png" alt="" />
+                                        </div>
+
+                                    </div>
+
+                                    <div class="mt-4">
+                                        <h4 id="patch-3-neutralize-runtimeabort-for-repeatable-tracing">Patch 3: Neutralize <code>runtime.abort</code> for Repeatable Tracing</h4>
+
+                                        <p>After patching the early termination and early crash, I managed to reach the interesting code. But the session was still not stable enough for repeatable debug. Later in the run, the process fell into <code>runtime.abort</code>, which in this case ended in a self-loop and effectively killed further useful dynamic analysis.</p>
+
+                                        <p>So I made the third patch in the loop:</p>
+
+                                        <div class="code-container">
+                                            <div class="code-content">
+                                                <div class="code-controls">
+                                                    <div class="code-language">
+                                                        <i class="ri-code-s-slash-line" style="font-size: 0.6rem;"></i>
+                                                        <span>text</span>
+                                                    </div>
+                                                    <button class="copy-btn" onclick="copyCode(this)">
+                                                        <i class="ri-file-copy-line" style="font-size: 0.6rem;"></i>
+                                                        <span>Copy</span>
+                                                    </button>
+                                                </div>
+                                                <pre><code>RVA 0x78572
+old bytes: EB FE
+new bytes: C3 90</code></pre>
+                                            </div>
+                                        </div>
+
+                                        <p>This turns the self-loop into <code>ret ; nop</code>. It&rsquo;s good enough because it prevents the runtime from trapping me forever after I already passed the anti-debug gates.</p>
+
+                                        <div class="d-flex align-items-center my-4">
+                                            <img class="" style="width:1200px;" src="assets/imgs/blog/blog-8/9.png" alt="" />
+                                        </div>
+
+                                        <p>At this point I had a patched binary that was actually traceable. Once the evasions were neutralized, it finally stopped at <code>main.Steal</code>, which is exactly the function I wanted from the beginning. That was the big turning point of the whole case, because <code>main.Steal</code> is the master orchestrator. If I can reach that function, I can start following the browser theft, token theft, Steam theft, and all the result aggregation that happens before exfiltration.</p>
+                                    </div>
+
+                                    <div class="mt-4">
+                                        <h4 id="malware-capability-1-credential-theft">Malware Capability #1: Credential Theft</h4>
+
+                                        <p>Not every breakpoint can be fired every time. Some paths depend on which browser artifacts exist in the victim environment. In my case, Chrome-related paths were easy to prove dynamically since i didn&rsquo;t have Yandex and Gecko in my VM. During analysis on x32dbg, <code>main.getChromeCookies</code> is a function which steals SQLite data. This function is one of the most aggressive ones in the sample.</p>
+
+                                        <p>The screenshot below is the clearest proof. The breakpoint in the left pane shows the code path where the malware prepares browser data from the victim machine. It specifically targets browser SQLite databases, copies them into a temporary location, and then runs SQL queries against the copied database. The malware also queries cookie-related fields such as shown on the dump pane at the bottom.</p>
+
+                                        <div class="d-flex align-items-center my-4">
+                                            <img class="" style="width:1200px;" src="assets/imgs/blog/blog-8/10.png" alt="" />
+                                        </div>
+
+                                        <p>Another thing worth noting is the temporary path:</p>
+
+                                        <p><code>C:\Users\wzrd\AppData\Local\Temp\256533066</code></p>
+
+                                        <p>The malware creates a temporary working copy before extraction. This is common because browser databases can be locked while the browser is running. By copying the SQLite database first, the malware can query it without fighting the original browser process.</p>
+
+                                        <p>On the right side, I opened the dumped SQLite file with VSCode. This is a good proof that the malware is really dumping the victim&rsquo;s autofill data from the browser, and then stored those information as SQLite file. This file contains several columns about stolen data received from the browser records. For example, the <code>addresses</code> table in the image above contains values such as email and name entries.</p>
+
+                                        <p>Looking at the very last column list on the VSCode pane, there is a column named payment method (<em>it accidentally cropped lol..</em>), meaning that if a victim has ever saved payment method information on the browser, then this data can also be seen by the attacker.</p>
+                                    </div>
+
+                                    <div class="mt-4">
+                                        <h4 id="reversing-the-encrypted-payload-from-c2-communication">Reversing the Encrypted Payload from C2 Communication</h4>
+
+                                        <p>After proving the browser theft, i want to know what exactly will be sent to the attacker server. At first, I tried to answer this from network traffic. I thought it will be simple, but it turns out that <strong>the malware connected to the C2 over TLS, so the packet capture only showed encrypted application data</strong>. That also means Wireshark and Fiddler couldn&rsquo;t confirm what data is being sent when i execute the malware.</p>
+
+                                        <div class="d-flex align-items-center my-4">
+                                            <img class="" style="width:1200px;" src="assets/imgs/blog/blog-8/11.png" alt="" />
+                                        </div>
+
+                                        <ul>
+                                            <li>When running the malware, my VM was communicating with <a href="https://tonapi.io/">tonapi.io</a>. It&rsquo;s a tool that simplify integration with TON blockchain.</li>
+                                            <li><code>tonapi.io</code> and <code>ton.access.orbs.network</code> look more like <strong>supporting infrastructure used to resolve TON-related data</strong> before the sample switches to the real exfil endpoint.</li>
+                                            <li>We&rsquo;ll talk about those 2 in the next section.</li>
+                                            <li>Other than that domain, There was no SNI in the TLS ClientHello, and no DNS query was observed in the capture.</li>
+                                            <li>The most frequently appearing IP is <code>217.26.28.234:443</code>. The traffic pattern showed a large client-to-server upload to that IP, which matched the stealer behavior.</li>
+                                        </ul>
+
+                                        <p>I&rsquo;m not really sure what data is being sent to that IP because it used TLS 1.3 and didn&rsquo;t expose plaintext content in Wireshark, all content is encrypted. <strong>So, in order to see the real payload, I had to catch the data before it entered the malware&rsquo;s encryption routine.</strong> I traced the upload path in x32dbg. Breaking at <code>main.rq</code> was too late because the buffer was already encrypted. The useful breakpoint was before this call inside <code>main.Steal</code>:</p>
+
+                                        <div class="d-flex align-items-center my-4">
+                                            <img class="" style="width:1200px;" src="assets/imgs/blog/blog-8/12.png" alt="" />
+                                        </div>
+
+                                        <p>Good, this explains why the pcap was unreadable but x32dbg was able to recover the data. <strong>The malware applied its own encryption before the TLS layer, so the real content had to be recovered from memory</strong> before <code>main.dec</code> transformed it. The image above shows the result after stopping the program before the encryption/send stage. The plaintext payload was a JSON object that looked like this:</p>
+
+                                        <p><code>{"1":"6","2":"898d5caf26b6808381f2fcbd1a83e872","3":"UEsDB...","4":"0"}</code></p>
+
+                                        <p>Field <code>3</code> starts with <code>UEsDB</code>. After decoding it, the first bytes became <code>PK</code>, which means that the malware was preparing a ZIP archive before sending it. In short, the malware packages the stolen artifacts into a ZIP, then embeds that ZIP as base64 inside a JSON wrapper. After that, the JSON is encrypted and finally sent to the C2 server.</p>
+
+                                        <div class="d-flex align-items-center my-4">
+                                            <img class="" style="width:1200px;" src="assets/imgs/blog/blog-8/13.png" alt="" />
+                                        </div>
+
+                                        <p>After decoding and extracting the ZIP, I got these files:</p>
+
+                                        <div class="code-container">
+                                            <div class="code-content">
+                                                <div class="code-controls">
+                                                    <div class="code-language">
+                                                        <i class="ri-code-s-slash-line" style="font-size: 0.6rem;"></i>
+                                                        <span>text</span>
+                                                    </div>
+                                                    <button class="copy-btn" onclick="copyCode(this)">
+                                                        <i class="ri-file-copy-line" style="font-size: 0.6rem;"></i>
+                                                        <span>Copy</span>
+                                                    </button>
+                                                </div>
+                                                <pre><code>UserInformation.txt
+Monitor 1.jpg
+Browsers/Cookies_Edge_Default.txt
+Browsers/Autofills_Edge_Default.txt
+Browsers/Autofills_Chrome_Default.txt</code></pre>
+                                            </div>
+                                        </div>
+
+                                        <p><code>UserInformation.txt</code> contains machine and build metadata, including HWID, PC name, admin status, build path, build ID, build version, build comment, and screen resolution. The browser files contain copied cookies and autofill values from Edge and Chrome. <code>Monitor 1.jpg</code> is a screenshot taken from the victim screen (this can leak active windows or anything visible during infection.).</p>
+                                    </div>
+
+                                    <div class="mt-4">
+                                        <h4 id="tracing-back-hackers">Tracing Back Hackers</h4>
+
+                                        <div class="d-flex align-items-center my-4">
+                                            <img class="" style="width:1200px;" src="assets/imgs/blog/blog-8/14.png" alt="" />
+                                        </div>
+
+                                        <p>During dynamic analysis on x32dbg, i found suspicious domain name which i didn&rsquo;t see in the previous section. I queried the domain through <a href="https://tonapi.io/v2/dns/shyetootval.ton/resolve">TonAPI&rsquo;s DNS resolve</a>. It returned metadata proving the <code>.ton</code> domain is real and registered in the TON DNS collection. That endpoint tells us the domain exists on-chain.</p>
+
+                                        <p><code>curl -s https://tonapi.io/v2/dns/shyetootval.ton/resolve</code></p>
+
+                                        <p>The response was:</p>
+
+                                        <div class="code-container">
+                                            <div class="code-content">
+                                                <div class="code-controls">
+                                                    <div class="code-language">
+                                                        <i class="ri-code-s-slash-line" style="font-size: 0.6rem;"></i>
+                                                        <span>json</span>
+                                                    </div>
+                                                    <button class="copy-btn" onclick="copyCode(this)">
+                                                        <i class="ri-file-copy-line" style="font-size: 0.6rem;"></i>
+                                                        <span>Copy</span>
+                                                    </button>
+                                                </div>
+                                                <pre><code>{
+  "wallet": {
+    "address": "0:3231372e32362e32382e32333400000000000000000000000000000000000000",
+    "account": {
+      "address": "0:3231372e32362e32382e32333400000000000000000000000000000000000000",
+      "is_scam": false,
+      "is_wallet": true
+    },
+    "is_wallet": false,
+    "has_method_pubkey": false,
+    "has_method_seqno": false,
+    "names": []
+  },
+  "sites": []
+}</code></pre>
+                                            </div>
+                                        </div>
+
+                                        <p>There are two important takeaways from that result:</p>
+
+                                        <ol>
+                                            <li><code>sites: []</code> means this domain does <strong>not</strong> look like a normal TON Site / browser-usable <code>.ton</code> website.</li>
+                                            <li>The <code>wallet.address</code> field contains a suspicious value that does <strong>not</strong> behave like a normal wallet mapping. Instead, it looks like an encoded payload.</li>
+                                        </ol>
+
+                                        <div class="d-flex align-items-center my-4">
+                                            <img class="" style="width:1200px;" src="assets/imgs/blog/blog-8/15.png" alt="" />
+                                        </div>
+
+                                        <p>According to the TON DNS documentation, the <code>wallet</code> category normally stores a <code>dns_smc_address</code> record so users can map human-readable names to smart contract wallet addresses. But this record is weird: TonAPI resolves it under the wallet category, yet the returned object also says <code>is_wallet: false</code>, <code>has_method_pubkey: false</code>, and <code>has_method_seqno: false</code>. That inconsistency is a strong hint that the record is being used in a <strong>nonstandard or abusive way</strong>.</p>
+
+                                        <p>Looking at the <code>wallet.address</code> field, The value after <code>0:</code> in the resolved address is:</p>
+
+                                        <p><code>3231372e32362e32382e32333400000000000000000000000000000000000000</code></p>
+
+                                        <p>Then I decode each byte from hex to ASCII (excluding the zero&rsquo;s):</p>
+
+                                        <p><code>2 1 7 . 2 6 . 2 8 . 2 3 4</code></p>
+
+                                        <p>The remaining <code>00</code> bytes are just null padding. That means the resolved TON DNS record is effectively embedding the backend IP address <strong>inside the wallet field itself</strong>. This IP was the one we just saw in the previous Wireshark traffic.</p>
+
+                                        <p>This fits the network trace perfectly. The previous Wireshark dump shows TON-related resolution traffic, then a direct TLS session to <strong><code>217.26.28.234:443</code></strong>, which becomes the largest client-to-server upload in the capture. In other words, the malware appears to use TON-related services as an indirection layer, then pivots to a direct TLS connection to the backend IP.</p>
+                                    </div>
+
+                                    </div>
+                                
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="sticky-sidebar" id="blog-toc-sidebar">
+                                    
+                                    <div class="bg-primary bg-opacity-10 border border-primary border-opacity-25 rounded-4 p-4">
+                                        <div class="d-flex align-items-center mb-3">
+                                            <i class="ri-list-check-2 fs-5 text-primary me-2"></i>
+                                            <h6 class="mb-0 text-primary">Table of Contents</h6>
+                                        </div>
+                                        <ol class="list-unstyled mb-0">
+                                            <li class="mb-2">
+                                                <a href="#initial-recon" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
+                                                    <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
+                                                    <span><strong>Initial Recon</strong></span>
+                                                </a>
+                                            </li>
+                                            <li class="mb-2">
+                                                <a href="#defeating-the-upx-packer" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
+                                                    <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
+                                                    <span><strong>Defeating the UPX Packer</strong></span>
+                                                </a>
+                                            </li>
+                                            <li class="mb-2">
+                                                <a href="#recovering-strings-and-function-names" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
+                                                    <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
+                                                    <span><strong>Recovering Strings and Function Names</strong></span>
+                                                </a>
+                                            </li>
+                                            <li class="mb-2">
+                                                <a href="#defeating-the-malware-evasion-techniques" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
+                                                    <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
+                                                    <span><strong>Defeating the Malware Evasion Techniques</strong></span>
+                                                </a>
+                                            </li>
+                                            <li class="mb-2">
+                                                <a href="#malware-capability-1-credential-theft" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
+                                                    <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
+                                                    <span><strong>Credential Theft</strong></span>
+                                                </a>
+                                            </li>
+                                            <li class="mb-2">
+                                                <a href="#reversing-the-encrypted-payload-from-c2-communication" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
+                                                    <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
+                                                    <span><strong>Encrypted Payload</strong></span>
+                                                </a>
+                                            </li>
+                                            <li class="mb-2">
+                                                <a href="#tracing-back-hackers" class="text-decoration-none d-flex align-items-center p-2 rounded-3 hover-bg-opacity-10 transition-all toc-link">
+                                                    <i class="ri-arrow-right-s-line text-primary me-2 transition-all"></i>
+                                                    <span><strong>Tracing Back Hackers</strong></span>
+                                                </a>
+                                            </li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- blog list -->
+        <section class="section-blog-list">
+            <div class="container border-top pt-80 pb-80">
+                <div class="row">
+                    <div class="d-md-flex align-items-center">
+                        <h1 class="text-300">Related posts</h1>
+                        <a href="blog-list.html" class="btn btn-gradient ms-auto">
+                            View more
+                            <i class="ri-arrow-right-line"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="row mt-8">
+                    <div class="col-lg-4">
+                        <div class="blog-card rounded-4 mb-lg-3 mb-md-5 mb-3">
+                            <div class="blog-card__image position-relative">
+                                <div class="zoom-img rounded-3 overflow-hidden">
+                                    <img class="w-100" src="assets/imgs/blog/blog-6/cover.jpeg" style="height: 250px; object-fit: cover;" alt="">
+                                    <a class="position-absolute bottom-0 start-0 m-3 text-white-keep btn btn-gradient fw-medium rounded-3 px-3 py-2" href="blog-list.html?category=Reverse%20Engineering">Reverse Engineering</a>
+                                    <a href="blog-6.html" class="blog-card__link position-absolute top-50 start-50 translate-middle icon-md icon-shape bg-linear-1 rounded-circle">
+                                        <i class="ri-arrow-right-up-line text-dark"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="blog-card__content position-relative text-center mt-4">
+                                <span class="blog-card__date fs-7">Jan 1, 2026 • 7 min read</span>
+                                <h5 class="blog-card__title">Patching a Video Game on Flareon CTF by Mandiant (Google Cloud)</h5>
+                                <p class="blog-card__description fs-6">Learning assembly because i hate myself >:(</p>
+                                <a href="blog-6.html" class="link-overlay position-absolute top-0 start-0 w-100 h-100"></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="blog-card rounded-4 mb-lg-3 mb-md-5 mb-3">
+                            <div class="blog-card__image position-relative">
+                                <div class="zoom-img rounded-3 overflow-hidden">
+                                    <img class="w-100" src="assets/imgs/blog/blog-1/girl-in-drugs.jpg" style="height: 250px; object-fit: cover;" alt="">
+                                    <a class="position-absolute bottom-0 start-0 m-3 text-white-keep btn btn-gradient fw-medium rounded-3 px-3 py-2" href="blog-list.html?category=Reverse%20Engineering">Reverse Engineering</a>
+                                    <a href="blog-1.html" class="blog-card__link position-absolute top-50 start-50 translate-middle icon-md icon-shape bg-linear-1 rounded-circle">
+                                        <i class="ri-arrow-right-up-line text-dark"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="blog-card__content position-relative text-center mt-4">
+                                <span class="blog-card__date fs-7">June 26, 2023 • 5 min read</span>
+                                <h5 class="blog-card__title">Reverse Engineering Fake Phishing SiCepat App</h5>
+                                <p class="blog-card__description fs-6">A brief security awareness & story about why you shouldn't trust stranger.</p>
+                                <a href="blog-1.html" class="link-overlay position-absolute top-0 start-0 w-100 h-100"></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="blog-card rounded-4 mb-lg-3 mb-md-5 mb-3">
+                            <div class="blog-card__image position-relative">
+                                <div class="zoom-img rounded-3 overflow-hidden">
+                                    <img class="w-100" src="assets/imgs/blog/blog-5/cover.jpeg" style="height: 250px; object-fit: cover;" alt="">
+                                    <a class="position-absolute bottom-0 start-0 m-3 text-white-keep btn btn-gradient fw-medium rounded-3 px-3 py-2" href="blog-list.html?category=Web%20Exploitation">Web Exploitation</a>
+                                    <a href="blog-5.html" class="blog-card__link position-absolute top-50 start-50 translate-middle icon-md icon-shape bg-linear-1 rounded-circle">
+                                        <i class="ri-arrow-right-up-line text-dark"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="blog-card__content position-relative text-center mt-4">
+                                <span class="blog-card__date fs-7">November 24, 2025 • 7 min read</span>
+                                <h5 class="blog-card__title">Hacking all the things on Telkom University (Graduation Edition)</h5>
+                                <p class="blog-card__description fs-6">As my journey ends, I'll leave my hat on Telyu.</p>
+                                <a href="blog-5.html" class="link-overlay position-absolute top-0 start-0 w-100 h-100"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    <!-- prettier-ignore -->
+    <!-- Footer -->
+    <footer>
+        <div class="section-footer position-relative pt-60 pb-60 bg-secondary-1">
+            <div class="container position-relative z-1">
+                <div class="text-center">
+                    <a class="d-flex main-logo align-items-center d-inline-flex" href="index.html">
+                        <img src="assets/imgs/footer-1/logo.svg" alt="zelio" />
+                        <span class="fs-4 ms-2 text-white-keep">w333zard</span>
+                    </a>
+                    <div class="navigation d-none d-md-flex align-items-center justify-content-center flex-wrap gap-4 my-4">
+                        <a href="index.html" class="fs-5">
+                            Home
+                        </a>
+                        <a href="index.html#skills" class="fs-5">
+                            Skills
+                        </a>
+                        <a href="index.html#portfolio" class="fs-5">
+                            Portfolio
+                        </a>
+                        <a href="index.html#blog" class="fs-5">
+                            Blog
+                        </a>
+                        <a href="index.html#projects" class="fs-5">
+                            Projects
+                        </a>
+                        <a href="index.html#contact" class="fs-5">
+                            Contact
+                        </a>
+                    </div>
+                </div>
+                <div class="row text-center py-4">
+                    <span class="fs-6 text-white-keep">© 2026 All Rights Reserved by <span><a href="#" class="text-primary">w333zard</a></span>
+                </div>
+            </div>
+            <div class="position-absolute top-0 start-0 w-100 h-100 z-0" data-background="assets/imgs/footer-1/background.png "></div>
+        </div>
+    </footer>
+    <!-- Scroll top -->
+    <div class="btn-scroll-top @@style">
+        <svg class="progress-square svg-content" width="100%" height="100%" viewBox="0 0 40 40">
+            <path d="M8 1H32C35.866 1 39 4.13401 39 8V32C39 35.866 35.866 39 32 39H8C4.13401 39 1 35.866 1 32V8C1 4.13401 4.13401 1 8 1Z" />
+        </svg>
+    </div>
+
+    <!-- Libs JS -->
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="assets/js/vendors/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/vendors/swiper-bundle.min.js"></script>
+    <script src="assets/js/vendors/aos.js"></script>
+    <script src="assets/js/vendors/odometer.min.js"></script>
+    <script src="assets/js/vendors/magnific-popup.min.js"></script>
+    <script src="assets/js/vendors/headhesive.min.js"></script>
+    <script src="assets/js/vendors/smart-stick-nav.js"></script>
+    
+    <!-- Theme JS -->
+    <script src="assets/js/main.js"></script>
+    
+    <!-- Blog-specific JavaScript -->
+    <script>
+        // Collapse / Expand code blocks
+        function toggleCode(toggleEl) {
+            const container = toggleEl.closest('.code-container');
+            const titleSpan = toggleEl.querySelector('.code-toggle-title span');
+            container.classList.toggle('collapsed');
+            const isCollapsed = container.classList.contains('collapsed');
+            if (titleSpan) {
+                const text = titleSpan.textContent;
+                titleSpan.textContent = text.replace(isCollapsed ? 'Hide code' : 'Show code', isCollapsed ? 'Show code' : 'Hide code');
+            }
+        }
+
+        // Copy to clipboard functionality
+        function copyCode(button) {
+            const codeContainer = button.closest('.code-container');
+            const codeElement = codeContainer.querySelector('code');
+            const codeText = codeElement.textContent;
+            
+            // Create a temporary textarea to copy the text
+            const tempTextarea = document.createElement('textarea');
+            tempTextarea.value = codeText;
+            document.body.appendChild(tempTextarea);
+            tempTextarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextarea);
+            
+            // Update button appearance
+            const originalText = button.querySelector('span').textContent;
+            const originalIcon = button.querySelector('i').className;
+            
+            button.querySelector('span').textContent = 'Copied!';
+            button.querySelector('i').className = 'ri-check-line';
+            button.classList.add('copied');
+            
+            // Reset button after 2 seconds
+            setTimeout(() => {
+                button.querySelector('span').textContent = originalText;
+                button.querySelector('i').className = originalIcon;
+                button.classList.remove('copied');
+            }, 2000);
+        }
+        
+        // Initialize collapsible code blocks
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.code-container').forEach(container => {
+                // Skip if already initialized
+                if (container.dataset.toggled === 'true') return;
+
+                const codeContent = container.querySelector('.code-content');
+                if (!codeContent) return;
+
+                // Determine language label
+                const codeEl = codeContent.querySelector('code');
+                let language = 'Code';
+                if (codeEl) {
+                    const match = (codeEl.className || '').match(/language-([\w-]+)/);
+                    if (match && match[1]) {
+                        language = match[1].charAt(0).toUpperCase() + match[1].slice(1);
+                    }
+                }
+
+                // Build toggle bar
+                const toggleBar = document.createElement('div');
+                toggleBar.className = 'code-toggle';
+                toggleBar.innerHTML = `
+                    <div class="code-toggle-title">
+                        <i class="ri-code-s-slash-line"></i>
+                        <span>${language} • Show code</span>
+                    </div>
+                    <div class="code-toggle-actions">
+                        <i class="ri-arrow-down-s-line toggle-icon"></i>
+                    </div>
+                `;
+                toggleBar.addEventListener('click', () => toggleCode(toggleBar));
+
+                // Insert toggle bar and collapse by default
+                container.insertBefore(toggleBar, codeContent);
+                container.classList.add('collapsed');
+                container.dataset.toggled = 'true';
+            });
+        });
+        
+        // Copy flag functionality
+        function copyFlag(button) {
+            const flagContainer = button.closest('.flag-container');
+            const flagText = flagContainer.querySelector('.flag-text').textContent;
+            
+            // Create a temporary textarea to copy the text
+            const tempTextarea = document.createElement('textarea');
+            tempTextarea.value = flagText;
+            document.body.appendChild(tempTextarea);
+            tempTextarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextarea);
+            
+            // Update button appearance
+            const originalText = button.querySelector('span').textContent;
+            const originalIcon = button.querySelector('i').className;
+            
+            button.querySelector('span').textContent = 'Copied!';
+            button.querySelector('i').className = 'ri-check-line';
+            button.classList.add('copied');
+            
+            // Reset button after 2 seconds
+            setTimeout(() => {
+                button.querySelector('span').textContent = originalText;
+                button.querySelector('i').className = originalIcon;
+                button.classList.remove('copied');
+            }, 2000);
+        }
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+        
+        // Highlight active section in TOC
+        function updateActiveSection() {
+            const sections = document.querySelectorAll('h4[id], h5[id]');
+            const tocLinks = document.querySelectorAll('.sticky-sidebar a[href^="#"]');
+            
+            let currentSection = '';
+            sections.forEach(section => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top <= 100) {
+                    currentSection = section.getAttribute('id');
+                }
+            });
+            
+            tocLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + currentSection) {
+                    link.classList.add('active');
+                }
+            });
+        }
+        
+        window.addEventListener('scroll', updateActiveSection);
+        updateActiveSection();
+
+        // Keep the right-side TOC fixed on desktop while the article scrolls
+        document.addEventListener('DOMContentLoaded', () => {
+            const mediaQuery = window.matchMedia('(min-width: 992px)');
+            const section = document.querySelector('.section-details');
+            const sidebarCol = section?.querySelector('.col-lg-4');
+            const sidebar = document.getElementById('blog-toc-sidebar');
+            if (!section || !sidebarCol || !sidebar) return;
+
+            const topOffset = 100;
+            const bottomGap = 24;
+
+            function resetSidebar() {
+                sidebar.style.position = '';
+                sidebar.style.top = '';
+                sidebar.style.left = '';
+                sidebar.style.width = '';
+                sidebar.style.bottom = '';
+            }
+
+            function updateSidebarPosition() {
+                if (!mediaQuery.matches) {
+                    resetSidebar();
+                    return;
+                }
+
+                const colRect = sidebarCol.getBoundingClientRect();
+                const sectionRect = section.getBoundingClientRect();
+                const scrollY = window.scrollY;
+                const colTopAbs = scrollY + colRect.top;
+                const sectionBottomAbs = scrollY + sectionRect.bottom;
+                const startAbs = colTopAbs - topOffset;
+                const stopAbs = sectionBottomAbs - sidebar.offsetHeight - topOffset - bottomGap;
+
+                if (scrollY <= startAbs) {
+                    resetSidebar();
+                    return;
+                }
+
+                if (scrollY >= stopAbs) {
+                    sidebar.style.position = 'absolute';
+                    sidebar.style.top = 'auto';
+                    sidebar.style.left = '0';
+                    sidebar.style.width = '100%';
+                    sidebar.style.bottom = `${bottomGap}px`;
+                    return;
+                }
+
+                sidebar.style.position = 'fixed';
+                sidebar.style.top = `${topOffset}px`;
+                sidebar.style.left = `${colRect.left}px`;
+                sidebar.style.width = `${colRect.width}px`;
+                sidebar.style.bottom = 'auto';
+            }
+
+            updateSidebarPosition();
+            window.addEventListener('scroll', updateSidebarPosition);
+            window.addEventListener('resize', updateSidebarPosition);
+            mediaQuery.addEventListener('change', updateSidebarPosition);
+        });
+    </script>
+</body>
+</html>
